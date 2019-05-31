@@ -1,0 +1,7 @@
+*.ico
+*.svg
+*.snap
+node_modules
+dist
+.cache
+.git

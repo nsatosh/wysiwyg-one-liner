@@ -1,0 +1,59 @@
+{
+  "name": "wysiwyg-one-liner",
+  "version": "0.0.1",
+  "description": "one-liner WYSIWYG input component",
+  "main": "index.js",
+  "scripts": {
+    "lint": "prettier --write 'src/**/*.ts' 'src/**/*.tsx'",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsatosh/wysiwyg-one-liner.git"
+  },
+  "keywords": [
+    "react",
+    "wysiwyg"
+  ],
+  "author": "nsatosh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nsatosh/wysiwyg-one-liner/issues"
+  },
+  "homepage": "https://github.com/nsatosh/wysiwyg-one-liner#readme",
+  "dependencies": {
+    "@immutable-array/prototype": "^1.0.4",
+    "debounce": "^1.2.0",
+    "katex": "^0.10.1",
+    "path-to-regexp": "^3.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "remark-parse": "^6.0.3",
+    "remark-stringify": "^6.0.4",
+    "split-graphemes": "^0.1.2",
+    "styled-components": "^4.2.0",
+    "unified": "^7.1.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@types/debounce": "^1.2.0",
+    "@types/debug": "^4.1.4",
+    "@types/jest-environment-puppeteer": "^4.0.0",
+    "@types/katex": "^0.10.1",
+    "@types/mdast": "^3.0.2",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-router-dom": "^4.3.2",
+    "@types/react-test-renderer": "^16.8.1",
+    "@types/react-transition-group": "^2.9.0",
+    "@types/styled-components": "^4.1.15",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "parcel": "^1.12.3",
+    "prettier": "^1.17.1",
+    "react-test-renderer": "^16.8.6",
+    "typescript": "^3.5.0-rc"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "target": "es2017",
+    "outDir": "dist",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "sourceMap": true,
+  },
+  "include": [
+    "src"
+  ]
+}
