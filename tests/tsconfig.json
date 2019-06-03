@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "rootDir": "..",
+    "module": "commonjs",
+    "target": "es6",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": true
+  },
+  "include": [
+    "../src/**/*",
+    "./**/*",
+  ]
+}
