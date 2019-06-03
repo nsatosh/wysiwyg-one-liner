@@ -9,6 +9,7 @@ export type TERawNodeMap = { [id: string]: TERawNode | undefined };
 export type TERawNode =
   | TERawTextNode
   | TERowNode
+  | TEGroupingNode
   | TELinkNode
   | TEMediaNode
   | TEMathNode;
@@ -162,6 +163,7 @@ export type TENode =
   | TELinkNode
   | TEMediaNode
   | TESentinelNode
+  | TEGroupingNode
   | TEMathNode;
 
 export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
@@ -170,7 +172,7 @@ export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
 export type TEBranchNode = Extract<TENode, { children: TENodeID[] }>;
 export type TELeafNode = Exclude<TENode, { children: TENodeID[] }>;
-export type TEInlineContainerNode = TELinkNode | TEMathNode;
+export type TEInlineContainerNode = TELinkNode | TEMathNode | TEGroupingNode;
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;
 
@@ -180,6 +182,7 @@ export type TENodeType =
   | "row"
   | "link"
   | "media"
+  | "grouping"
   | "math";
 
 interface TEBaseNode {
@@ -212,6 +215,19 @@ export interface TERowNode extends TEBaseNode {
   children: TENodeID[];
 
   parent?: TENodeID;
+}
+
+/**
+ * Inline node that has any other inline nodes as children.
+ *
+ * This node must have parent such as row node or other grouping node.
+ */
+export interface TEGroupingNode extends TEBaseNode {
+  type: "grouping";
+
+  children: TENodeID[];
+
+  parent: TENodeID;
 }
 
 export interface TELinkNode extends TEBaseNode {
