@@ -109,7 +109,7 @@ describe("walkBackwardNodes", () => {
         results.push(node.id);
       });
 
-      expect(results).toEqual(PATH.slice(0, i).reverse());
+      expect(results).toEqual(PATH.slice(0, i + 1).reverse());
     });
   });
 
@@ -124,7 +124,7 @@ describe("walkBackwardNodes", () => {
 
     const results = [] as TENodeID[];
 
-    walkForwardNodes(nodeMap, "t2", node => {
+    walkBackwardNodes(nodeMap, "t2", node => {
       results.push(node.id);
       return node.id === "t1";
     });
