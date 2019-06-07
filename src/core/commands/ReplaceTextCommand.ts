@@ -1,11 +1,10 @@
 import { splitGraphemes } from "split-graphemes";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
-import { ascendNodes, getCurrentNode, getSiblingNode } from "../nodeFinders";
+import { ascendNodes, getSiblingNode } from "../nodeFinders";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import NodeMap from "../NodeMap/NodeMap";
 import { isBlockNode } from "../nodeTypeGuards";
-import { TENode, TETextRange } from "../types";
+import { TENode, TETextPosition, TETextRange } from "../types";
 
 export class ReplaceTextCommand extends EditorCommand {
   private range?: TETextRange;
@@ -19,32 +18,41 @@ export class ReplaceTextCommand extends EditorCommand {
   }
 
   execute(editor: EditorMutator): void {
-    _delete(editor, this.range);
-    _insert(editor, this.text);
+    const { compositionRange, selection } = editor.getState();
+
+    const range = this.range || compositionRange || selection;
+
+    if (range) {
+      _delete(editor, range);
+    }
+
+    const { cursorAt } = editor.getState();
+
+    if (!cursorAt) {
+      return;
+    }
+
+    _insert(editor, this.text, cursorAt);
   }
 }
 
-function _delete(editor: EditorMutator, range?: TETextRange): void {
-  const { compositionRange, selection } = editor.getState();
-  const r = range || compositionRange || selection;
-
-  if (!r) {
-    return;
-  }
-
+function _delete(editor: EditorMutator, range: TETextRange): void {
   const nodeMap = editor.getNodeMap();
-  const nextCursorAt = deleteRange(nodeMap, r);
+  const nextCursorAt = deleteRange(nodeMap, range);
 
   editor.updateNodeMap(nodeMap);
   editor.updateCursorAt(nextCursorAt);
   editor.updateSelection(null);
 }
 
-function _insert(editor: EditorMutator, text: string[]): void {
+function _insert(
+  editor: EditorMutator,
+  text: string[],
+  cursorAt: TETextPosition
+): void {
   const { inComposition } = editor.getState();
-  const current = getCurrentNode(editor)!;
-  const cursorAt = editor.getState().cursorAt!;
-  const nodeMap = new NodeMap(editor.getState().nodeMap);
+  const nodeMap = editor.getNodeMap();
+  const current = nodeMap.ensureNode(cursorAt.id);
 
   let nextCompositionRange: TETextRange | undefined = undefined;
   let nextCursorAt = cursorAt;
