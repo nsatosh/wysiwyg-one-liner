@@ -18,9 +18,9 @@ beforeEach(() => {
 });
 
 [
-  { id: "t1", ch: 0 },
-  { id: "t1", ch: 1 },
-  { id: "t1", ch: 2 },
+  { id: "t0", ch: 0 },
+  { id: "t0", ch: 1 },
+  { id: "t0", ch: 2 },
   { id: "te", ch: 0 }
 ].forEach((pos: TETextPosition) => {
   test(`moveCursorToStart ${pos.id}:${pos.ch}`, () => {
@@ -29,14 +29,14 @@ beforeEach(() => {
       cursorAt: pos
     });
 
-    expect(nextEditor.cursorAt).toEqual({ id: "t1", ch: 0 });
+    expect(nextEditor.cursorAt).toEqual({ id: "t0", ch: 0 });
   });
 });
 
 [
-  { id: "t1", ch: 0 },
-  { id: "t1", ch: 1 },
-  { id: "t1", ch: 2 },
+  { id: "t0", ch: 0 },
+  { id: "t0", ch: 1 },
+  { id: "t0", ch: 2 },
   { id: "te", ch: 0 }
 ].forEach((pos: TETextPosition) => {
   test(`moveCursorToEnd ${pos.id}:${pos.ch}`, () => {

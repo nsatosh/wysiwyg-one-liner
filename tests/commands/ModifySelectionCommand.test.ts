@@ -49,13 +49,13 @@ test("Make selection that covers forward character", () => {
   editor.cursorAt = { id: "t0", ch: 2 };
 
   editor = invokeCommand(
-    new ModifySelectionCommand({ id: "r1t1", ch: 3 }),
+    new ModifySelectionCommand({ id: "t0", ch: 3 }),
     editor
   );
 
   expect(editor.selection).toEqual({
-    start: { id: "r1t1", ch: 2 },
-    end: { id: "r1t1", ch: 3 },
+    start: { id: "t0", ch: 2 },
+    end: { id: "t0", ch: 3 },
     focus: "end"
   });
 });
