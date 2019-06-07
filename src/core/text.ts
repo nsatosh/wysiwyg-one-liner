@@ -1,22 +1,15 @@
 import {
   getFirstLeaf,
-  getLastLeaf,
   getSiblingBlockNode,
-  walkChars,
   walkBackwardNodes,
+  walkChars,
   walkForwardNodes
 } from "./nodeFinders";
-import { isBranchNode, isLeafNode } from "./nodeTypeGuards";
-import { getIdsInRange } from "./range";
-import {
-  TENodeID,
-  TERowNode,
-  TETextPosition,
-  TETextRange,
-  TELeafNode
-} from "./types";
-import { isPositionEquals } from "./position";
 import NodeMap from "./NodeMap/NodeMap";
+import { isBranchNode, isLeafNode } from "./nodeTypeGuards";
+import { isPositionEquals } from "./position";
+import { getIdsInRange } from "./range";
+import { TELeafNode, TENodeID, TETextPosition, TETextRange } from "./types";
 
 export function getNextChar(
   nodeMap: NodeMap,
@@ -151,46 +144,6 @@ function calcColumn(nodeMap: NodeMap, cursorAt: TETextPosition): number {
   });
 
   return Math.max(n, 0);
-}
-
-export function getBeginningOfLine(
-  nodeMap: NodeMap,
-  cursorAt: TETextPosition
-): TETextPosition {
-  const node = getParentRow(nodeMap, cursorAt.id)!;
-  const first = getFirstLeaf(nodeMap, node);
-
-  return {
-    id: first.id,
-    ch: 0
-  };
-}
-
-export function getEndOfLine(
-  nodeMap: NodeMap,
-  cursorAt: TETextPosition
-): TETextPosition {
-  const node = getParentRow(nodeMap, cursorAt.id)!;
-  const last = getLastLeaf(nodeMap, node);
-
-  return {
-    id: last.id,
-    ch: 0
-  };
-}
-
-function getParentRow(nodeMap: NodeMap, id: TENodeID): TERowNode | undefined {
-  const node = nodeMap.ensureNode(id);
-
-  if (node.type === "row") {
-    return node;
-  }
-
-  if (!node.parent) {
-    return;
-  }
-
-  return getParentRow(nodeMap, node.parent);
 }
 
 export function getTextNodesInRange(

@@ -1,6 +1,6 @@
-import { getBeginningOfLine, getEndOfLine } from "../text";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
+import { getFirstLeaf, getLastLeaf } from "../nodeFinders";
 
 export class MoveCursorToStartCommand extends EditorCommand {
   constructor() {
@@ -8,14 +8,20 @@ export class MoveCursorToStartCommand extends EditorCommand {
   }
 
   execute(editor: EditorMutator): void {
-    const { cursorAt } = editor.getState();
+    const { cursorAt, rootNodeId } = editor.getState();
 
     if (!cursorAt) {
       return;
     }
 
+    const nodeMap = editor.getNodeMap();
+    const rootNode = nodeMap.ensureNode(rootNodeId);
+
     editor.updateAttributes({
-      cursorAt: getBeginningOfLine(editor.getNodeMap(), cursorAt)
+      cursorAt: {
+        id: getFirstLeaf(editor.getNodeMap(), rootNode).id,
+        ch: 0
+      }
     });
   }
 }
@@ -26,14 +32,20 @@ export class MoveCursorToEndCommand extends EditorCommand {
   }
 
   execute(editor: EditorMutator): void {
-    const { cursorAt } = editor.getState();
+    const { cursorAt, rootNodeId } = editor.getState();
 
     if (!cursorAt) {
       return;
     }
 
+    const nodeMap = editor.getNodeMap();
+    const rootNode = nodeMap.ensureNode(rootNodeId);
+
     editor.updateAttributes({
-      cursorAt: getEndOfLine(editor.getNodeMap(), cursorAt)
+      cursorAt: {
+        id: getLastLeaf(editor.getNodeMap(), rootNode).id,
+        ch: 0
+      }
     });
   }
 }
