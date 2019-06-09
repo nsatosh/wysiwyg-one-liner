@@ -129,7 +129,7 @@ test("Backspace from lead of empty link node", () => {
       {
         type: "link", children: [
           { type: "sentinel" },
-          { type: "text", text: "" },
+          { type: "text", text: [], style: {} },
           { type: "sentinel" }
         ], url: ""
       },
@@ -150,12 +150,11 @@ test("Backspace a empty link node that positions at lead of row", () => {
 
   let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
 
-  editor.cursorAt = { id: "h0te", ch: 0 };
+  editor.cursorAt = { id: "te", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
-    type: "header",
-    style: "section",
+    type: "row",
     children: [{ type: "text", text: [], style: {}, end: true }]
   });
 });

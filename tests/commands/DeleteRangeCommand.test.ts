@@ -197,7 +197,7 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
   editor = invokeCommand(
     new DeleteRangeCommand({
       start: { id: "l0t0", ch: 0 },
-      end: { id: "h0te", ch: 0 }
+      end: { id: "te", ch: 0 }
     }),
     editor
   );
@@ -206,8 +206,9 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
     type: "row",
     children: [
       {
-        type: "link", children: [
+        type: "link", url: "", children: [
           { type: "sentinel" },
+          { type: "text", text: [], style: {} },
           { type: "sentinel" },
         ]
       },
@@ -233,6 +234,14 @@ test("Undo/Redo", () => {
     editor
   );
 
+  expect(getShape(editor.nodeMap, "root")).toEqual({
+    type: "row",
+    children: [
+      { type: "text", text: ["a", "b", "h", "i"], style: {} },
+      { type: "text", text: [], style: {}, end: true }
+    ]
+  });
+
   editor = invokeCommand(new UndoCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
@@ -250,7 +259,7 @@ test("Undo/Redo", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "c"], style: {} },
+      { type: "text", text: ["a", "b", "h", "i"], style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
   });
