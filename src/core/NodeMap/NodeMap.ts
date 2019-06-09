@@ -173,12 +173,17 @@ export default class NodeMap {
     const node = this.ensureNode(id);
 
     if (node.type === "text" && !node.end) {
+      const nextStyle = { ...node.style };
+
+      if (!nextStyle[styleName]) {
+        nextStyle[styleName] = true;
+      } else {
+        delete nextStyle[styleName];
+      }
+
       this.setNode(node.id, {
         ...node,
-        style: {
-          ...node.style,
-          [styleName]: !node.style[styleName]
-        }
+        style: nextStyle
       });
     }
   }
