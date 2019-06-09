@@ -49,12 +49,12 @@ describe("Change style on single text node", () => {
     editor = invokeCommand(new ToggleTextStyleCommand("bold"), editor);
 
     expect(getShape(editor.nodeMap, "root")).toEqual({
-      type: "row",
+      type: 'row',
       children: [
-        { type: "text", text: ["a"], style: {} },
-        { type: "text", text: ["b", "c"], style: { bold: true } },
-        { type: "text", text: ["d", "e", "f"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: 'text', text: ['a'], style: {} },
+        { type: 'text', text: ['b', 'c'], style: { bold: true } },
+        { type: 'text', text: ['d', 'e', 'f'], style: {} },
+        { type: 'text', text: [], style: {}, end: true }
       ]
     });
   });
