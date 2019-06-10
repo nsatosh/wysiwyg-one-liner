@@ -1,11 +1,11 @@
-import { TENodeStyleName, TENodeID, TETextSelection } from "../types";
-import { getIdsInRange } from "../range";
 import EditorCommand from "../EditorCommand";
-import NodeMap from "../NodeMap/NodeMap";
 import EditorMutator from "../EditorMutator";
-import { getBackwardNodeId, getForwardNodeId } from "../nodeFinders";
 import { isSameStyle } from "../isSameStyle";
+import { findBackwardNode, findForwardNode } from "../nodeFinders";
+import NodeMap from "../NodeMap/NodeMap";
 import { splitNode } from "../NodeMap/splitNode";
+import { getIdsInRange } from "../range";
+import { TENodeStyleName, TETextRange, TETextSelection } from "../types";
 
 export class ToggleTextStyleCommand extends EditorCommand {
   private styleName: TENodeStyleName;
@@ -35,22 +35,17 @@ export class ToggleTextStyleCommand extends EditorCommand {
       focus: selection.focus
     };
 
-    const ids = getIdsInRange(
+    getIdsInRange(
       nodeMap,
       nextSelection,
       node => !(nextSelection.end.ch === 0 && node.id === nextSelection.end.id)
-    );
-
-    ids.forEach(id => {
-      nodeMap.updateStyle(id, styleName);
+    ).forEach(id => {
+      if (nodeMap.ensureNode(id).type === "text") {
+        nodeMap.updateStyle(id, styleName);
+      }
     });
 
-    const s = joinSameStyleTextNodes(
-      nodeMap,
-      ids[0],
-      ids[ids.length - 1],
-      nextSelection
-    );
+    const s = joinSameStyleTextNodes(nodeMap, nextSelection);
 
     editor.updateNodeMap(nodeMap);
     editor.updateCursorAt(s[s.focus]);
@@ -60,47 +55,47 @@ export class ToggleTextStyleCommand extends EditorCommand {
 
 function joinSameStyleTextNodes(
   nodeMap: NodeMap,
-  openingId: TENodeID,
-  closingId: TENodeID,
   currentSelection: TETextSelection
 ): TETextSelection {
-  const backwardId = getBackwardNodeId(nodeMap, openingId);
-  const forwardId = getForwardNodeId(nodeMap, closingId);
+  const ids = getIdsInRange(nodeMap, expandRange(nodeMap, currentSelection));
   const s = { ...currentSelection };
 
-  if (backwardId) {
-    const opening = nodeMap.ensureNode(openingId);
+  for (let i = ids.length - 2; i >= 0; i--) {
+    const a = nodeMap.ensureNode(ids[i]);
+    const b = nodeMap.ensureNode(ids[i + 1]);
 
-    if (opening.type !== "text" || opening.end) {
-      return currentSelection;
-    }
+    if (
+      a.parent === b.parent &&
+      a.type === "text" &&
+      !a.end &&
+      b.type === "text" &&
+      !b.end &&
+      isSameStyle(a, b)
+    ) {
+      nodeMap.updateText(a.id, a.text.concat(b.text));
+      nodeMap.deleteNode(b.id);
 
-    const node = nodeMap.ensureNode(backwardId);
-
-    if (node.type === "text" && !node.end && isSameStyle(node, opening)) {
-      nodeMap.updateText(opening.id, node.text.concat(opening.text));
-      nodeMap.deleteNode(node.id);
-
-      s.start = { id: opening.id, ch: node.text.length };
-    }
-  }
-
-  if (forwardId) {
-    const closing = nodeMap.ensureNode(closingId);
-
-    if (closing.type !== "text" || closing.end) {
-      return currentSelection;
-    }
-
-    const node = nodeMap.ensureNode(forwardId);
-
-    if (node.type === "text" && !node.end && isSameStyle(closing, node)) {
-      nodeMap.updateText(closing.id, closing.text.concat(node.text));
-      nodeMap.deleteNode(node.id);
-
-      s.end = { id: closing.id, ch: closing.text.length };
+      s.end = { id: a.id, ch: a.text.length };
     }
   }
 
   return s;
+}
+
+function expandRange(nodeMap: NodeMap, range: TETextRange): TETextRange {
+  const backward = findBackwardNode(
+    nodeMap,
+    range.start.id,
+    node => node.type === "text"
+  );
+  const forward = findForwardNode(
+    nodeMap,
+    range.end.id,
+    node => node.type === "text"
+  );
+
+  return {
+    start: backward ? { id: backward.id, ch: 0 } : range.start,
+    end: forward ? { id: forward.id, ch: 0 } : range.end
+  };
 }
