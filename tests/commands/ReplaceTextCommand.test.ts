@@ -113,6 +113,7 @@ test("Input IME text in empty row", () => {
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createExistingEditorState(nodeMap, "root");
 
+  editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new StartCompositionCommand(), editor);
   expect(editor.inComposition).toBe(true);
   expect(editor.compositionRange).toBeUndefined();
@@ -122,9 +123,7 @@ test("Input IME text in empty row", () => {
     editor
   );
   expect(editor.inComposition).toBe(true);
-  expect(editor.compositionRange).toEqual({
-    start: { id: "" }
-  });
+  expect(editor.compositionRange).not.toBeUndefined();
 
   editor = invokeCommand(
     new ReplaceTextCommand("っk"),
@@ -139,7 +138,7 @@ test("Input IME text in empty row", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: "っっk".split(""), style: {} },
+      { type: "text", text: "kっっk".split(""), style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
   })
