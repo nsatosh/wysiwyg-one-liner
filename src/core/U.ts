@@ -5,7 +5,8 @@ import {
   TENodeID,
   TERowNode,
   TESentinelNode,
-  TETextNode
+  TETextNode,
+  TEGroupingNode
 } from "./types";
 
 export class U {
@@ -68,6 +69,17 @@ export class U {
     return {
       ...attrs,
       type: "link",
+      id
+    };
+  }
+
+  static grouping(
+    id: TENodeID,
+    attrs?: Partial<TEGroupingNode>
+  ): Partial<TEGroupingNode> {
+    return {
+      ...attrs,
+      type: "grouping",
       id
     };
   }
