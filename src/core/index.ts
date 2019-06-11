@@ -24,10 +24,6 @@ export {
 
 export * from "./types";
 
-export { ChangeLinkFormCommand } from "./commands/ChangeLinkFormCommand";
-export { ApplyLinkFormCommand } from "./commands/ApplyLinkFormCommand";
-export { ChangeMediaFormCommand } from "./commands/ChangeMediaFormCommand";
-export { ApplyMediaFormCommand } from "./commands/ApplyMediaFormCommand";
 export { ReplaceTextCommand } from "./commands/ReplaceTextCommand";
 export { StartEditCommand } from "./commands/StartEditCommand";
 export { MoveCursorCommand } from "./commands/MoveCursorCommand";
@@ -46,14 +42,10 @@ export {
   MoveCursorToEndCommand
 } from "./commands/MoveCursorInRowCommand";
 export { SelectAllNodesCommand } from "./commands/SelectAllNodesCommand";
-export { OpenLinkFormCommand } from "./commands/OpenLinkFormCommand";
-export { OpenMediaFormCommand } from "./commands/OpenMediaFormCommand";
 export {
   DeleteRangeCommand,
   DeleteBackspaceCommand
 } from "./commands/DeleteRangeCommand";
-export { CancelLinkFormCommand } from "./commands/CancelLinkFormCommand";
-export { CancelMediaFormCommand } from "./commands/CancelMediaFormCommand";
 export { UndoCommand } from "./commands/UndoCommand";
 export { RedoCommand } from "./commands/RedoCommand";
 export { CopyCommand } from "./commands/CopyCommand";

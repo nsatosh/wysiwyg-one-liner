@@ -47,10 +47,6 @@ export interface TEEditor {
 
   compositionFocusedRange?: TETextRange;
 
-  linkForm?: TELinkForm;
-
-  mediaForm?: TEMediaForm;
-
   commandHistory: TECommandHistory;
 
   inComposition?: boolean;
@@ -261,22 +257,6 @@ export interface TEMathNode extends TEBaseNode {
   children: TENodeID[];
 
   parent: TENodeID;
-}
-
-export interface TELinkForm {
-  id?: TENodeID;
-
-  text: string;
-
-  url: string;
-}
-
-export interface TEMediaForm {
-  id?: TENodeID;
-
-  url: string;
-
-  size: TEMediaSize;
 }
 
 export interface TESubTree {

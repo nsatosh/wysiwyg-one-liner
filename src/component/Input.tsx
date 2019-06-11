@@ -34,17 +34,17 @@ const noop = () => {};
 
 const Input: FC<Props> = props => {
   const { editor } = props;
-  const { cursorAt, linkForm, mediaForm } = editor;
+  const { cursorAt, isActive } = editor;
 
   const dispatchCommand = useContext(DispatchEditorCommandContext);
   const TPR = useContext(TextPositionContext);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (cursorAt && !linkForm && !mediaForm) {
+    if (cursorAt && isActive) {
       textareaRef.current!.focus();
     }
-  }, [cursorAt, linkForm, mediaForm]);
+  }, [cursorAt, isActive]);
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent) => {

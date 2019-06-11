@@ -39,8 +39,6 @@ const DEFAULT_EDITOR_STATE = {
     "Meta+a": "SelectAllNodes",
     "Meta+c": "Copy",
     "Meta+x": "Cut",
-    "Meta+k": "OpenLinkForm",
-    "Meta+m": "OpenMediaForm",
     "Ctrl+l": "AddMathNode",
     "Meta+z": "Undo",
     "Meta+/": "MetaSlash",
