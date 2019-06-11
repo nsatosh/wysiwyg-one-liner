@@ -7,6 +7,7 @@ import InlineMath from "./node/InlineMath";
 import InlineMedia from "./node/InlineMedia";
 import InlineSentinel from "./node/InlineSentinel";
 import InlineText from "./node/InlineText";
+import InlineGrouping from "./node/InlineGrouping";
 
 const PADDING_LEFT = 10;
 
@@ -83,6 +84,17 @@ export const Line: FC<Props> = props => {
 
         if (node.type === "sentinel") {
           return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
+        }
+
+        if (node.type === "grouping") {
+          return (
+            <InlineGrouping
+              key={node.id}
+              node={node}
+              nodeMap={nodeMap}
+              inDebug={inDebug}
+            />
+          );
         }
 
         throw new Error(`Unsupported node type: ${node.type}`);
