@@ -2,10 +2,7 @@ import {
   TEBlockNode,
   TEBranchNode,
   TEInlineContainerNode,
-  TELeafBlockNode,
   TELeafNode,
-  TELinkNode,
-  TEMathNode,
   TEMediaNode,
   TENode,
   TESentinelNode,
@@ -23,23 +20,7 @@ export function isLeafNode(node: TENode): node is TELeafNode {
   );
 }
 
-export function isInlineNode(
-  node: TENode
-): node is TESentinelNode | TETextNode | TELinkNode | TEMediaNode | TEMathNode {
-  return (
-    node.type === "sentinel" ||
-    node.type === "text" ||
-    node.type === "link" ||
-    node.type === "math" ||
-    node.type === "media"
-  );
-}
-
 export function isBlockNode(node: TENode): node is TEBlockNode {
-  return node.type === "row";
-}
-
-export function isLeafBlockNode(node: TENode): node is TELeafBlockNode {
   return node.type === "row";
 }
 

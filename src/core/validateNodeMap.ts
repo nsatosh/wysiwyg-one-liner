@@ -1,4 +1,4 @@
-import { isBranchNode, isLeafBlockNode } from "./nodeTypeGuards";
+import { isBranchNode } from "./nodeTypeGuards";
 import { TENode, TENodeMap } from "./types";
 
 export function validateNodeMap(
@@ -44,9 +44,7 @@ export function validateNodeMap(
           );
         }
       });
-    }
 
-    if (isLeafBlockNode(node)) {
       const id = node.children[node.children.length - 1];
       const n = nodeMap[id];
 
