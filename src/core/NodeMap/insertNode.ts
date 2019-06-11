@@ -174,6 +174,14 @@ function makeNewNode(
         children: []
       };
 
+    case "grouping":
+      return {
+        id,
+        type: "grouping",
+        parent: parentNodeId,
+        children: []
+      };
+
     default:
       throw new Error(`Unsupported node type ${(attrs as any).type}`);
   }
