@@ -33,9 +33,7 @@ export function moveChildren(
 
     if (fromId !== node.parent) {
       throw new Error(
-        `All parent of specified children are expected to be ${fromId}, but ${
-          node.parent
-        } found`
+        `All parent of specified children are expected to be ${fromId}, but ${node.parent} found`
       );
     }
 

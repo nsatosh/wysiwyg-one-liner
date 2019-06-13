@@ -38,9 +38,7 @@ export function validateNodeMap(
 
         if (childNode.parent !== node.id) {
           throw new Error(
-            `parent attribute of childNode(${childNode.id}) must be ${
-              node.id
-            } but ${childNode.parent}`
+            `parent attribute of childNode(${childNode.id}) must be ${node.id} but ${childNode.parent}`
           );
         }
       });
