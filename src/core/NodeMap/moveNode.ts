@@ -1,7 +1,6 @@
 import * as ImmutableArray from "@immutable-array/prototype";
 import { ensureExists } from "../ensureExists";
 import { getParentNode } from "../nodeFinders";
-import { isBranchNode, isLeafNode } from "../nodeTypeGuards";
 import { TEBranchNode, TENodeID } from "../types";
 import NodeMap from "./NodeMap";
 
@@ -19,7 +18,7 @@ export function moveChildren(
 
   const fromNode = nodeMap.ensureNode(fromId);
 
-  if (!isBranchNode(fromNode)) {
+  if (!nodeMap.schema.isBranchNode(fromNode)) {
     throw new Error("The node specified with fromId must be an section");
   }
 
@@ -51,7 +50,7 @@ export function moveChildren(
 
   const toNode = nodeMap.ensureNode(toId);
 
-  if (!isBranchNode(toNode)) {
+  if (!nodeMap.schema.isBranchNode(toNode)) {
     throw new Error("The node specified with toId must be an section");
   }
 
@@ -110,7 +109,7 @@ export function moveExistingNode(
 
   const toParentNode = nodeMap.ensureNode(toParentNodeId);
 
-  if (!isBranchNode(toParentNode)) {
+  if (!nodeMap.schema.isBranchNode(toParentNode)) {
     throw new Error("parent node must be branch");
   }
 
@@ -147,7 +146,7 @@ export function moveExistingNode(
 export function flattenChildren(nodeMap: NodeMap, nodeId: TENodeID) {
   const node = nodeMap.ensureNode(nodeId);
 
-  if (isLeafNode(node) || !node.parent) {
+  if (nodeMap.schema.isLeafNode(node) || !node.parent) {
     return;
   }
 

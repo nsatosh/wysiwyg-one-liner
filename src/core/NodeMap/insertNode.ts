@@ -1,7 +1,7 @@
 import * as ImmutableArray from "@immutable-array/prototype";
 import { TENodeID, TENode, TESubTree, TEBranchNode } from "../types";
 import NodeMap from "./NodeMap";
-import { isBranchNode, isSubTree } from "../nodeTypeGuards";
+import { isSubTree } from "../nodeTypeGuards";
 import { generateNewId } from "../nodeIdGenerator";
 
 export function insertNode(
@@ -17,7 +17,7 @@ export function insertNode(
 
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isBranchNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -68,7 +68,7 @@ function updateReference(
 ) {
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isBranchNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 

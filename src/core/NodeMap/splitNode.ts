@@ -1,4 +1,4 @@
-import { isInlineContainerNode, isLeafNode } from "../nodeTypeGuards";
+import { isInlineContainerNode } from "../nodeTypeGuards";
 import {
   TEBranchNode,
   TEInlineContainerNode,
@@ -32,7 +32,7 @@ export function splitNodeV2(
   for (let i = 0; i <= splittingIndex; i++) {
     const node = nodeMap.ensureNode(path[i]);
 
-    if (isLeafNode(node)) {
+    if (nodeMap.schema.isLeafNode(node)) {
       newId = splitLeafNode(nodeMap, node, ch);
     } else if (isInlineContainerNode(node)) {
       newId = splitInlineContainerNode(nodeMap, node, newId!);
@@ -67,7 +67,7 @@ export function splitNode(
   for (let i = 0; i <= splittingIndex; i++) {
     const node = nodeMap.ensureNode(path[i]);
 
-    if (isLeafNode(node)) {
+    if (nodeMap.schema.isLeafNode(node)) {
       newId = splitLeafNode(nodeMap, node, cursorAt.ch);
       nextCursorAt = { id: newId, ch: 0 };
     } else if (isInlineContainerNode(node)) {

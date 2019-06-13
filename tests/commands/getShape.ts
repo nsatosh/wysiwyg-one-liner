@@ -1,6 +1,6 @@
-import { TENodeMap, TENodeID } from "../../src/core/types";
-import { isBranchNode } from "../../src/core/nodeTypeGuards";
 import { inspect } from "util";
+import { NodeMap } from "../../src/core";
+import { TENodeID, TENodeMap } from "../../src/core/types";
 
 export function printShape(nodeMap: TENodeMap, rootId?: TENodeID): void {
   console.log(inspect(getShape(nodeMap, rootId), false, null));
@@ -33,7 +33,9 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
     }
   }
 
-  if (isBranchNode(cloned)) {
+  const nm = new NodeMap(nodeMap);
+
+  if (nm.schema.isBranchNode(cloned)) {
     cloned.children = cloned.children.map(id => getShape(nodeMap, id));
   }
 

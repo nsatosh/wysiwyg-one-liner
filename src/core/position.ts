@@ -1,6 +1,5 @@
 import { TETextPosition, TELeafNode } from "./types";
 import { walkForwardNodes } from "./nodeFinders";
-import { isLeafNode } from "./nodeTypeGuards";
 import NodeMap from "./NodeMap/NodeMap";
 
 export function isPositionEquals(
@@ -24,7 +23,7 @@ export function getCanonicalTextPosition(
     return;
   }
 
-  if (isLeafNode(node) && pos.ch < movingCursorLength(node)) {
+  if (nodeMap.schema.isLeafNode(node) && pos.ch < movingCursorLength(node)) {
     return pos;
   }
 
@@ -32,7 +31,7 @@ export function getCanonicalTextPosition(
   let p: TETextPosition | undefined;
 
   walkForwardNodes(nodeMap, node.id, node => {
-    if (!isLeafNode(node)) {
+    if (!nodeMap.schema.isLeafNode(node)) {
       return;
     }
 

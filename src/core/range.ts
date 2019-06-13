@@ -1,7 +1,6 @@
 import { TENodeID, TETextRange, TENode } from "./types";
 import { getFirstLeaf, getLastLeaf, walkForwardNodes } from "./nodeFinders";
 import { getInclusiveSubtree } from "./NodeMap/deleteRange/getInclusiveSubtree";
-import { isBranchNode } from "./nodeTypeGuards";
 import NodeMap from "./NodeMap/NodeMap";
 
 export function isRangeCollapsed(r: TETextRange) {
@@ -35,7 +34,7 @@ export function isReversedRange(nodeMap: NodeMap, r: TETextRange) {
   const leftId = left[left.length - 1];
   const rightId = right[right.length - 1];
 
-  if (!leftId || !rightId || !isBranchNode(rootNode)) {
+  if (!leftId || !rightId || !nodeMap.schema.isBranchNode(rootNode)) {
     throw new Error("Unexpeced conditinn");
   }
 

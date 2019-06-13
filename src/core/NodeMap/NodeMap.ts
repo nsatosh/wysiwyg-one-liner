@@ -11,7 +11,6 @@ import {
 } from "../types";
 import { ensureExists } from "../ensureExists";
 import { validateNodeMap } from "../validateNodeMap";
-import { isBranchNode } from "../nodeTypeGuards";
 import deleteNode from "./deleteNode";
 import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
@@ -20,20 +19,22 @@ import {
   convertRawNodeMapToNodeMap,
   convertNodeMapToRawNodeMap
 } from "../Document";
+import { NodeMapSchema } from "../NodeMapSchema";
 
 export type NodeMapOptions = {
   isSubtree?: boolean;
+  schema?: NodeMapSchema;
 };
 
 export default class NodeMap {
   private source: TENodeMap | undefined;
   private mutable: TENodeMap | undefined;
-  private isSubtree: boolean;
+  public schema: NodeMapSchema;
   private nodeMapLogs: TENodeMapLog[];
 
   constructor(source: TENodeMap, options: NodeMapOptions = {}) {
     this.source = source;
-    this.isSubtree = options.isSubtree || false;
+    this.schema = options.schema || new NodeMapSchema();
     this.nodeMapLogs = [];
   }
 
@@ -47,7 +48,7 @@ export default class NodeMap {
 
   getValidCurrentState(): TENodeMap {
     if (this.mutable && process.env.NODE_ENV !== "production") {
-      validateNodeMap(this.mutable, this.isSubtree);
+      validateNodeMap(this);
     }
 
     return this.getCurrentState();
@@ -243,7 +244,7 @@ export default class NodeMap {
       throw new Error("root node not found");
     }
 
-    return asTree(this.getMutableNodeMap(), rootId);
+    return asTree(this, rootId);
   }
 
   private updateAttributes(
@@ -274,8 +275,8 @@ export default class NodeMap {
   }
 }
 
-export function asTree(nodeMap: TENodeMap, rootId: TENodeID): any {
-  const node = nodeMap[rootId];
+export function asTree(nodeMap: NodeMap, rootId: TENodeID): any {
+  const node = nodeMap.getNode(rootId);
 
   if (!node) {
     return { ERROR: `node (${rootId}) was not found` };
@@ -288,7 +289,7 @@ export function asTree(nodeMap: TENodeMap, rootId: TENodeID): any {
     ...node
   };
 
-  if (isBranchNode(cloned)) {
+  if (nodeMap.schema.isBranchNode(cloned)) {
     cloned.children = cloned.children.map(id => asTree(nodeMap, id));
   }
 

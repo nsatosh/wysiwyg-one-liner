@@ -1,15 +1,9 @@
-import { isBranchNode } from "./nodeTypeGuards";
-import { TENode, TENodeMap } from "./types";
+import NodeMap from "./NodeMap/NodeMap";
 
-export function validateNodeMap(
-  nodeMap: TENodeMap,
-  isSubtree: boolean = false
-): TENodeMap {
-  Object.keys(nodeMap).forEach(nodeId => {
-    const node = nodeMap[nodeId] as TENode;
-
+export function validateNodeMap(nodeMap: NodeMap): void {
+  nodeMap.forEach(node => {
     if (node.parent) {
-      const parentNode = nodeMap[node.parent];
+      const parentNode = nodeMap.getNode(node.parent);
 
       if (!parentNode) {
         throw new Error(
@@ -17,7 +11,7 @@ export function validateNodeMap(
         );
       }
 
-      if (!isBranchNode(parentNode)) {
+      if (!nodeMap.schema.isBranchNode(parentNode)) {
         throw new Error("parent node must be branch");
       }
 
@@ -30,7 +24,7 @@ export function validateNodeMap(
 
     if (node.type === "row") {
       node.children.forEach(childId => {
-        const childNode = nodeMap[childId];
+        const childNode = nodeMap.getNode(childId);
 
         if (!childNode) {
           throw new Error(`childNode ${childId} must be found`);
@@ -44,12 +38,11 @@ export function validateNodeMap(
       });
 
       const id = node.children[node.children.length - 1];
-      const n = nodeMap[id];
+      const n = nodeMap.getNode(id);
 
       if (!n || n.type !== "text" || !n.end) {
         throw new Error("sentinel node must be found at last of children");
       }
     }
   });
-  return nodeMap;
 }

@@ -1,5 +1,4 @@
 import { TENodeID } from "../types";
-import { isBranchNode } from "../nodeTypeGuards";
 import { getParentNode } from "../nodeFinders";
 import NodeMap from "./NodeMap";
 
@@ -10,7 +9,7 @@ export default function deleteNode(
 ) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
-  if (!isBranchNode(removingNode)) {
+  if (!nodeMap.schema.isBranchNode(removingNode)) {
     deleteLeafNode(nodeMap, nodeId);
   } else {
     removingNode.children.forEach(childId => {
@@ -25,7 +24,7 @@ export default function deleteNode(
 
     if (
       parentNode &&
-      isBranchNode(parentNode) &&
+      nodeMap.schema.isBranchNode(parentNode) &&
       parentNode.children.length === 0
     ) {
       deleteLeafNode(nodeMap, parentNode.id);
@@ -36,7 +35,10 @@ export default function deleteNode(
 function deleteLeafNode(nodeMap: NodeMap, nodeId: TENodeID) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
-  if (isBranchNode(removingNode) && removingNode.children.length > 0) {
+  if (
+    nodeMap.schema.isBranchNode(removingNode) &&
+    removingNode.children.length > 0
+  ) {
     throw new Error(
       "Before deleting node, children of the node must be cleared or moved to any other node"
     );

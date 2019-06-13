@@ -1,6 +1,5 @@
 import { TENodeID, TETextPosition } from "../types";
 import EditorCommand from "../EditorCommand";
-import { isLeafNode } from "../nodeTypeGuards";
 import { getSiblingLeafInSameBlock } from "../nodeFinders";
 import EditorMutator from "../EditorMutator";
 
@@ -21,7 +20,7 @@ export class StartEditCommand extends EditorCommand {
 
     const node = nodeMap.ensureNode(id);
 
-    if (!isLeafNode(node)) {
+    if (!nodeMap.schema.isLeafNode(node)) {
       throw new Error(`Unexpected node type ${node.type}`);
     }
 

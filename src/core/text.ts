@@ -6,7 +6,6 @@ import {
   walkForwardNodes
 } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
-import { isBranchNode, isLeafNode } from "./nodeTypeGuards";
 import { isPositionEquals } from "./position";
 import { getIdsInRange } from "./range";
 import { TELeafNode, TENodeID, TETextPosition, TETextRange } from "./types";
@@ -26,7 +25,7 @@ export function getNextChar(
     let n = cursorAt.ch + offset;
 
     walkForwardNodes(nodeMap, cursorAt.id, node => {
-      if (!isLeafNode(node)) {
+      if (!nodeMap.schema.isLeafNode(node)) {
         return;
       }
 
@@ -49,7 +48,7 @@ export function getNextChar(
     let n = Math.abs(cursorAt.ch - L + offset);
 
     walkBackwardNodes(nodeMap, cursorAt.id, node => {
-      if (!isLeafNode(node)) {
+      if (!nodeMap.schema.isLeafNode(node)) {
         return;
       }
 
@@ -184,7 +183,7 @@ export function getTextNodesInRange(
 export function getSubtreeText(nodeMap: NodeMap, nodeId: TENodeID): string {
   const node = nodeMap.ensureNode(nodeId);
 
-  if (isBranchNode(node)) {
+  if (nodeMap.schema.isBranchNode(node)) {
     return node.children.map(id => getSubtreeText(nodeMap, id)).join("");
   }
 

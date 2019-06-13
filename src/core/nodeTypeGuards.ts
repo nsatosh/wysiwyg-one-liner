@@ -1,24 +1,12 @@
 import {
   TEBlockNode,
-  TEBranchNode,
   TEInlineContainerNode,
-  TELeafNode,
   TEMediaNode,
   TENode,
   TESentinelNode,
   TESubTree,
   TETextNode
 } from "./types";
-
-export function isBranchNode(node: TENode): node is TEBranchNode {
-  return !isLeafNode(node);
-}
-
-export function isLeafNode(node: TENode): node is TELeafNode {
-  return (
-    node.type === "text" || node.type === "media" || node.type === "sentinel"
-  );
-}
 
 export function isBlockNode(node: TENode): node is TEBlockNode {
   return node.type === "row";

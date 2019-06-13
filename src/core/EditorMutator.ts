@@ -105,7 +105,7 @@ export default class EditorMutator {
 
     const nodeMap = convertRawNodeMapToNodeMap(document.nodeMap);
 
-    validateNodeMap(nodeMap);
+    validateNodeMap(new NodeMap(nodeMap));
 
     return {
       ...DEFAULT_EDITOR_STATE,

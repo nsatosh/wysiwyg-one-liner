@@ -1,4 +1,3 @@
-import { isBranchNode } from "../../nodeTypeGuards";
 import {
   TEBranchNode,
   TEMediaNode,
@@ -214,7 +213,7 @@ function traversePostOrder(
 ): void {
   const node = nodeMap.ensureNode(rootNodeId);
 
-  if (isBranchNode(node)) {
+  if (nodeMap.schema.isBranchNode(node)) {
     node.children.forEach(id => traversePostOrder(nodeMap, id, callback));
   }
 

@@ -4,9 +4,7 @@ import NodeMap from "./NodeMap/NodeMap";
 import {
   canHaveCursor,
   isBlockNode,
-  isBranchNode,
-  isInlineContainerNode,
-  isLeafNode
+  isInlineContainerNode
 } from "./nodeTypeGuards";
 import {
   TEBlockNode,
@@ -130,7 +128,7 @@ export function getSiblingLeafInSameBlock(
     return getSiblingLeafInSameBlock(nodeMap, parent.id, dir);
   }
 
-  if (isLeafNode(sibling)) {
+  if (nodeMap.schema.isLeafNode(sibling)) {
     return sibling;
   }
 
@@ -153,7 +151,7 @@ export function getParentNode(
 
   const parentNode = nodeMap.ensureNode(childNode.parent);
 
-  if (!isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isBranchNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -182,7 +180,7 @@ export function walkByDepthFirst(
 
   callback(node);
 
-  if (isLeafNode(node)) {
+  if (nodeMap.schema.isLeafNode(node)) {
     return;
   }
 
@@ -271,7 +269,7 @@ export function getForwardNodeId(
     return;
   }
 
-  if (isBranchNode(node)) {
+  if (nodeMap.schema.isBranchNode(node)) {
     return node.children[0];
   }
 
@@ -432,7 +430,7 @@ export function ascendNodes<T>(
 }
 
 export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
-  if (!isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isBranchNode(parentNode)) {
     return parentNode;
   }
 
@@ -440,7 +438,7 @@ export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
 }
 
 export function getLastLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
-  if (!isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isBranchNode(parentNode)) {
     return parentNode;
   }
 
