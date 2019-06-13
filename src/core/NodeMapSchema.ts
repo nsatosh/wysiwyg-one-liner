@@ -3,36 +3,44 @@ import { TENode, TEBranchNode, TELeafNode } from "./types";
 type NodeSchema = {
   type: string;
   category: "leaf" | "branch";
+  canHaveCursor: boolean;
 };
 
 const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   {
     type: "text",
-    category: "leaf"
+    category: "leaf",
+    canHaveCursor: true
   },
   {
     type: "sentinel",
-    category: "leaf"
+    category: "leaf",
+    canHaveCursor: true
   },
   {
     type: "media",
-    category: "leaf"
+    category: "leaf",
+    canHaveCursor: true
   },
   {
     type: "row",
-    category: "branch"
+    category: "branch",
+    canHaveCursor: false
   },
   {
     type: "link",
-    category: "branch"
+    category: "branch",
+    canHaveCursor: false
   },
   {
     type: "math",
-    category: "branch"
+    category: "branch",
+    canHaveCursor: false
   },
   {
     type: "grouping",
-    category: "branch"
+    category: "branch",
+    canHaveCursor: false
   }
 ];
 
@@ -63,11 +71,18 @@ export class NodeMapSchema {
     return schema ? schema.category === "leaf" : false;
   }
 
+  canHaveCursor(node: TENode): boolean {
+    const schema = this.nodes[node.type];
+
+    return schema ? schema.canHaveCursor : false;
+  }
+
   registerBranchNode(type: string, schema: Partial<NodeSchema>) {
     this.nodes[type] = {
       ...schema,
       type: type,
-      category: "branch"
+      category: "branch",
+      canHaveCursor: schema.canHaveCursor || false
     };
   }
 
@@ -75,7 +90,8 @@ export class NodeMapSchema {
     this.nodes[type] = {
       ...schema,
       type: type,
-      category: "leaf"
+      category: "leaf",
+      canHaveCursor: schema.canHaveCursor || false
     };
   }
 }

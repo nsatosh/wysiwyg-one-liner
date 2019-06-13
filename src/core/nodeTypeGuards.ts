@@ -1,23 +1,7 @@
-import {
-  TEBlockNode,
-  TEInlineContainerNode,
-  TEMediaNode,
-  TENode,
-  TESentinelNode,
-  TESubTree,
-  TETextNode
-} from "./types";
+import { TEBlockNode, TEInlineContainerNode, TENode, TESubTree } from "./types";
 
 export function isBlockNode(node: TENode): node is TEBlockNode {
   return node.type === "row";
-}
-
-export function canHaveCursor(
-  node: TENode
-): node is TETextNode | TEMediaNode | TESentinelNode {
-  return (
-    node.type === "text" || node.type === "media" || node.type === "sentinel"
-  );
 }
 
 export function isInlineContainerNode(

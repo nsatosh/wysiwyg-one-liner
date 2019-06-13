@@ -1,11 +1,7 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import {
-  canHaveCursor,
-  isBlockNode,
-  isInlineContainerNode
-} from "./nodeTypeGuards";
+import { isBlockNode, isInlineContainerNode } from "./nodeTypeGuards";
 import {
   TEBlockNode,
   TEBranchNode,
@@ -34,19 +30,16 @@ export function findNode(
 }
 
 export function getCurrentNode(editor: EditorMutator): TELeafNode | undefined {
-  const { nodeMap, cursorAt } = editor.getState();
+  const { cursorAt } = editor.getState();
+  const nodeMap = editor.getNodeMap();
 
   if (cursorAt === null) {
     return undefined;
   }
 
-  const found = nodeMap[cursorAt.id];
+  const found = nodeMap.ensureNode(cursorAt.id);
 
-  if (!found) {
-    throw new Error("focused node must be found");
-  }
-
-  if (!canHaveCursor(found)) {
+  if (!nodeMap.schema.isLeafNode(found)) {
     throw new Error("current node must be text or link");
   }
 
@@ -367,7 +360,7 @@ export function walkChars(
   const walk = direction === 1 ? walkForwardNodes : walkBackwardNodes;
 
   walk(nodeMap, from.id, node => {
-    if (!canHaveCursor(node)) {
+    if (!nodeMap.schema.canHaveCursor(node)) {
       return;
     }
 
