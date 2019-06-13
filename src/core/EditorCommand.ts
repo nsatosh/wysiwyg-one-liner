@@ -1,6 +1,5 @@
 import * as ImmutableArray from "@immutable-array/prototype";
 import EditorMutator from "./EditorMutator";
-import { canHaveCursor } from "./nodeTypeGuards";
 import {
   TECommandHistory,
   TECommandHistoryItem,
@@ -37,10 +36,11 @@ export function invokeCommand(
   command.execute(editorMutator);
 
   {
-    const { cursorAt, nodeMap } = editorMutator.getState();
+    const { cursorAt } = editorMutator.getState();
+    const nodeMap = editorMutator.getNodeMap();
 
     if (cursorAt) {
-      if (!canHaveCursor(nodeMap[cursorAt.id]!)) {
+      if (!nodeMap.schema.canHaveCursor(nodeMap.ensureNode(cursorAt.id))) {
         throw new Error("invalid cursor position");
       }
     }

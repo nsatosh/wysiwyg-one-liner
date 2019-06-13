@@ -6,10 +6,8 @@ import {
   TEBlockNode,
   TEBranchNode,
   TELeafNode,
-  TEMediaNode,
   TENode,
   TENodeID,
-  TETextNode,
   TETextPosition
 } from "./types";
 
@@ -345,60 +343,6 @@ export function getBackwardNodeId(
   if (parent) {
     return parent.id;
   }
-}
-
-export function walkChars(
-  nodeMap: NodeMap,
-  from: TETextPosition,
-  direction: 1 | -1,
-  callback: (
-    char: string,
-    node: TETextNode | TEMediaNode,
-    ch: number
-  ) => boolean | void
-): void {
-  const walk = direction === 1 ? walkForwardNodes : walkBackwardNodes;
-
-  walk(nodeMap, from.id, node => {
-    if (!nodeMap.schema.canHaveCursor(node)) {
-      return;
-    }
-
-    if (node.type === "sentinel") {
-      return;
-    }
-
-    if (node.type === "media" || node.end) {
-      if (callback("", node, 0)) {
-        return true;
-      }
-      return;
-    }
-
-    const { text } = node;
-    let fromCh: number;
-    let toCh: number;
-
-    if (node.id === from.id) {
-      fromCh = from.ch;
-    } else if (direction === 1) {
-      fromCh = 0;
-    } else {
-      fromCh = text.length - 1;
-    }
-
-    if (direction === 1) {
-      toCh = text.length;
-    } else {
-      toCh = -1;
-    }
-
-    for (let c = fromCh; c !== toCh; c += direction) {
-      if (callback(text[c], node, c)) {
-        return true;
-      }
-    }
-  });
 }
 
 export function ascendNodes<T>(

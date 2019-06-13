@@ -1,10 +1,4 @@
-import {
-  getFirstLeaf,
-  getSiblingBlockNode,
-  walkBackwardNodes,
-  walkChars,
-  walkForwardNodes
-} from "./nodeFinders";
+import { walkBackwardNodes, walkForwardNodes } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
 import { isPositionEquals } from "./position";
 import { getIdsInRange } from "./range";
@@ -88,61 +82,6 @@ function getLeafNodeLength(node: TELeafNode): number {
   }
 
   return node.text.length;
-}
-
-export function getNextLine(
-  nodeMap: NodeMap,
-  cursorAt: TETextPosition,
-  dir: -1 | 1
-): TETextPosition | undefined {
-  const nextLineNode = getSiblingBlockNode(nodeMap, cursorAt, dir);
-
-  if (!nextLineNode) {
-    return;
-  }
-
-  let nextCursor: TETextPosition = {
-    id: getFirstLeaf(nodeMap, nextLineNode).id,
-    ch: 0
-  };
-
-  let column = calcColumn(nodeMap, cursorAt);
-
-  walkChars(nodeMap, nextCursor, 1, (char, node, ch) => {
-    nextCursor = {
-      id: node.id,
-      ch: ch
-    };
-
-    if (column === 0 || (node.type === "text" && node.end)) {
-      return true;
-    }
-
-    column--;
-  });
-
-  return nextCursor;
-}
-
-function calcColumn(nodeMap: NodeMap, cursorAt: TETextPosition): number {
-  let n: number = 0;
-
-  let skippedFirstChar = false;
-
-  walkChars(nodeMap, cursorAt, -1, (char, node) => {
-    if (!skippedFirstChar) {
-      skippedFirstChar = true;
-      return;
-    }
-
-    if (node.type === "text" && node.end) {
-      return true;
-    }
-
-    n++;
-  });
-
-  return Math.max(n, 0);
 }
 
 export function getTextNodesInRange(

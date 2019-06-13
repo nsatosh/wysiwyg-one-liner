@@ -1,6 +1,6 @@
 import { TEDirection, TETextPosition } from "../types";
 import { isRangeCollapsed } from "../range";
-import { getNextChar, getNextLine } from "../text";
+import { getNextChar } from "../text";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { NodeMap } from "..";
@@ -53,10 +53,6 @@ function getNextPosition(
   dir: TEDirection
 ): TETextPosition | undefined {
   switch (dir) {
-    case TEDirection.up:
-      return getNextLine(nodeMap, cursorAt, -1);
-    case TEDirection.down:
-      return getNextLine(nodeMap, cursorAt, 1);
     case TEDirection.left:
       return getNextChar(nodeMap, cursorAt, -1);
     case TEDirection.right:
