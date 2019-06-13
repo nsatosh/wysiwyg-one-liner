@@ -22,7 +22,7 @@ export function createLinkTree(
   textAttrs?: Partial<TETextNode>
 ): { subtree: TESubTree; link: TELinkNode; text: TETextNode } {
   const subtree = createEmptySubTree();
-  const nodeMap = new NodeMap(subtree.nodeMap, true);
+  const nodeMap = new NodeMap(subtree.nodeMap, { isSubtree: true });
 
   const link = nodeMap.appendChild(subtree._tempRootId, {
     ...linkAttrs,
@@ -49,7 +49,7 @@ export function createRowTree(
   textAttrs?: Partial<TETextNode>
 ): { subtree: TESubTree; row: TERowNode; text: TETextNode } {
   const subtree = createEmptySubTree();
-  const nodeMap = new NodeMap(subtree.nodeMap, true);
+  const nodeMap = new NodeMap(subtree.nodeMap, { isSubtree: true });
 
   const row = nodeMap.appendChild(subtree._tempRootId, {
     ...rowAttrs,

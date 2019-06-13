@@ -21,15 +21,19 @@ import {
   convertNodeMapToRawNodeMap
 } from "../Document";
 
+export type NodeMapOptions = {
+  isSubtree?: boolean;
+};
+
 export default class NodeMap {
   private source: TENodeMap | undefined;
   private mutable: TENodeMap | undefined;
   private isSubtree: boolean;
   private nodeMapLogs: TENodeMapLog[];
 
-  constructor(source: TENodeMap, isSubtree: boolean = false) {
+  constructor(source: TENodeMap, options: NodeMapOptions = {}) {
     this.source = source;
-    this.isSubtree = isSubtree;
+    this.isSubtree = options.isSubtree || false;
     this.nodeMapLogs = [];
   }
 
