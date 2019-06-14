@@ -168,7 +168,6 @@ export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
 export type TEBranchNode = Extract<TENode, { children: TENodeID[] }>;
 export type TELeafNode = Exclude<TENode, { children: TENodeID[] }>;
-export type TEInlineContainerNode = TELinkNode | TEMathNode | TEGroupingNode;
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;
 
@@ -181,10 +180,16 @@ export type TENodeType =
   | "grouping"
   | "math";
 
-interface TEBaseNode {
+export interface TEBaseNode {
   type: TENodeType;
 
   id: TENodeID;
+}
+
+export interface TEInlineContainerNode extends TEBaseNode {
+  parent: TENodeID;
+
+  children: TENodeID[];
 }
 
 export interface TESentinelNode extends TEBaseNode {

@@ -1,4 +1,10 @@
-import { TEBranchNode, TELeafNode, TENode } from "./types";
+import {
+  TEBranchNode,
+  TELeafNode,
+  TENode,
+  TEInlineContainerNode,
+  TEBaseNode
+} from "./types";
 
 type NodeSchema = {
   type: string;
@@ -93,7 +99,7 @@ export class NodeMapSchema {
     return schema ? schema.isBlockNode : false;
   }
 
-  isInlineContainerNode(node: TENode): boolean {
+  isInlineContainerNode(node: TEBaseNode): node is TEInlineContainerNode {
     const schema = this.nodes[node.type];
 
     return schema ? schema.isInlineContainerNode : false;
