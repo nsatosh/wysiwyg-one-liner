@@ -4,6 +4,7 @@ type NodeSchema = {
   type: string;
   category: "leaf" | "branch";
   isBlockNode: boolean;
+  isInlineContainerNode: boolean;
   canHaveCursor: boolean;
 };
 
@@ -12,42 +13,49 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     type: "text",
     category: "leaf",
     isBlockNode: false,
+    isInlineContainerNode: false,
     canHaveCursor: true
   },
   {
     type: "sentinel",
     category: "leaf",
     isBlockNode: false,
+    isInlineContainerNode: false,
     canHaveCursor: true
   },
   {
     type: "media",
     category: "leaf",
     isBlockNode: false,
+    isInlineContainerNode: false,
     canHaveCursor: true
   },
   {
     type: "row",
     category: "branch",
     isBlockNode: true,
+    isInlineContainerNode: false,
     canHaveCursor: false
   },
   {
     type: "link",
     category: "branch",
     isBlockNode: false,
+    isInlineContainerNode: true,
     canHaveCursor: false
   },
   {
     type: "math",
     category: "branch",
     isBlockNode: false,
+    isInlineContainerNode: true,
     canHaveCursor: false
   },
   {
     type: "grouping",
     category: "branch",
     isBlockNode: false,
+    isInlineContainerNode: true,
     canHaveCursor: false
   }
 ];
@@ -85,6 +93,12 @@ export class NodeMapSchema {
     return schema ? schema.isBlockNode : false;
   }
 
+  isInlineContainerNode(node: TENode): boolean {
+    const schema = this.nodes[node.type];
+
+    return schema ? schema.isInlineContainerNode : false;
+  }
+
   canHaveCursor(node: TENode): boolean {
     const schema = this.nodes[node.type];
 
@@ -97,6 +111,7 @@ export class NodeMapSchema {
       type: type,
       category: "branch",
       isBlockNode: schema.isBlockNode || false,
+      isInlineContainerNode: schema.isInlineContainerNode || false,
       canHaveCursor: schema.canHaveCursor || false
     };
   }
@@ -107,6 +122,7 @@ export class NodeMapSchema {
       type: type,
       category: "leaf",
       isBlockNode: schema.isBlockNode || false,
+      isInlineContainerNode: schema.isInlineContainerNode || false,
       canHaveCursor: schema.canHaveCursor || false
     };
   }

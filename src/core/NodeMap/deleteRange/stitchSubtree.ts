@@ -1,7 +1,6 @@
 import { ensureExists } from "../../ensureExists";
 import { isSameStyle } from "../../isSameStyle";
 import { getFirstLeaf, getSiblingNode } from "../../nodeFinders";
-import { isInlineContainerNode } from "../../nodeTypeGuards";
 import {
   TEBranchNode,
   TENode,
@@ -30,7 +29,7 @@ export function stitchSubtree(
 
     if (node.type === "row") {
       nextNodeId = stitchRow(nodeMap, context);
-    } else if (isInlineContainerNode(node)) {
+    } else if (nodeMap.schema.isInlineContainerNode(node)) {
       nextNodeId = stitchInlinerContainer(nodeMap, context);
     } else if (node.type === "text") {
       nextNodeId = stitchText(nodeMap, context);
@@ -50,7 +49,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     return;
   }
 
-  if (isInlineContainerNode(closing)) {
+  if (nodeMap.schema.isInlineContainerNode(closing)) {
     context.nextCursorAt = { id: closing.children[0], ch: 0 };
   } else {
     context.nextCursorAt = { id: closing.id, ch: 0 };
@@ -77,7 +76,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     return;
   }
 
-  if (isInlineContainerNode(opening)) {
+  if (nodeMap.schema.isInlineContainerNode(opening)) {
     if (!isEmptyInlineContainer(nodeMap, opening)) {
       return;
     }
@@ -134,7 +133,7 @@ function stitchText(nodeMap: NodeMap, context: StichingContext): void {
 }
 
 function isEmptyInlineContainer(nodeMap: NodeMap, node: TENode) {
-  if (!isInlineContainerNode(node)) {
+  if (!nodeMap.schema.isInlineContainerNode(node)) {
     return false;
   }
 

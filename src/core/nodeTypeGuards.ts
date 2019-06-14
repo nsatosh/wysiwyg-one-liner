@@ -1,12 +1,4 @@
-import { TEInlineContainerNode, TENode, TESubTree } from "./types";
-
-export function isInlineContainerNode(
-  node: TENode
-): node is TEInlineContainerNode {
-  return (
-    node.type === "link" || node.type === "math" || node.type === "grouping"
-  );
-}
+import { TESubTree } from "./types";
 
 export function isSubTree(obj: any): obj is TESubTree {
   if (!obj || typeof obj !== "object") {

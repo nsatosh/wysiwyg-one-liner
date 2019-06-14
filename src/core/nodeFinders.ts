@@ -1,7 +1,6 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import { isInlineContainerNode } from "./nodeTypeGuards";
 import { TEBranchNode, TELeafNode, TENode, TENodeID } from "./types";
 
 export function findNode(
@@ -77,7 +76,7 @@ export function getSiblingLeafInSameBlock(
   const sibling = getSiblingNode(nodeMap, nodeId, dir);
 
   if (!sibling) {
-    if (!isInlineContainerNode(parent)) {
+    if (!nodeMap.schema.isInlineContainerNode(parent)) {
       return;
     }
 
