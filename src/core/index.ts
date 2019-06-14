@@ -15,11 +15,6 @@ export {
 export { ensureExists } from "./ensureExists";
 export { default as NodeMap, asTree } from "./NodeMap/NodeMap";
 export { default as EditorMutator } from "./EditorMutator";
-export {
-  createEmptySubTree,
-  createLinkTree,
-  createRowTree
-} from "./subTreeCreators";
 
 export * from "./types";
 

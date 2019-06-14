@@ -1,7 +1,6 @@
 import * as ImmutableArray from "@immutable-array/prototype";
 import { TENodeID, TENode, TESubTree, TEBranchNode } from "../types";
 import NodeMap from "./NodeMap";
-import { isSubTree } from "../nodeTypeGuards";
 import { generateNewId } from "../nodeIdGenerator";
 
 export function insertNode(
@@ -28,6 +27,16 @@ export function insertNode(
   updateReference(nodeMap, parentNodeId, [node.id], referenceNodeId, to);
 
   return node;
+}
+
+function isSubTree(obj: any): obj is TESubTree {
+  if (!obj || typeof obj !== "object") {
+    return false;
+  }
+
+  return (
+    (obj as TESubTree).nodeMap && (obj as TESubTree)._tempRootId !== undefined
+  );
 }
 
 function insertSubTree(
