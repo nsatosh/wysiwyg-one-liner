@@ -1,15 +1,8 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import { isBlockNode, isInlineContainerNode } from "./nodeTypeGuards";
-import {
-  TEBlockNode,
-  TEBranchNode,
-  TELeafNode,
-  TENode,
-  TENodeID,
-  TETextPosition
-} from "./types";
+import { isInlineContainerNode } from "./nodeTypeGuards";
+import { TEBranchNode, TELeafNode, TENode, TENodeID } from "./types";
 
 export function findNode(
   nodeMap: NodeMap,
@@ -72,34 +65,6 @@ export function getSiblingNode(
   }
 
   return nodeMap.getNode(siblingId);
-}
-
-export function getSiblingBlockNode(
-  nodeMap: NodeMap,
-  cursorAt: TETextPosition,
-  dir: 1 | -1
-): TEBlockNode | undefined {
-  const currentLineId = ascendNodes(nodeMap, cursorAt.id, node => {
-    if (isBlockNode(node)) {
-      return node.id;
-    }
-  });
-
-  if (!currentLineId) {
-    throw new Error("Unexpected condition");
-  }
-
-  const walk = dir === 1 ? walkForwardNodes : walkBackwardNodes;
-  let sibLine: TEBlockNode | undefined;
-
-  walk(nodeMap, currentLineId, node => {
-    if (node.id !== currentLineId && isBlockNode(node)) {
-      sibLine = node;
-      return true;
-    }
-  });
-
-  return sibLine;
 }
 
 export function getSiblingLeafInSameBlock(

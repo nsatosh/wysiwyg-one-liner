@@ -7,7 +7,6 @@ export { validateNodeMap } from "./validateNodeMap";
 export {
   getChildren,
   getChildNode,
-  getSiblingBlockNode,
   getFirstLeaf,
   getLastLeaf,
   getCurrentNode
