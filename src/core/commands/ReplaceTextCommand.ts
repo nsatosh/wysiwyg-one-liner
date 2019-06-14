@@ -3,7 +3,6 @@ import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { ascendNodes, getSiblingNode } from "../nodeFinders";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import { isBlockNode } from "../nodeTypeGuards";
 import { TENode, TETextPosition, TETextRange } from "../types";
 
 export class ReplaceTextCommand extends EditorCommand {
@@ -78,7 +77,10 @@ function _insert(
 
     if (!back || back.type !== "text") {
       cur = ascendNodes(nodeMap, current.id, node => {
-        if (node.parent && isBlockNode(nodeMap.ensureNode(node.parent))) {
+        if (
+          node.parent &&
+          nodeMap.schema.isBlockNode(nodeMap.ensureNode(node.parent))
+        ) {
           return node;
         }
       }) as TENode;

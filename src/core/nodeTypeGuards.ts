@@ -1,8 +1,4 @@
-import { TEBlockNode, TEInlineContainerNode, TENode, TESubTree } from "./types";
-
-export function isBlockNode(node: TENode): node is TEBlockNode {
-  return node.type === "row";
-}
+import { TEInlineContainerNode, TENode, TESubTree } from "./types";
 
 export function isInlineContainerNode(
   node: TENode

@@ -1,8 +1,9 @@
-import { TENode, TEBranchNode, TELeafNode } from "./types";
+import { TEBranchNode, TELeafNode, TENode } from "./types";
 
 type NodeSchema = {
   type: string;
   category: "leaf" | "branch";
+  isBlockNode: boolean;
   canHaveCursor: boolean;
 };
 
@@ -10,36 +11,43 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   {
     type: "text",
     category: "leaf",
+    isBlockNode: false,
     canHaveCursor: true
   },
   {
     type: "sentinel",
     category: "leaf",
+    isBlockNode: false,
     canHaveCursor: true
   },
   {
     type: "media",
     category: "leaf",
+    isBlockNode: false,
     canHaveCursor: true
   },
   {
     type: "row",
     category: "branch",
+    isBlockNode: true,
     canHaveCursor: false
   },
   {
     type: "link",
     category: "branch",
+    isBlockNode: false,
     canHaveCursor: false
   },
   {
     type: "math",
     category: "branch",
+    isBlockNode: false,
     canHaveCursor: false
   },
   {
     type: "grouping",
     category: "branch",
+    isBlockNode: false,
     canHaveCursor: false
   }
 ];
@@ -71,6 +79,12 @@ export class NodeMapSchema {
     return schema ? schema.category === "leaf" : false;
   }
 
+  isBlockNode(node: TENode): boolean {
+    const schema = this.nodes[node.type];
+
+    return schema ? schema.isBlockNode : false;
+  }
+
   canHaveCursor(node: TENode): boolean {
     const schema = this.nodes[node.type];
 
@@ -82,6 +96,7 @@ export class NodeMapSchema {
       ...schema,
       type: type,
       category: "branch",
+      isBlockNode: schema.isBlockNode || false,
       canHaveCursor: schema.canHaveCursor || false
     };
   }
@@ -91,6 +106,7 @@ export class NodeMapSchema {
       ...schema,
       type: type,
       category: "leaf",
+      isBlockNode: schema.isBlockNode || false,
       canHaveCursor: schema.canHaveCursor || false
     };
   }

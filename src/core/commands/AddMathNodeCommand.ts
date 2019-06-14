@@ -2,7 +2,6 @@ import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { ensureExists } from "../ensureExists";
 import { getCurrentNode, getParentNode } from "../nodeFinders";
-import { isBlockNode } from "../nodeTypeGuards";
 import { TEMathNode, TETextNode } from "../types";
 import { splitLeafNode } from "../NodeMap/splitNode";
 
@@ -22,7 +21,7 @@ export class AddMathNodeCommand extends EditorCommand {
     const currentNode = ensureExists(getCurrentNode(editor));
     const parentNode = ensureExists(getParentNode(nodeMap, currentNode));
 
-    if (!isBlockNode(parentNode)) {
+    if (!nodeMap.schema.isBlockNode(parentNode)) {
       return;
     }
 
