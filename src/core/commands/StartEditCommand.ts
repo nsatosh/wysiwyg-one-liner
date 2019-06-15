@@ -2,6 +2,7 @@ import { TENodeID, TETextPosition } from "../types";
 import EditorCommand from "../EditorCommand";
 import { getSiblingLeafInSameBlock } from "../nodeFinders";
 import EditorMutator from "../EditorMutator";
+import { ensureExists } from "../ensureExists";
 
 export class StartEditCommand extends EditorCommand {
   id: TENodeID;
@@ -24,7 +25,7 @@ export class StartEditCommand extends EditorCommand {
       throw new Error(`Unexpected node type ${node.type}`);
     }
 
-    const len = node.type === "text" ? node.text.length : 1;
+    const len = ensureExists(nodeMap.schema.getNodeLength(node));
 
     let nextCursotAt: TETextPosition;
 

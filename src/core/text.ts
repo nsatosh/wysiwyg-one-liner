@@ -2,7 +2,7 @@ import { walkBackwardNodes, walkForwardNodes } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
 import { isPositionEquals } from "./position";
 import { getIdsInRange } from "./range";
-import { TELeafNode, TENodeID, TETextPosition, TETextRange } from "./types";
+import { TENodeID, TETextPosition, TETextRange } from "./types";
 
 export function getNextChar(
   nodeMap: NodeMap,
@@ -23,7 +23,7 @@ export function getNextChar(
         return;
       }
 
-      const len = getLeafNodeLength(node);
+      const len = nodeMap.schema.getNodeLength(node)!;
 
       if (n < len) {
         nextCursorAt = {
@@ -37,7 +37,7 @@ export function getNextChar(
       n -= len;
     });
   } else {
-    const L = getLeafNodeLength(nodeMap.ensureNode(cursorAt.id) as TELeafNode);
+    const L = nodeMap.schema.getNodeLength(nodeMap.ensureNode(cursorAt.id))!;
 
     let n = Math.abs(cursorAt.ch - L + offset);
 
@@ -46,7 +46,7 @@ export function getNextChar(
         return;
       }
 
-      const len = getLeafNodeLength(node);
+      const len = nodeMap.schema.getNodeLength(node)!;
 
       if (n <= len) {
         nextCursorAt = {
@@ -66,22 +66,6 @@ export function getNextChar(
   }
 
   return nextCursorAt;
-}
-
-function getLeafNodeLength(node: TELeafNode): number {
-  if (node.type === "media") {
-    return 1;
-  }
-
-  if (node.type === "sentinel") {
-    return 1;
-  }
-
-  if (node.end) {
-    return 1;
-  }
-
-  return node.text.length;
 }
 
 export function getTextNodesInRange(

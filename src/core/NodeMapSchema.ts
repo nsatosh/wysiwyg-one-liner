@@ -3,7 +3,8 @@ import {
   TELeafNode,
   TENode,
   TEInlineContainerNode,
-  TEBaseNode
+  TEBaseNode,
+  TETextNode
 } from "./types";
 
 type NodeSchema = {
@@ -11,6 +12,7 @@ type NodeSchema = {
   category: "leaf" | "branch";
   isBlockNode: boolean;
   isInlineContainerNode: boolean;
+  getLength: (node: TENode) => number | undefined;
   canHaveCursor: boolean;
 };
 
@@ -20,6 +22,13 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "leaf",
     isBlockNode: false,
     isInlineContainerNode: false,
+    getLength: (node: TETextNode) => {
+      if (node.end) {
+        return 1;
+      } else {
+        return node.text.length;
+      }
+    },
     canHaveCursor: true
   },
   {
@@ -27,6 +36,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "leaf",
     isBlockNode: false,
     isInlineContainerNode: false,
+    getLength: () => 1,
     canHaveCursor: true
   },
   {
@@ -34,6 +44,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "leaf",
     isBlockNode: false,
     isInlineContainerNode: false,
+    getLength: () => 1,
     canHaveCursor: true
   },
   {
@@ -41,6 +52,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "branch",
     isBlockNode: true,
     isInlineContainerNode: false,
+    getLength: () => undefined,
     canHaveCursor: false
   },
   {
@@ -48,6 +60,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "branch",
     isBlockNode: false,
     isInlineContainerNode: true,
+    getLength: () => undefined,
     canHaveCursor: false
   },
   {
@@ -55,6 +68,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "branch",
     isBlockNode: false,
     isInlineContainerNode: true,
+    getLength: () => undefined,
     canHaveCursor: false
   },
   {
@@ -62,6 +76,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     category: "branch",
     isBlockNode: false,
     isInlineContainerNode: true,
+    getLength: () => undefined,
     canHaveCursor: false
   }
 ];
@@ -111,6 +126,14 @@ export class NodeMapSchema {
     return schema ? schema.canHaveCursor : false;
   }
 
+  getNodeLength(node: TENode): number | undefined {
+    const schema = this.nodes[node.type];
+
+    if (schema) {
+      return schema.getLength(node);
+    }
+  }
+
   registerBranchNode(type: string, schema: Partial<NodeSchema>) {
     this.nodes[type] = {
       ...schema,
@@ -118,6 +141,7 @@ export class NodeMapSchema {
       category: "branch",
       isBlockNode: schema.isBlockNode || false,
       isInlineContainerNode: schema.isInlineContainerNode || false,
+      getLength: schema.getLength || (() => undefined),
       canHaveCursor: schema.canHaveCursor || false
     };
   }
@@ -129,6 +153,7 @@ export class NodeMapSchema {
       category: "leaf",
       isBlockNode: schema.isBlockNode || false,
       isInlineContainerNode: schema.isInlineContainerNode || false,
+      getLength: schema.getLength || (() => undefined),
       canHaveCursor: schema.canHaveCursor || false
     };
   }
