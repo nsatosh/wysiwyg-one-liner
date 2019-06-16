@@ -8,7 +8,7 @@ test("Do nothing when cursor is not enabled", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new ModifySelectionCommand({ id: "te", ch: 0 }),
@@ -23,7 +23,7 @@ test("Make selection that covers backward character", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "t0", ch: 2 };
 
@@ -44,7 +44,7 @@ test("Make selection that covers forward character", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "t0", ch: 2 };
 
@@ -66,7 +66,7 @@ test("Make selection that covers backward node", () => {
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "t1", ch: 1 };
 
@@ -88,7 +88,7 @@ test("Make selection that covers forward node", () => {
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "t0", ch: 2 };
 

@@ -12,7 +12,7 @@ test("Delete text within single inline text node", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -38,7 +38,7 @@ test("Delete text across multiple text nodes", () => {
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.text("t2", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -64,7 +64,7 @@ test("Delete text all", () => {
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.text("t2", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -89,7 +89,7 @@ test("Delete media node", () => {
   nodeMap.appendChild("root", U.media("m1", { url: "http://example.com/1" }));
   nodeMap.appendChild("root", U.media("m2", { url: "http://example.com/2" }));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -123,7 +123,7 @@ test("Delete text node that behinds link node", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -164,7 +164,7 @@ test("Delete link node and combine between sibling nodes", () => {
   nodeMap.appendChild("root", U.text("t1", "b"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -192,7 +192,7 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -224,7 +224,7 @@ test("Undo/Redo", () => {
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.text("t2", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({
@@ -272,7 +272,7 @@ test("Undo all deletion", () => {
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.text("t2", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new DeleteRangeCommand({

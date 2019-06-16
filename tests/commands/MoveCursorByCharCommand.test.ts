@@ -17,7 +17,7 @@ beforeEach(() => {
   nodeMap.appendChild("root", U.text("t2", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
 
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 });
 
 test("Do nothing when cursor is not enabled", () => {

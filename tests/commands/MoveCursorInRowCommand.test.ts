@@ -14,7 +14,7 @@ beforeEach(() => {
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.end("te"));
 
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 });
 
 [

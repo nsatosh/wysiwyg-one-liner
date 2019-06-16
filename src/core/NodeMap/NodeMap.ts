@@ -6,8 +6,7 @@ import {
   TENodeStyleName,
   TEMediaNode,
   TESubTree,
-  TETextStyles,
-  TERawNodeMap
+  TETextStyles
 } from "../types";
 import { ensureExists } from "../ensureExists";
 import { validateNodeMap } from "../validateNodeMap";
@@ -15,10 +14,6 @@ import deleteNode from "./deleteNode";
 import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
 import { moveChildren, moveExistingNode, flattenChildren } from "./moveNode";
-import {
-  convertRawNodeMapToNodeMap,
-  convertNodeMapToRawNodeMap
-} from "../Document";
 import { NodeMapSchema } from "../NodeMapSchema";
 
 export type NodeMapOptions = {
@@ -36,14 +31,6 @@ export default class NodeMap {
     this.source = source;
     this.schema = options.schema || new NodeMapSchema();
     this.nodeMapLogs = [];
-  }
-
-  static fromRawNodeMap(raw: TERawNodeMap): NodeMap {
-    return new NodeMap(convertRawNodeMapToNodeMap(raw));
-  }
-
-  toRawNodeMap(): TERawNodeMap {
-    return convertNodeMapToRawNodeMap(this.getCurrentState());
   }
 
   getValidCurrentState(): TENodeMap {

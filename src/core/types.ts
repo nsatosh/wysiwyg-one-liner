@@ -1,31 +1,3 @@
-export interface TEDocument {
-  rootNodeId: TENodeID;
-
-  nodeMap: TERawNodeMap;
-}
-
-export type TERawNodeMap = { [id: string]: TERawNode | undefined };
-
-export type TERawNode =
-  | TERawTextNode
-  | TERowNode
-  | TEGroupingNode
-  | TELinkNode
-  | TEMediaNode
-  | TEMathNode;
-
-export interface TERawTextNode extends TEBaseNode {
-  type: "text";
-
-  text: string;
-
-  style: TETextStyles;
-
-  parent: TENodeID;
-
-  end?: boolean;
-}
-
 export interface TEEditor {
   rootNodeId: TENodeID;
 

@@ -10,7 +10,7 @@ const Editor: FC = () => {
   nodeMap.appendChild("root", U.text("t1", "hello", { style: { bold: true } }));
   nodeMap.appendChild("root", U.text("t2", "world"));
   nodeMap.appendChild("root", U.end("t3"));
-  const editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   return (
     <div style={{ width: 800, height: 600 }}>

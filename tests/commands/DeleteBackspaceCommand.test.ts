@@ -20,7 +20,7 @@ test("Backspace from lead of link node", () => {
   nodeMap.appendChild("root", U.text("t1", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "l0t0", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);
@@ -55,7 +55,7 @@ test("Delete last of link node", () => {
   nodeMap.appendChild("root", U.text("t1", "ghi"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "l0s1", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);
@@ -88,7 +88,7 @@ test("Backspace more than two or more sentinels", () => {
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "t1", ch: 0 };
 
@@ -117,7 +117,7 @@ test("Backspace from lead of empty link node", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "l0t0", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);
@@ -148,7 +148,7 @@ test("Backspace a empty link node that positions at lead of row", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "te", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);
@@ -169,7 +169,7 @@ test("Backspace in link node that positions at lead of row", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "l0t0", ch: 0 };
   editor = invokeCommand(new DeleteBackspaceCommand(), editor);

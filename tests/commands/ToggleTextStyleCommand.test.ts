@@ -17,7 +17,7 @@ describe("Change style on single text node", () => {
     nodeMap.appendChild("root", U.text("t0", "abcdef"));
     nodeMap.appendChild("root", U.end("te"));
 
-    editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+    editor = EditorMutator.createFromNodeMap(nodeMap, "root");
   });
 
   test("starting", () => {
@@ -106,7 +106,7 @@ describe("Change text style across text nodes", () => {
     nodeMap.appendChild("root", U.text("t1", "def"));
     nodeMap.appendChild("root", U.end("te"));
 
-    let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+    let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
     editor.selection = {
       start: { id: "t0", ch: 2 },
@@ -135,7 +135,7 @@ describe("Change text style across text nodes", () => {
     nodeMap.appendChild("root", U.text("t1", "def"));
     nodeMap.appendChild("root", U.end("te"));
 
-    let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+    let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
     editor.selection = {
       start: { id: "t0", ch: 0 },
@@ -170,7 +170,7 @@ describe("Change text style across link node", () => {
     nodeMap.appendChild("root", U.text("t1", "ghi"));
     nodeMap.appendChild("root", U.end("te"));
 
-    editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+    editor = EditorMutator.createFromNodeMap(nodeMap, "root");
   });
 
   test("starting", () => {
@@ -271,7 +271,7 @@ test("Combine nodes after changing text style", () => {
   nodeMap.appendChild("root", U.text("t2", "c"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.selection = {
     start: { id: "t1", ch: 0 },

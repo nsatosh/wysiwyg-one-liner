@@ -1,6 +1,5 @@
 import NodeMap from "./NodeMap/NodeMap";
 import {
-  TEDocument,
   TEEditor,
   TEMutatorLog,
   TENodeID,
@@ -8,11 +7,6 @@ import {
   TETextPosition,
   TETextSelection
 } from "./types";
-import { validateNodeMap } from "./validateNodeMap";
-import {
-  convertRawNodeMapToNodeMap,
-  convertNodeMapToRawNodeMap
-} from "./Document";
 
 const DEFAULT_EDITOR_STATE = {
   cursorAt: null,
@@ -80,46 +74,17 @@ export default class EditorMutator {
     };
   }
 
-  static createExistingEditorState(
-    nodeMap: NodeMap,
-    rootNodeId: TENodeID
-  ): TEEditor;
-  static createExistingEditorState(document: TEDocument): TEEditor;
-  static createExistingEditorState(
-    document: TEDocument | NodeMap,
-    rootNodeId?: TENodeID
-  ): TEEditor {
-    if (document instanceof NodeMap) {
-      if (!rootNodeId) {
-        throw new Error("rootNodeId must be specified");
-      }
-
-      return {
-        ...DEFAULT_EDITOR_STATE,
-        rootNodeId,
-        documentRootNodeId: rootNodeId,
-        nodeMap: document.getValidCurrentState(),
-        mode: "wysiwyg"
-      };
+  static createFromNodeMap(src: NodeMap, rootNodeId: TENodeID): TEEditor {
+    if (!rootNodeId) {
+      throw new Error("rootNodeId must be specified");
     }
-
-    const nodeMap = convertRawNodeMapToNodeMap(document.nodeMap);
-
-    validateNodeMap(new NodeMap(nodeMap));
 
     return {
       ...DEFAULT_EDITOR_STATE,
-      rootNodeId: document.rootNodeId,
-      documentRootNodeId: document.rootNodeId,
-      nodeMap: nodeMap,
+      rootNodeId,
+      documentRootNodeId: rootNodeId,
+      nodeMap: src.getValidCurrentState(),
       mode: "wysiwyg"
-    };
-  }
-
-  static getDocument(editor: TEEditor): TEDocument {
-    return {
-      nodeMap: convertNodeMapToRawNodeMap(editor.nodeMap),
-      rootNodeId: editor.rootNodeId
     };
   }
 

@@ -11,7 +11,7 @@ test("Cancel selection", () => {
   nodeMap.appendChild("root", U.text("t0", "abcdef"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
   editor.selection = {
     start: {
       id: "t0",
@@ -35,7 +35,7 @@ test("Start edit with node ID", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
 
@@ -49,7 +49,7 @@ test("Start edit with node ID and offset", () => {
   nodeMap.appendChild("root", U.text("t0", "abcdef"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("t0", 1), editor);
 

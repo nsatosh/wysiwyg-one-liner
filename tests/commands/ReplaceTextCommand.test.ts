@@ -17,7 +17,7 @@ test("Insert text at cursor position", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new ReplaceTextCommand("abc"), editor);
@@ -36,7 +36,7 @@ test("Replace text within single inline text node", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new ReplaceTextCommand("d", {
@@ -61,7 +61,7 @@ test("Replace text across multiple text nodes", () => {
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   // |abc|def| -> |abgef|
   editor = invokeCommand(
@@ -87,7 +87,7 @@ test("Replace text all", () => {
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(
     new ReplaceTextCommand(
@@ -111,7 +111,7 @@ test("Input IME text in empty row", () => {
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "k"));
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new StartCompositionCommand(), editor);
@@ -154,7 +154,7 @@ test("Modify backward node if input has occurred at sentinel", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
   nodeMap.appendChild("root", U.end("te"));
 
-  let editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor.cursorAt = { id: "l0s0", ch: 0 };
   editor = invokeCommand(new ReplaceTextCommand("あ"), editor);
@@ -181,7 +181,7 @@ test("Undo", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new ReplaceTextCommand("a"), editor);
@@ -199,7 +199,7 @@ test("Undo command restores cursor position", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   // Input 'a', 'b', and 'c', then move cursor 2 characters left.
   // At this point, the cursor is located between 'a' and 'b'.
@@ -220,7 +220,7 @@ test("Undo/Redo IME input", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new ReplaceTextCommand("a"), editor);
@@ -264,7 +264,7 @@ test("Undo/Redo first IME input", () => {
   const nodeMap = new NodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
-  editor = EditorMutator.createExistingEditorState(nodeMap, "root");
+  editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   editor = invokeCommand(new StartEditCommand("te"), editor);
   editor = invokeCommand(new StartCompositionCommand(), editor);
