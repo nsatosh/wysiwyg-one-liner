@@ -3,7 +3,6 @@ import {
   TEEditor,
   TEMutatorLog,
   TENodeID,
-  TETextNode,
   TETextPosition,
   TETextSelection
 } from "./types";
@@ -51,16 +50,11 @@ export default class EditorMutator {
     this.mutatorLogs = [];
   }
 
-  static createNewEditorState(
-    textAttrs?: Partial<TETextNode>,
-    rootId?: TENodeID
-  ): TEEditor {
+  static createNewEditorState(): TEEditor {
     const nodeMap = new NodeMap({});
-
-    const rootNodeId = nodeMap.createRootNode(rootId);
+    const rootNodeId = nodeMap.createRootNode();
 
     nodeMap.appendChild(rootNodeId, {
-      ...textAttrs,
       type: "text",
       end: true
     });
@@ -75,10 +69,6 @@ export default class EditorMutator {
   }
 
   static createFromNodeMap(src: NodeMap, rootNodeId: TENodeID): TEEditor {
-    if (!rootNodeId) {
-      throw new Error("rootNodeId must be specified");
-    }
-
     return {
       ...DEFAULT_EDITOR_STATE,
       rootNodeId,
