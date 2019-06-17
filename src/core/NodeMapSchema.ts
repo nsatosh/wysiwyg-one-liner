@@ -1,5 +1,5 @@
 import {
-  TEBranchNode,
+  TEInternalNode,
   TELeafNode,
   TENode,
   TEInlineContainerNode,
@@ -9,7 +9,7 @@ import {
 
 type NodeSchema = {
   type: string;
-  category: "leaf" | "branch";
+  category: "leaf" | "internal";
   isBlockNode: boolean;
   isInlineContainerNode: boolean;
   getLength: (node: TENode) => number | undefined;
@@ -49,7 +49,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   },
   {
     type: "row",
-    category: "branch",
+    category: "internal",
     isBlockNode: true,
     isInlineContainerNode: false,
     getLength: () => undefined,
@@ -57,7 +57,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   },
   {
     type: "link",
-    category: "branch",
+    category: "internal",
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
@@ -65,7 +65,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   },
   {
     type: "math",
-    category: "branch",
+    category: "internal",
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
@@ -73,7 +73,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
   },
   {
     type: "grouping",
-    category: "branch",
+    category: "internal",
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
@@ -96,10 +96,10 @@ export class NodeMapSchema {
     return this.nodes[type];
   }
 
-  isBranchNode(node: TENode): node is TEBranchNode {
+  isInternalNode(node: TENode): node is TEInternalNode {
     const schema = this.nodes[node.type];
 
-    return schema ? schema.category === "branch" : false;
+    return schema ? schema.category === "internal" : false;
   }
 
   isLeafNode(node: TENode): node is TELeafNode {
@@ -134,11 +134,11 @@ export class NodeMapSchema {
     }
   }
 
-  registerBranchNode(type: string, schema: Partial<NodeSchema>) {
+  registerInternalNode(type: string, schema: Partial<NodeSchema>) {
     this.nodes[type] = {
       ...schema,
       type: type,
-      category: "branch",
+      category: "internal",
       isBlockNode: schema.isBlockNode || false,
       isInlineContainerNode: schema.isInlineContainerNode || false,
       getLength: schema.getLength || (() => undefined),

@@ -1,5 +1,5 @@
 import {
-  TEBranchNode,
+  TEInternalNode,
   TEMediaNode,
   TENodeID,
   TETextNode,
@@ -131,7 +131,7 @@ function deleteSentinelNode(
 
 function deleteEmptyParent(
   nodeMap: NodeMap,
-  node: TEBranchNode,
+  node: TEInternalNode,
   deletableSentinels: Set<TENodeID>
 ): void {
   if (
@@ -143,7 +143,7 @@ function deleteEmptyParent(
 }
 
 function hasOnlyDeletableSentinel(
-  node: TEBranchNode,
+  node: TEInternalNode,
   deletableSentinels: Set<TENodeID>
 ): boolean {
   return node.children.every(id => deletableSentinels.has(id));
@@ -213,7 +213,7 @@ function traversePostOrder(
 ): void {
   const node = nodeMap.ensureNode(rootNodeId);
 
-  if (nodeMap.schema.isBranchNode(node)) {
+  if (nodeMap.schema.isInternalNode(node)) {
     node.children.forEach(id => traversePostOrder(nodeMap, id, callback));
   }
 

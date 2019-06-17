@@ -138,7 +138,7 @@ export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
 
 export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
-export type TEBranchNode = Extract<TENode, { children: TENodeID[] }>;
+export type TEInternalNode = Extract<TENode, { children: TENodeID[] }>;
 export type TELeafNode = Exclude<TENode, { children: TENodeID[] }>;
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;

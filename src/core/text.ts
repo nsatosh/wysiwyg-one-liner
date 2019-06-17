@@ -106,7 +106,7 @@ export function getTextNodesInRange(
 export function getSubtreeText(nodeMap: NodeMap, nodeId: TENodeID): string {
   const node = nodeMap.ensureNode(nodeId);
 
-  if (nodeMap.schema.isBranchNode(node)) {
+  if (nodeMap.schema.isInternalNode(node)) {
     return node.children.map(id => getSubtreeText(nodeMap, id)).join("");
   }
 

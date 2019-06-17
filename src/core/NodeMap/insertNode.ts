@@ -1,5 +1,5 @@
 import * as ImmutableArray from "@immutable-array/prototype";
-import { TENodeID, TENode, TESubTree, TEBranchNode } from "../types";
+import { TENodeID, TENode, TESubTree, TEInternalNode } from "../types";
 import NodeMap from "./NodeMap";
 import { generateNewId } from "../nodeIdGenerator";
 
@@ -16,7 +16,7 @@ export function insertNode(
 
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!nodeMap.schema.isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isInternalNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -54,7 +54,7 @@ function insertSubTree(
     nodeMap.setNode(id, { ...subtree.nodeMap[id] } as TENode);
   });
 
-  const _root = subtree.nodeMap[subtree._tempRootId] as TEBranchNode;
+  const _root = subtree.nodeMap[subtree._tempRootId] as TEInternalNode;
 
   _root.children.forEach(id => {
     nodeMap.setNode(id, {
@@ -77,7 +77,7 @@ function updateReference(
 ) {
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!nodeMap.schema.isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isInternalNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 

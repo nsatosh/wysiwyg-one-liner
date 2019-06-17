@@ -1,5 +1,5 @@
 import {
-  TEBranchNode,
+  TEInternalNode,
   TEInlineContainerNode,
   TELeafNode,
   TENodeID,
@@ -104,7 +104,7 @@ export function splitLeafNode(
 
 export function splitBranchNode(
   nodeMap: NodeMap,
-  node: TEBranchNode,
+  node: TEInternalNode,
   prevChildId: TENodeID
 ): TENodeID {
   if (!node.parent) {
@@ -119,9 +119,9 @@ export function splitBranchNode(
       children: []
     },
     node.id
-  ) as TEBranchNode;
+  ) as TEInternalNode;
 
-  const n = nodeMap.ensureNode(node.id) as TEBranchNode;
+  const n = nodeMap.ensureNode(node.id) as TEInternalNode;
 
   const sliceStart = n.children.indexOf(prevChildId);
   nodeMap.moveChildren(n.id, newNode.id, n.children.slice(sliceStart));
@@ -142,7 +142,7 @@ function splitInlineContainerNode(
       children: []
     },
     node.id
-  ) as TEBranchNode;
+  ) as TEInternalNode;
 
   nodeMap.insertBefore(
     node.id,
@@ -160,7 +160,7 @@ function splitInlineContainerNode(
     prevChildId
   );
 
-  const n = nodeMap.ensureNode(node.id) as TEBranchNode;
+  const n = nodeMap.ensureNode(node.id) as TEInternalNode;
 
   const sliceStart = n.children.indexOf(id);
   nodeMap.moveChildren(n.id, newNode.id, n.children.slice(sliceStart));

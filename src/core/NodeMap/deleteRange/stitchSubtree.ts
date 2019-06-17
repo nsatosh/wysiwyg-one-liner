@@ -2,7 +2,7 @@ import { ensureExists } from "../../ensureExists";
 import { isSameStyle } from "../../isSameStyle";
 import { getFirstLeaf, getSiblingNode } from "../../nodeFinders";
 import {
-  TEBranchNode,
+  TEInternalNode,
   TENode,
   TENodeID,
   TETextPosition,
@@ -106,7 +106,7 @@ function stitchInlinerContainer(
 ): void {
   const { left, right, root } = context;
 
-  const rootNode = nodeMap.ensureNode(root) as TEBranchNode;
+  const rootNode = nodeMap.ensureNode(root) as TEInternalNode;
   const opening = ensureExists(nodeMap.getNode(left.pop()!));
   const closing = ensureExists(nodeMap.getNode(right.pop()!));
 

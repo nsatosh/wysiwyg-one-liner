@@ -9,7 +9,7 @@ export default function deleteNode(
 ) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
-  if (!nodeMap.schema.isBranchNode(removingNode)) {
+  if (!nodeMap.schema.isInternalNode(removingNode)) {
     deleteLeafNode(nodeMap, nodeId);
   } else {
     removingNode.children.forEach(childId => {
@@ -24,7 +24,7 @@ export default function deleteNode(
 
     if (
       parentNode &&
-      nodeMap.schema.isBranchNode(parentNode) &&
+      nodeMap.schema.isInternalNode(parentNode) &&
       parentNode.children.length === 0
     ) {
       deleteLeafNode(nodeMap, parentNode.id);
@@ -36,7 +36,7 @@ function deleteLeafNode(nodeMap: NodeMap, nodeId: TENodeID) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
   if (
-    nodeMap.schema.isBranchNode(removingNode) &&
+    nodeMap.schema.isInternalNode(removingNode) &&
     removingNode.children.length > 0
   ) {
     throw new Error(

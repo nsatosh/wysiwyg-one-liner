@@ -11,7 +11,7 @@ export function validateNodeMap(nodeMap: NodeMap): void {
         );
       }
 
-      if (!nodeMap.schema.isBranchNode(parentNode)) {
+      if (!nodeMap.schema.isInternalNode(parentNode)) {
         throw new Error("parent node must be branch");
       }
 

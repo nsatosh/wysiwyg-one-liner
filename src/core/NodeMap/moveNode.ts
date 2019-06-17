@@ -1,7 +1,7 @@
 import * as ImmutableArray from "@immutable-array/prototype";
 import { ensureExists } from "../ensureExists";
 import { getParentNode } from "../nodeFinders";
-import { TEBranchNode, TENodeID } from "../types";
+import { TEInternalNode, TENodeID } from "../types";
 import NodeMap from "./NodeMap";
 
 export function moveChildren(
@@ -18,7 +18,7 @@ export function moveChildren(
 
   const fromNode = nodeMap.ensureNode(fromId);
 
-  if (!nodeMap.schema.isBranchNode(fromNode)) {
+  if (!nodeMap.schema.isInternalNode(fromNode)) {
     throw new Error("The node specified with fromId must be an section");
   }
 
@@ -42,7 +42,7 @@ export function moveChildren(
     });
   });
 
-  const nextFromNode = nodeMap.ensureNode(fromNode.id) as TEBranchNode;
+  const nextFromNode = nodeMap.ensureNode(fromNode.id) as TEInternalNode;
 
   if (nextFromNode.children.length === 0) {
     nodeMap.deleteNode(fromNode.id);
@@ -50,7 +50,7 @@ export function moveChildren(
 
   const toNode = nodeMap.ensureNode(toId);
 
-  if (!nodeMap.schema.isBranchNode(toNode)) {
+  if (!nodeMap.schema.isInternalNode(toNode)) {
     throw new Error("The node specified with toId must be an section");
   }
 
@@ -109,7 +109,7 @@ export function moveExistingNode(
 
   const toParentNode = nodeMap.ensureNode(toParentNodeId);
 
-  if (!nodeMap.schema.isBranchNode(toParentNode)) {
+  if (!nodeMap.schema.isInternalNode(toParentNode)) {
     throw new Error("parent node must be branch");
   }
 

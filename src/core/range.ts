@@ -34,7 +34,7 @@ export function isReversedRange(nodeMap: NodeMap, r: TETextRange) {
   const leftId = left[left.length - 1];
   const rightId = right[right.length - 1];
 
-  if (!leftId || !rightId || !nodeMap.schema.isBranchNode(rootNode)) {
+  if (!leftId || !rightId || !nodeMap.schema.isInternalNode(rootNode)) {
     throw new Error("Unexpeced conditinn");
   }
 

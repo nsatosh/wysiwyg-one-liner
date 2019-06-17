@@ -1,7 +1,7 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import { TEBranchNode, TELeafNode, TENode, TENodeID } from "./types";
+import { TEInternalNode, TELeafNode, TENode, TENodeID } from "./types";
 
 export function findNode(
   nodeMap: NodeMap,
@@ -99,14 +99,14 @@ export function getSiblingLeafInSameBlock(
 export function getParentNode(
   nodeMap: NodeMap,
   childNode: TENode
-): TEBranchNode | undefined {
+): TEInternalNode | undefined {
   if (childNode.parent === undefined) {
     return;
   }
 
   const parentNode = nodeMap.ensureNode(childNode.parent);
 
-  if (!nodeMap.schema.isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isInternalNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -146,7 +146,7 @@ export function walkByDepthFirst(
 
 export function getChildNode(
   nodeMap: NodeMap,
-  parentNode: TEBranchNode,
+  parentNode: TEInternalNode,
   index: number
 ): TENode | undefined {
   if (nodeMap.getNode(parentNode.id) !== parentNode) {
@@ -164,7 +164,7 @@ export function getChildNode(
 
 export function getChildren(
   nodeMap: NodeMap,
-  parentNode: TEBranchNode
+  parentNode: TEInternalNode
 ): TENode[] {
   return parentNode.children.map(id => nodeMap.ensureNode(id));
 }
@@ -224,7 +224,7 @@ export function getForwardNodeId(
     return;
   }
 
-  if (nodeMap.schema.isBranchNode(node)) {
+  if (nodeMap.schema.isInternalNode(node)) {
     return node.children[0];
   }
 
@@ -331,7 +331,7 @@ export function ascendNodes<T>(
 }
 
 export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
-  if (!nodeMap.schema.isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isInternalNode(parentNode)) {
     return parentNode;
   }
 
@@ -339,7 +339,7 @@ export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
 }
 
 export function getLastLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
-  if (!nodeMap.schema.isBranchNode(parentNode)) {
+  if (!nodeMap.schema.isInternalNode(parentNode)) {
     return parentNode;
   }
 

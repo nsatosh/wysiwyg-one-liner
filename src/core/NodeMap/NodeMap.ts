@@ -276,7 +276,7 @@ export function asTree(nodeMap: NodeMap, rootId: TENodeID): any {
     ...node
   };
 
-  if (nodeMap.schema.isBranchNode(cloned)) {
+  if (nodeMap.schema.isInternalNode(cloned)) {
     cloned.children = cloned.children.map(id => asTree(nodeMap, id));
   }
 

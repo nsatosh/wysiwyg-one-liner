@@ -35,7 +35,7 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
 
   const nm = new NodeMap(nodeMap);
 
-  if (nm.schema.isBranchNode(cloned)) {
+  if (nm.schema.isInternalNode(cloned)) {
     cloned.children = cloned.children.map(id => getShape(nodeMap, id));
   }
 
