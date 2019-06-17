@@ -1,15 +1,15 @@
 import {
   TEInternalNode,
   TELeafNode,
-  TEBaseNode,
   TEInlineContainerNode,
   TEBaseNode,
-  TETextNode
+  TETextNode,
+  TERootNode
 } from "./types";
 
 type NodeSchema = {
   type: string;
-  category: "leaf" | "internal";
+  category: "leaf" | "internal" | "root";
   isBlockNode: boolean;
   isInlineContainerNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
@@ -17,6 +17,14 @@ type NodeSchema = {
 };
 
 const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
+  {
+    type: "row",
+    category: "root",
+    isBlockNode: true,
+    isInlineContainerNode: false,
+    getLength: () => undefined,
+    canHaveCursor: false
+  },
   {
     type: "text",
     category: "leaf",
@@ -46,14 +54,6 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isInlineContainerNode: false,
     getLength: () => 1,
     canHaveCursor: true
-  },
-  {
-    type: "row",
-    category: "internal",
-    isBlockNode: true,
-    isInlineContainerNode: false,
-    getLength: () => undefined,
-    canHaveCursor: false
   },
   {
     type: "link",
@@ -94,6 +94,12 @@ export class NodeMapSchema {
 
   getNodeSchema(type: string): NodeSchema | undefined {
     return this.nodes[type];
+  }
+
+  isRootNode(node: TEBaseNode): node is TERootNode {
+    const schema = this.nodes[node.type];
+
+    return schema ? schema.category === "root" : false;
   }
 
   isInternalNode(node: TEBaseNode): node is TEInternalNode {

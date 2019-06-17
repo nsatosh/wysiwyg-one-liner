@@ -147,6 +147,10 @@ export interface TEBaseNode {
   id: TENodeID;
 }
 
+export interface TERootNode extends TEBaseNode {
+  children: TENodeID[];
+}
+
 export interface TEInternalNode extends TEBaseNode {
   parent: TENodeID;
 
