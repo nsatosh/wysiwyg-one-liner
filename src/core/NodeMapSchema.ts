@@ -4,7 +4,9 @@ import {
   TEInlineContainerNode,
   TEBaseNode,
   TETextNode,
-  TERootNode
+  TERootNode,
+  TEChildNode,
+  TEParentNode
 } from "./types";
 
 type NodeSchema = {
@@ -112,6 +114,14 @@ export class NodeMapSchema {
     const schema = this.nodes[node.type];
 
     return schema ? schema.category === "leaf" : false;
+  }
+
+  isChildNode(node: TEBaseNode): node is TEChildNode {
+    return this.isLeafNode(node) || this.isInternalNode(node);
+  }
+
+  isParentNode(node: TEBaseNode): node is TEParentNode {
+    return this.isRootNode(node) || this.isInternalNode(node);
   }
 
   isBlockNode(node: TEBaseNode): boolean {
