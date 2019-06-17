@@ -129,8 +129,6 @@ export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
 
 export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
-export type TEInternalNode = Extract<TEBaseNode, { children: TENodeID[] }>;
-export type TELeafNode = Exclude<TEBaseNode, { children: TENodeID[] }>;
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;
 
@@ -147,6 +145,16 @@ export interface TEBaseNode {
   type: TENodeType;
 
   id: TENodeID;
+}
+
+export interface TEInternalNode extends TEBaseNode {
+  parent: TENodeID;
+
+  children: TENodeID[];
+}
+
+export interface TELeafNode extends TEBaseNode {
+  parent: TENodeID;
 }
 
 export interface TEInlineContainerNode extends TEBaseNode {
