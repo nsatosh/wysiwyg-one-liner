@@ -1,4 +1,4 @@
-import { TENodeID, TETextRange, TENode } from "./types";
+import { TENodeID, TETextRange, TEBaseNode } from "./types";
 import { getFirstLeaf, getLastLeaf, walkForwardNodes } from "./nodeFinders";
 import { getInclusiveSubtree } from "./NodeMap/deleteRange/getInclusiveSubtree";
 import NodeMap from "./NodeMap/NodeMap";
@@ -44,7 +44,7 @@ export function isReversedRange(nodeMap: NodeMap, r: TETextRange) {
 export function getIdsInRange(
   nodeMap: NodeMap,
   range: TETextRange,
-  filterCallback?: (node: TENode) => boolean
+  filterCallback?: (node: TEBaseNode) => boolean
 ): TENodeID[] {
   const { start, end } = range;
   const arr = [] as TENodeID[];

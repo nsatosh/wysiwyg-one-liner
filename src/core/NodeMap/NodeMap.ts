@@ -1,7 +1,7 @@
 import {
   TENodeMap,
   TENodeID,
-  TENode,
+  TEBaseNode,
   TENodeMapLog,
   TENodeStyleName,
   TEMediaNode,
@@ -57,11 +57,11 @@ export default class NodeMap {
     return this.nodeMapLogs;
   }
 
-  ensureNode(nodeId: TENodeID): TENode {
+  ensureNode(nodeId: TENodeID): TEBaseNode {
     return ensureExists(this.getMutableNodeMap()[nodeId]);
   }
 
-  getNode(nodeId: TENodeID): TENode | undefined {
+  getNode(nodeId: TENodeID): TEBaseNode | undefined {
     return this.getMutableNodeMap()[nodeId];
   }
 
@@ -69,11 +69,11 @@ export default class NodeMap {
     return !!this.getMutableNodeMap()[nodeId];
   }
 
-  forEach(callback: (node: TENode) => boolean | void): void {
+  forEach(callback: (node: TEBaseNode) => boolean | void): void {
     const nodeMap = this.getMutableNodeMap();
 
     for (let id in nodeMap) {
-      if (callback(nodeMap[id] as TENode)) {
+      if (callback(nodeMap[id] as TEBaseNode)) {
         return;
       }
     }
@@ -91,17 +91,17 @@ export default class NodeMap {
     return id;
   }
 
-  appendChild(parentNodeId: TENodeID, attrs: Partial<TENode> | TESubTree) {
+  appendChild(parentNodeId: TENodeID, attrs: Partial<TEBaseNode> | TESubTree) {
     return insertNode(this, parentNodeId, attrs, undefined, "before");
   }
 
-  unshiftChild(parentNodeId: TENodeID, attrs: Partial<TENode> | TESubTree) {
+  unshiftChild(parentNodeId: TENodeID, attrs: Partial<TEBaseNode> | TESubTree) {
     return insertNode(this, parentNodeId, attrs, undefined, "after");
   }
 
   insertBefore(
     parentNodeId: TENodeID,
-    attrs: Partial<TENode> | TESubTree,
+    attrs: Partial<TEBaseNode> | TESubTree,
     referenceNodeId?: TENodeID
   ) {
     return insertNode(this, parentNodeId, attrs, referenceNodeId, "before");
@@ -109,7 +109,7 @@ export default class NodeMap {
 
   insertAfter(
     parentNodeId: TENodeID,
-    attrs: Partial<TENode> | TESubTree,
+    attrs: Partial<TEBaseNode> | TESubTree,
     referenceNodeId?: TENodeID
   ) {
     return insertNode(this, parentNodeId, attrs, referenceNodeId, "after");
@@ -192,7 +192,7 @@ export default class NodeMap {
     return this.updateAttributes(id, "media", attrs);
   }
 
-  setNode(nodeId: TENodeID, node: TENode): void {
+  setNode(nodeId: TENodeID, node: TEBaseNode): void {
     const nodeMap = this.getMutableNodeMap();
     const prev = nodeMap[nodeId];
 

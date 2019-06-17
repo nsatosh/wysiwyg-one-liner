@@ -1,15 +1,15 @@
 import * as ImmutableArray from "@immutable-array/prototype";
-import { TENodeID, TENode, TESubTree, TEInternalNode } from "../types";
+import { TENodeID, TEBaseNode, TESubTree, TEInternalNode } from "../types";
 import NodeMap from "./NodeMap";
 import { generateNewId } from "../nodeIdGenerator";
 
 export function insertNode(
   nodeMap: NodeMap,
   parentNodeId: TENodeID,
-  attrs: Partial<TENode> | TESubTree,
+  attrs: Partial<TEBaseNode> | TESubTree,
   referenceNodeId: TENodeID | undefined,
   to: "after" | "before"
-): Readonly<TENode> {
+): Readonly<TEBaseNode> {
   if (isSubTree(attrs)) {
     return insertSubTree(nodeMap, parentNodeId, attrs, referenceNodeId, to);
   }
@@ -45,13 +45,13 @@ function insertSubTree(
   subtree: TESubTree,
   referenceNodeId: TENodeID | undefined,
   to: "after" | "before"
-): Readonly<TENode> {
+): Readonly<TEBaseNode> {
   Object.keys(subtree.nodeMap).forEach(id => {
     if (id === subtree._tempRootId) {
       return;
     }
 
-    nodeMap.setNode(id, { ...subtree.nodeMap[id] } as TENode);
+    nodeMap.setNode(id, { ...subtree.nodeMap[id] } as TEBaseNode);
   });
 
   const _root = subtree.nodeMap[subtree._tempRootId] as TEInternalNode;
@@ -65,7 +65,7 @@ function insertSubTree(
 
   updateReference(nodeMap, parentNodeId, _root.children, referenceNodeId, to);
 
-  return nodeMap.ensureNode(_root.children[0]) as TENode;
+  return nodeMap.ensureNode(_root.children[0]) as TEBaseNode;
 }
 
 function updateReference(
@@ -118,9 +118,9 @@ function updateReference(
 
 function makeNewNode(
   nodeMap: NodeMap,
-  attrs: Partial<TENode>,
+  attrs: Partial<TEBaseNode>,
   parentNodeId: TENodeID
-): TENode {
+): TEBaseNode {
   const id = attrs.id === undefined ? generateNewId() : attrs.id;
 
   if (nodeMap.hasNode(id)) {

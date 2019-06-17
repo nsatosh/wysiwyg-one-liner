@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { TEGroupingNode, TENode, TENodeMap, TETextNode } from "../../core";
+import { TEGroupingNode, TEBaseNode, TENodeMap, TETextNode } from "../../core";
 import { U } from "../../core/U";
 import InlineMedia from "./InlineMedia";
 import InlineSentinel from "./InlineSentinel";
@@ -14,7 +14,7 @@ interface Props {
 const InlineGrouping: FC<Props> = memo(props => {
   const { node, inDebug, nodeMap } = props;
 
-  const nodes = node.children.reduce<TENode[]>((nodes, id) => {
+  const nodes = node.children.reduce<TEBaseNode[]>((nodes, id) => {
     const node = nodeMap[id];
 
     if (!node) {

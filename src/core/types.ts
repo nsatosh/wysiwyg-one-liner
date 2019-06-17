@@ -89,14 +89,14 @@ export interface TEMutatorLogUpdateSelection {
 }
 
 export interface TENodeMapLog {
-  prev: TENode | undefined;
+  prev: TEBaseNode | undefined;
 
-  next: TENode | undefined;
+  next: TEBaseNode | undefined;
 }
 
 export type TENodeID = string;
 
-export type TENodeMap = { [id: string]: TENode | undefined };
+export type TENodeMap = { [id: string]: TEBaseNode | undefined };
 
 export enum TEDirection {
   up,
@@ -125,21 +125,12 @@ export interface TETextSelection extends TETextRange {
   focus: "start" | "end";
 }
 
-export type TENode =
-  | TETextNode
-  | TERowNode
-  | TELinkNode
-  | TEMediaNode
-  | TESentinelNode
-  | TEGroupingNode
-  | TEMathNode;
-
 export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
 
 export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
-export type TEInternalNode = Extract<TENode, { children: TENodeID[] }>;
-export type TELeafNode = Exclude<TENode, { children: TENodeID[] }>;
+export type TEInternalNode = Extract<TEBaseNode, { children: TENodeID[] }>;
+export type TELeafNode = Exclude<TEBaseNode, { children: TENodeID[] }>;
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;
 

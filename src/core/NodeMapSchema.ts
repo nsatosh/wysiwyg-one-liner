@@ -1,7 +1,7 @@
 import {
   TEInternalNode,
   TELeafNode,
-  TENode,
+  TEBaseNode,
   TEInlineContainerNode,
   TEBaseNode,
   TETextNode
@@ -12,7 +12,7 @@ type NodeSchema = {
   category: "leaf" | "internal";
   isBlockNode: boolean;
   isInlineContainerNode: boolean;
-  getLength: (node: TENode) => number | undefined;
+  getLength: (node: TEBaseNode) => number | undefined;
   canHaveCursor: boolean;
 };
 
@@ -96,19 +96,19 @@ export class NodeMapSchema {
     return this.nodes[type];
   }
 
-  isInternalNode(node: TENode): node is TEInternalNode {
+  isInternalNode(node: TEBaseNode): node is TEInternalNode {
     const schema = this.nodes[node.type];
 
     return schema ? schema.category === "internal" : false;
   }
 
-  isLeafNode(node: TENode): node is TELeafNode {
+  isLeafNode(node: TEBaseNode): node is TELeafNode {
     const schema = this.nodes[node.type];
 
     return schema ? schema.category === "leaf" : false;
   }
 
-  isBlockNode(node: TENode): boolean {
+  isBlockNode(node: TEBaseNode): boolean {
     const schema = this.nodes[node.type];
 
     return schema ? schema.isBlockNode : false;
@@ -120,13 +120,13 @@ export class NodeMapSchema {
     return schema ? schema.isInlineContainerNode : false;
   }
 
-  canHaveCursor(node: TENode): boolean {
+  canHaveCursor(node: TEBaseNode): boolean {
     const schema = this.nodes[node.type];
 
     return schema ? schema.canHaveCursor : false;
   }
 
-  getNodeLength(node: TENode): number | undefined {
+  getNodeLength(node: TEBaseNode): number | undefined {
     const schema = this.nodes[node.type];
 
     if (schema) {

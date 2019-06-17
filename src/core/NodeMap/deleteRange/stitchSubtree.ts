@@ -3,7 +3,7 @@ import { isSameStyle } from "../../isSameStyle";
 import { getFirstLeaf, getSiblingNode } from "../../nodeFinders";
 import {
   TEInternalNode,
-  TENode,
+  TEBaseNode,
   TENodeID,
   TETextPosition,
   TETextRange
@@ -132,7 +132,7 @@ function stitchText(nodeMap: NodeMap, context: StichingContext): void {
   context.nextCursorAt = context.range.start;
 }
 
-function isEmptyInlineContainer(nodeMap: NodeMap, node: TENode) {
+function isEmptyInlineContainer(nodeMap: NodeMap, node: TEBaseNode) {
   if (!nodeMap.schema.isInlineContainerNode(node)) {
     return false;
   }

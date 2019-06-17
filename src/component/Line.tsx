@@ -1,6 +1,12 @@
 import React, { FC, useContext, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
-import { TENode, TENodeMap, TEMode, TERowNode, ensureExists } from "../core";
+import {
+  TEBaseNode,
+  TENodeMap,
+  TEMode,
+  TERowNode,
+  ensureExists
+} from "../core";
 import { TextPositionContext } from "../service/TextPosition";
 import InlineLink from "./node/InlineLink";
 import InlineMath from "./node/InlineMath";
@@ -29,8 +35,10 @@ export const Line: FC<Props> = props => {
 
   const inlineNodes = node.children.map(id => ensureExists(nodeMap[id]));
 
-  const firstNode = inlineNodes[0] as TENode | undefined;
-  const lastNode = inlineNodes[inlineNodes.length - 1] as TENode | undefined;
+  const firstNode = inlineNodes[0] as TEBaseNode | undefined;
+  const lastNode = inlineNodes[inlineNodes.length - 1] as
+    | TEBaseNode
+    | undefined;
   const firstNodeId = firstNode && firstNode.id;
   const lastNodeId = lastNode && lastNode.id;
 

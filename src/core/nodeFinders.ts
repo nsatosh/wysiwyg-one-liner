@@ -1,13 +1,13 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import { TEInternalNode, TELeafNode, TENode, TENodeID } from "./types";
+import { TEInternalNode, TELeafNode, TEBaseNode, TENodeID } from "./types";
 
 export function findNode(
   nodeMap: NodeMap,
-  callback: (node: TENode) => boolean | void
-): TENode | undefined {
-  let found: TENode | undefined;
+  callback: (node: TEBaseNode) => boolean | void
+): TEBaseNode | undefined {
+  let found: TEBaseNode | undefined;
 
   nodeMap.forEach(node => {
     if (callback(node)) {
@@ -40,7 +40,7 @@ export function getSiblingNode(
   nodeMap: NodeMap,
   nodeId: TENodeID,
   offset: number
-): TENode | undefined {
+): TEBaseNode | undefined {
   const node = nodeMap.ensureNode(nodeId);
   const parentNode = getParentNode(nodeMap, node);
 
@@ -98,7 +98,7 @@ export function getSiblingLeafInSameBlock(
 
 export function getParentNode(
   nodeMap: NodeMap,
-  childNode: TENode
+  childNode: TEBaseNode
 ): TEInternalNode | undefined {
   if (childNode.parent === undefined) {
     return;
@@ -115,7 +115,7 @@ export function getParentNode(
 
 export function getSiblingIds(
   nodeMap: NodeMap,
-  node: TENode
+  node: TEBaseNode
 ): TENodeID[] | undefined {
   const parentNode = getParentNode(nodeMap, node);
 
@@ -129,7 +129,7 @@ export function getSiblingIds(
 export function walkByDepthFirst(
   nodeMap: NodeMap,
   startNodeId: TENodeID,
-  callback: (node: TENode) => void
+  callback: (node: TEBaseNode) => void
 ): "terminate" | void {
   const node = nodeMap.ensureNode(startNodeId);
 
@@ -148,7 +148,7 @@ export function getChildNode(
   nodeMap: NodeMap,
   parentNode: TEInternalNode,
   index: number
-): TENode | undefined {
+): TEBaseNode | undefined {
   if (nodeMap.getNode(parentNode.id) !== parentNode) {
     throw new Error("specified node does not exist in nodeMap");
   }
@@ -165,16 +165,16 @@ export function getChildNode(
 export function getChildren(
   nodeMap: NodeMap,
   parentNode: TEInternalNode
-): TENode[] {
+): TEBaseNode[] {
   return parentNode.children.map(id => nodeMap.ensureNode(id));
 }
 
 export function findForwardNode(
   nodeMap: NodeMap,
   startNodeId: TENodeID,
-  callback: (node: TENode) => boolean | void
-): TENode | undefined {
-  let result: TENode | undefined;
+  callback: (node: TEBaseNode) => boolean | void
+): TEBaseNode | undefined {
+  let result: TEBaseNode | undefined;
 
   walkForwardNodes(nodeMap, startNodeId, node => {
     if (callback(node)) {
@@ -188,7 +188,7 @@ export function findForwardNode(
 export function walkForwardNodes(
   nodeMap: NodeMap,
   startNodeId: TENodeID,
-  callback: (node: TENode) => boolean | void
+  callback: (node: TEBaseNode) => boolean | void
 ): void {
   let id: TENodeID | undefined = startNodeId;
 
@@ -206,7 +206,7 @@ export function walkForwardNodes(
 export function getForwardNode(
   nodeMap: NodeMap,
   id: TENodeID
-): TENode | undefined {
+): TEBaseNode | undefined {
   const b = getForwardNodeId(nodeMap, id);
 
   if (b) {
@@ -228,7 +228,7 @@ export function getForwardNodeId(
     return node.children[0];
   }
 
-  let current: TENode | undefined = node;
+  let current: TEBaseNode | undefined = node;
 
   do {
     const sib = getSiblingNode(nodeMap, current.id, 1);
@@ -244,9 +244,9 @@ export function getForwardNodeId(
 export function findBackwardNode(
   nodeMap: NodeMap,
   startNodeId: TENodeID,
-  callback: (node: TENode) => boolean | void
-): TENode | undefined {
-  let result: TENode | undefined;
+  callback: (node: TEBaseNode) => boolean | void
+): TEBaseNode | undefined {
+  let result: TEBaseNode | undefined;
 
   walkBackwardNodes(nodeMap, startNodeId, node => {
     if (callback(node)) {
@@ -260,7 +260,7 @@ export function findBackwardNode(
 export function walkBackwardNodes(
   nodeMap: NodeMap,
   startNodeId: TENodeID,
-  callback: (node: TENode) => boolean | void
+  callback: (node: TEBaseNode) => boolean | void
 ): void {
   let id: TENodeID | undefined = startNodeId;
 
@@ -278,7 +278,7 @@ export function walkBackwardNodes(
 export function getBackwardNode(
   nodeMap: NodeMap,
   id: TENodeID
-): TENode | undefined {
+): TEBaseNode | undefined {
   const b = getBackwardNodeId(nodeMap, id);
 
   if (b) {
@@ -312,10 +312,10 @@ export function getBackwardNodeId(
 export function ascendNodes<T>(
   nodeMap: NodeMap,
   fromId: TENodeID,
-  callback: (node: TENode) => T | void
+  callback: (node: TEBaseNode) => T | void
 ): T | void {
   let id: TENodeID | undefined = fromId;
-  let node: TENode;
+  let node: TEBaseNode;
 
   do {
     node = nodeMap.ensureNode(id);
@@ -330,7 +330,10 @@ export function ascendNodes<T>(
   } while (id);
 }
 
-export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
+export function getFirstLeaf(
+  nodeMap: NodeMap,
+  parentNode: TEBaseNode
+): TELeafNode {
   if (!nodeMap.schema.isInternalNode(parentNode)) {
     return parentNode;
   }
@@ -338,7 +341,10 @@ export function getFirstLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
   return getFirstLeaf(nodeMap, nodeMap.ensureNode(parentNode.children[0]));
 }
 
-export function getLastLeaf(nodeMap: NodeMap, parentNode: TENode): TELeafNode {
+export function getLastLeaf(
+  nodeMap: NodeMap,
+  parentNode: TEBaseNode
+): TELeafNode {
   if (!nodeMap.schema.isInternalNode(parentNode)) {
     return parentNode;
   }

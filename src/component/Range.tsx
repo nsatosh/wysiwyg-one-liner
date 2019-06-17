@@ -2,7 +2,7 @@ import React, { FC, memo, useContext, useEffect, useRef } from "react";
 import {
   getIdsInRange,
   NodeMap,
-  TENode,
+  TEBaseNode,
   TENodeID,
   TENodeMap,
   TETextRange
@@ -91,7 +91,7 @@ const MIN_WIDTH = 3; //px
 const MIN_HEIGHT = 10; //px
 
 interface PartProps {
-  node: TENode;
+  node: TEBaseNode;
   style: RangeStyle;
   start?: number;
   end?: number;
