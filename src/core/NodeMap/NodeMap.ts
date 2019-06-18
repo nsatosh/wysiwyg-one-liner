@@ -3,10 +3,7 @@ import {
   TENodeID,
   TEBaseNode,
   TENodeMapLog,
-  TENodeStyleName,
-  TEMediaNode,
-  TESubTree,
-  TETextStyles
+  TESubTree
 } from "../types";
 import { ensureExists } from "../ensureExists";
 import { validateNodeMap } from "../validateNodeMap";
@@ -145,54 +142,8 @@ export default class NodeMap {
     return deleteNode(this, nodeId, dontClearEmpty);
   }
 
-  updateFolded(id: TENodeID, folded: boolean): void {
-    return this.updateAttributes(id, "section", { folded });
-  }
-
   updateText(id: TENodeID, text: string[]): void {
     return this.updateAttributes(id, "text", { text });
-  }
-
-  updateTextStyles(id: TENodeID, style: TETextStyles): void {
-    const node = this.ensureNode(id);
-
-    if (node.type === "text" && !node.end) {
-      this.setNode(node.id, {
-        ...node,
-        style
-      });
-    }
-  }
-
-  updateStyle(id: TENodeID, styleName: TENodeStyleName): void {
-    const node = this.ensureNode(id);
-
-    if (node.type === "text" && !node.end) {
-      const nextStyle = { ...node.style };
-
-      if (!nextStyle[styleName]) {
-        nextStyle[styleName] = true;
-      } else {
-        delete nextStyle[styleName];
-      }
-
-      this.setNode(node.id, {
-        ...node,
-        style: nextStyle
-      });
-    }
-  }
-
-  updateHeaderStyle(id: TENodeID, style: "section" | "list"): void {
-    return this.updateAttributes(id, "header", { style });
-  }
-
-  updateUrl(id: TENodeID, url: string): void {
-    return this.updateAttributes(id, "link", { url });
-  }
-
-  updateMedia(id: TENodeID, attrs: Partial<TEMediaNode>): void {
-    return this.updateAttributes(id, "media", attrs);
   }
 
   setNode<T extends TEBaseNode>(nodeId: TENodeID, node: T): void {

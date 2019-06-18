@@ -5,7 +5,13 @@ import { findBackwardNode, findForwardNode } from "../nodeFinders";
 import NodeMap from "../NodeMap/NodeMap";
 import { splitNode } from "../NodeMap/splitNode";
 import { getIdsInRange } from "../range";
-import { TENodeStyleName, TETextRange, TETextSelection } from "../types";
+import {
+  TENodeStyleName,
+  TETextRange,
+  TETextSelection,
+  TENodeID,
+  TETextNode
+} from "../types";
 
 export class ToggleTextStyleCommand extends EditorCommand {
   private styleName: TENodeStyleName;
@@ -41,7 +47,7 @@ export class ToggleTextStyleCommand extends EditorCommand {
       node => !(nextSelection.end.ch === 0 && node.id === nextSelection.end.id)
     ).forEach(id => {
       if (nodeMap.ensureNode(id).type === "text") {
-        nodeMap.updateStyle(id, styleName);
+        updateStyle(nodeMap, id, styleName);
       }
     });
 
@@ -50,6 +56,29 @@ export class ToggleTextStyleCommand extends EditorCommand {
     editor.updateNodeMap(nodeMap);
     editor.updateCursorAt(s[s.focus]);
     editor.updateSelection(s);
+  }
+}
+
+function updateStyle(
+  nodeMap: NodeMap,
+  id: TENodeID,
+  styleName: TENodeStyleName
+): void {
+  const node = nodeMap.ensureNode(id) as TETextNode;
+
+  if (node.type === "text" && !node.end) {
+    const nextStyle = { ...node.style };
+
+    if (!nextStyle[styleName]) {
+      nextStyle[styleName] = true;
+    } else {
+      delete nextStyle[styleName];
+    }
+
+    this.setNode(node.id, {
+      ...node,
+      style: nextStyle
+    });
   }
 }
 
