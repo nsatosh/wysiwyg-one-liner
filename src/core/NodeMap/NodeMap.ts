@@ -91,7 +91,10 @@ export default class NodeMap {
     return id;
   }
 
-  appendChild(parentNodeId: TENodeID, attrs: Partial<TEBaseNode> | TESubTree) {
+  appendChild<T extends TEBaseNode>(
+    parentNodeId: TENodeID,
+    attrs: Partial<T> | TESubTree
+  ) {
     return insertNode(this, parentNodeId, attrs, undefined, "before");
   }
 

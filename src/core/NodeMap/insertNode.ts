@@ -3,10 +3,10 @@ import { TENodeID, TEBaseNode, TESubTree, TEInternalNode } from "../types";
 import NodeMap from "./NodeMap";
 import { generateNewId } from "../nodeIdGenerator";
 
-export function insertNode(
+export function insertNode<T extends TEBaseNode>(
   nodeMap: NodeMap,
   parentNodeId: TENodeID,
-  attrs: Partial<TEBaseNode> | TESubTree,
+  attrs: Partial<T> | TESubTree,
   referenceNodeId: TENodeID | undefined,
   to: "after" | "before"
 ): Readonly<TEBaseNode> {
@@ -116,9 +116,9 @@ function updateReference(
   });
 }
 
-function makeNewNode(
+function makeNewNode<T extends TEBaseNode>(
   nodeMap: NodeMap,
-  attrs: Partial<TEBaseNode>,
+  attrs: Partial<T>,
   parentNodeId: TENodeID
 ): TEBaseNode {
   const id = attrs.id === undefined ? generateNewId() : attrs.id;
@@ -131,67 +131,19 @@ function makeNewNode(
     throw new Error("node type must be specified");
   }
 
-  switch (attrs.type) {
-    case "link":
-      return {
-        id,
-        type: "link",
-        children: [],
-        url: attrs.url || "",
-        parent: parentNodeId
-      };
+  const node: TEBaseNode = {
+    ...attrs,
+    id,
+    type: attrs.type
+  };
 
-    case "media":
-      return {
-        id,
-        type: "media",
-        url: attrs.url || "",
-        size: attrs.size || { width: 0, height: 0 },
-        parent: parentNodeId
-      };
-
-    case "row":
-      return {
-        id,
-        type: "row",
-        children: [],
-        parent: parentNodeId
-      };
-
-    case "text":
-      return {
-        id,
-        type: "text",
-        text: attrs.text || [],
-        parent: parentNodeId,
-        style: attrs.style || {},
-        end: attrs.end
-      };
-
-    case "sentinel":
-      return {
-        id,
-        type: "sentinel",
-        parent: parentNodeId
-      };
-
-    case "math":
-      return {
-        id,
-        type: "math",
-        parent: parentNodeId,
-        children: []
-      };
-
-    case "grouping":
-      return {
-        id,
-        type: "grouping",
-        parent: parentNodeId,
-        children: []
-      };
-
-    default:
-      throw new Error(`Unsupported node type ${(attrs as any).type}`);
+  if (nodeMap.schema.isChildNode(node)) {
+    node.parent = parentNodeId;
   }
+
+  if (nodeMap.schema.isParentNode(node)) {
+    node.children = [];
+  }
+
+  return node;
 }
