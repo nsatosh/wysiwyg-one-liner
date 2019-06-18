@@ -1,4 +1,4 @@
-import { TETextPosition, TELeafNode } from "./types";
+import { TETextPosition } from "./types";
 import { walkForwardNodes } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
 
@@ -23,7 +23,10 @@ export function getCanonicalTextPosition(
     return;
   }
 
-  if (nodeMap.schema.isLeafNode(node) && pos.ch < movingCursorLength(node)) {
+  if (
+    nodeMap.schema.isLeafNode(node) &&
+    pos.ch < nodeMap.schema.getNodeLength(node)!
+  ) {
     return pos;
   }
 
@@ -35,7 +38,7 @@ export function getCanonicalTextPosition(
       return;
     }
 
-    const len = movingCursorLength(node);
+    const len = nodeMap.schema.getNodeLength(node)!;
     const m = n - len;
 
     if (m < 0) {
@@ -47,20 +50,4 @@ export function getCanonicalTextPosition(
   });
 
   return p;
-}
-
-function movingCursorLength(node: TELeafNode): number {
-  if (node.type === "media") {
-    return 1;
-  }
-
-  if (node.type === "sentinel") {
-    return 1;
-  }
-
-  if (node.end) {
-    return 1;
-  }
-
-  return node.text.length;
 }

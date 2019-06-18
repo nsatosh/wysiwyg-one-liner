@@ -1,8 +1,7 @@
 import { walkBackwardNodes, walkForwardNodes } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
 import { isPositionEquals } from "./position";
-import { getIdsInRange } from "./range";
-import { TENodeID, TETextPosition, TETextRange } from "./types";
+import { TENodeID, TETextPosition } from "./types";
 
 export function getNextChar(
   nodeMap: NodeMap,
@@ -66,41 +65,6 @@ export function getNextChar(
   }
 
   return nextCursorAt;
-}
-
-export function getTextNodesInRange(
-  nodeMap: NodeMap,
-  range: TETextRange
-): string {
-  const selectedIds = getIdsInRange(nodeMap, range);
-
-  const { start, end } = range;
-
-  return selectedIds
-    .reduce(
-      (texts, id) => {
-        const node = nodeMap.ensureNode(id);
-
-        if (node.type === "text") {
-          if (node.end) {
-            texts.push("\n");
-          } else {
-            texts.push(
-              node.text
-                .slice(
-                  node.id === start.id ? start.ch : 0,
-                  node.id === end.id ? end.ch : node.text.length
-                )
-                .join("")
-            );
-          }
-        }
-
-        return texts;
-      },
-      [] as string[]
-    )
-    .join("");
 }
 
 export function getSubtreeText(nodeMap: NodeMap, nodeId: TENodeID): string {
