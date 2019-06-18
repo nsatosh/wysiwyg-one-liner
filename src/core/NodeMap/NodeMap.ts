@@ -3,7 +3,8 @@ import {
   TENodeID,
   TEBaseNode,
   TENodeMapLog,
-  TESubTree
+  TESubTree,
+  TEChildNode
 } from "../types";
 import { ensureExists } from "../ensureExists";
 import { validateNodeMap } from "../validateNodeMap";
@@ -95,21 +96,24 @@ export default class NodeMap {
     return insertNode(this, parentNodeId, attrs, undefined, "before");
   }
 
-  unshiftChild(parentNodeId: TENodeID, attrs: Partial<TEBaseNode> | TESubTree) {
+  unshiftChild<T extends TEBaseNode>(
+    parentNodeId: TENodeID,
+    attrs: Partial<T> | TESubTree
+  ) {
     return insertNode(this, parentNodeId, attrs, undefined, "after");
   }
 
-  insertBefore(
+  insertBefore<T extends TEBaseNode>(
     parentNodeId: TENodeID,
-    attrs: Partial<TEBaseNode> | TESubTree,
+    attrs: Partial<T> | TESubTree,
     referenceNodeId?: TENodeID
   ) {
     return insertNode(this, parentNodeId, attrs, referenceNodeId, "before");
   }
 
-  insertAfter(
+  insertAfter<T extends TEBaseNode>(
     parentNodeId: TENodeID,
-    attrs: Partial<TEBaseNode> | TESubTree,
+    attrs: Partial<T> | TESubTree,
     referenceNodeId?: TENodeID
   ) {
     return insertNode(this, parentNodeId, attrs, referenceNodeId, "after");
@@ -174,7 +178,7 @@ export default class NodeMap {
 
     if (rootId === undefined) {
       this.forEach(node => {
-        if (!node.parent) {
+        if (this.schema.isRootNode(node)) {
           rootId = node.id;
           return true;
         }
@@ -223,12 +227,15 @@ export function asTree(nodeMap: NodeMap, rootId: TENodeID): any {
     return { ERROR: `node (${rootId}) was not found` };
   }
 
-  const cloned = {
+  const cloned: TEBaseNode = {
     id: node.id,
-    parent: node.parent,
     type: node.type,
     ...node
   };
+
+  if (nodeMap.schema.isChildNode(cloned)) {
+    cloned.parent = (node as TEChildNode).parent;
+  }
 
   if (nodeMap.schema.isInternalNode(cloned)) {
     cloned.children = cloned.children.map(id => asTree(nodeMap, id));

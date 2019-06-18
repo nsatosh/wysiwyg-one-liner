@@ -3,7 +3,7 @@ import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { ascendNodes, getSiblingNode } from "../nodeFinders";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import { TEBaseNode, TETextPosition, TETextRange } from "../types";
+import { TELeafNode, TETextPosition, TETextRange } from "../types";
 
 export class ReplaceTextCommand extends EditorCommand {
   private range?: TETextRange;
@@ -51,7 +51,7 @@ function _insert(
 ): void {
   const { inComposition } = editor.getState();
   const nodeMap = editor.getNodeMap();
-  const current = nodeMap.ensureNode(cursorAt.id);
+  const current = nodeMap.ensureNode(cursorAt.id) as TELeafNode;
 
   let nextCompositionRange: TETextRange | undefined = undefined;
   let nextCursorAt = cursorAt;
@@ -72,18 +72,18 @@ function _insert(
       };
     }
   } else {
-    let cur: TEBaseNode = current;
+    let cur = current;
     let back = getSiblingNode(nodeMap, current.id, -1);
 
     if (!back || back.type !== "text") {
-      cur = ascendNodes(nodeMap, current.id, node => {
+      cur = ascendNodes<TELeafNode>(nodeMap, current.id, node => {
         if (
-          node.parent &&
+          nodeMap.schema.isChildNode(node) &&
           nodeMap.schema.isBlockNode(nodeMap.ensureNode(node.parent))
         ) {
           return node;
         }
-      }) as TEBaseNode;
+      })!;
 
       back = getSiblingNode(nodeMap, cur.id, -1);
     }

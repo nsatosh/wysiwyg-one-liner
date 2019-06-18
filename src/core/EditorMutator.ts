@@ -4,7 +4,8 @@ import {
   TEMutatorLog,
   TENodeID,
   TETextPosition,
-  TETextSelection
+  TETextSelection,
+  TETextNode
 } from "./types";
 
 const DEFAULT_EDITOR_STATE = {
@@ -54,7 +55,7 @@ export default class EditorMutator {
     const nodeMap = new NodeMap({});
     const rootNodeId = nodeMap.createRootNode();
 
-    nodeMap.appendChild(rootNodeId, {
+    nodeMap.appendChild<TETextNode>(rootNodeId, {
       type: "text",
       end: true
     });

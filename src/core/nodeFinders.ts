@@ -90,23 +90,25 @@ export function getSiblingLeafInSameBlock(
     return getSiblingLeafInSameBlock(nodeMap, parent.id, dir);
   }
 
-  if (nodeMap.schema.isLeafNode(sibling)) {
-    return sibling;
-  }
-
-  if (sibling.type === "link") {
+  if (nodeMap.schema.isParentNode(sibling)) {
     return getChildNode(
       nodeMap,
       sibling,
       dir === -1 ? sibling.children.length - 1 : 0
     ) as TELeafNode;
   }
+
+  return sibling as TELeafNode;
 }
 
 export function getParentNode(
   nodeMap: NodeMap,
   childNode: TEBaseNode
 ): TEInternalNode | undefined {
+  if (!nodeMap.schema.isChildNode(childNode)) {
+    return;
+  }
+
   if (childNode.parent === undefined) {
     return;
   }
@@ -142,20 +144,18 @@ export function walkByDepthFirst(
 
   callback(node);
 
-  if (nodeMap.schema.isLeafNode(node)) {
-    return;
-  }
-
-  for (let i = 0; i < node.children.length; ++i) {
-    walkByDepthFirst(nodeMap, node.children[i], callback);
+  if (nodeMap.schema.isParentNode(node)) {
+    for (let i = 0; i < node.children.length; ++i) {
+      walkByDepthFirst(nodeMap, node.children[i], callback);
+    }
   }
 }
 
 export function getChildNode(
   nodeMap: NodeMap,
-  parentNode: TEInternalNode,
+  parentNode: TEParentNode,
   index: number
-): TEBaseNode | undefined {
+): TEChildNode | undefined {
   if (nodeMap.getNode(parentNode.id) !== parentNode) {
     throw new Error("specified node does not exist in nodeMap");
   }
@@ -166,7 +166,7 @@ export function getChildNode(
     return;
   }
 
-  return nodeMap.ensureNode(id);
+  return nodeMap.ensureNode(id) as TEChildNode;
 }
 
 export function getChildren(
@@ -319,8 +319,8 @@ export function getBackwardNodeId(
 export function ascendNodes<T>(
   nodeMap: NodeMap,
   fromId: TENodeID,
-  callback: (node: TEBaseNode) => T | void
-): T | void {
+  callback: (node: TEBaseNode) => T | undefined
+): T | undefined {
   let id: TENodeID | undefined = fromId;
   let node: TEBaseNode;
 
@@ -333,7 +333,7 @@ export function ascendNodes<T>(
       return result;
     }
 
-    id = node.parent;
+    id = (node as TEChildNode).parent;
   } while (id);
 }
 
@@ -341,23 +341,24 @@ export function getFirstLeaf(
   nodeMap: NodeMap,
   parentNode: TEBaseNode
 ): TELeafNode {
-  if (!nodeMap.schema.isInternalNode(parentNode)) {
-    return parentNode;
+  if (!nodeMap.schema.isLeafNode(parentNode)) {
+    const children = getChildren(nodeMap, parentNode as TEParentNode);
+
+    return getFirstLeaf(nodeMap, children[0]);
   }
 
-  return getFirstLeaf(nodeMap, nodeMap.ensureNode(parentNode.children[0]));
+  return parentNode;
 }
 
 export function getLastLeaf(
   nodeMap: NodeMap,
   parentNode: TEBaseNode
 ): TELeafNode {
-  if (!nodeMap.schema.isInternalNode(parentNode)) {
-    return parentNode;
+  if (!nodeMap.schema.isLeafNode(parentNode)) {
+    const children = getChildren(nodeMap, parentNode as TEParentNode);
+
+    return getLastLeaf(nodeMap, children[children.length - 1]);
   }
 
-  return getLastLeaf(
-    nodeMap,
-    nodeMap.ensureNode(parentNode.children[parentNode.children.length - 1])
-  );
+  return parentNode;
 }
