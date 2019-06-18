@@ -30,9 +30,9 @@ export function moveChildren(
   children.forEach(childId => {
     const node = nodeMap.ensureNode(childId);
 
-    if (fromId !== node.parent) {
+    if (!nodeMap.schema.isChildNode(node) || fromId !== node.parent) {
       throw new Error(
-        `All parent of specified children are expected to be ${fromId}, but ${node.parent} found`
+        `All parent of specified children are expected to be ${fromId}`
       );
     }
 
@@ -146,7 +146,7 @@ export function moveExistingNode(
 export function flattenChildren(nodeMap: NodeMap, nodeId: TENodeID) {
   const node = nodeMap.ensureNode(nodeId);
 
-  if (nodeMap.schema.isLeafNode(node) || !node.parent) {
+  if (!nodeMap.schema.isInternalNode(node)) {
     return;
   }
 

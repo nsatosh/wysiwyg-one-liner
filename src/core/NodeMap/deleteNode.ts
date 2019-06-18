@@ -19,7 +19,7 @@ export default function deleteNode(
     deleteLeafNode(nodeMap, nodeId);
   }
 
-  if (!dontClearEmpty && removingNode.parent) {
+  if (!dontClearEmpty && nodeMap.schema.isChildNode(removingNode)) {
     const parentNode = nodeMap.getNode(removingNode.parent);
 
     if (

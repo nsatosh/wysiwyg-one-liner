@@ -95,7 +95,10 @@ function updateReference(
 
   const referenceNode = nodeMap.ensureNode(referenceNodeId);
 
-  if (referenceNode.parent !== parentNodeId) {
+  if (
+    !nodeMap.schema.isChildNode(referenceNode) ||
+    referenceNode.parent !== parentNodeId
+  ) {
     throw new Error("referenceNode must be child of parentNode");
   }
 
