@@ -192,7 +192,7 @@ export default class NodeMap {
     return this.updateAttributes(id, "media", attrs);
   }
 
-  setNode(nodeId: TENodeID, node: TEBaseNode): void {
+  setNode<T extends TEBaseNode>(nodeId: TENodeID, node: T): void {
     const nodeMap = this.getMutableNodeMap();
     const prev = nodeMap[nodeId];
 
