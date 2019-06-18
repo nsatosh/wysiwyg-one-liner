@@ -15,6 +15,7 @@ type NodeSchema = {
   isBlockNode: boolean;
   isInlineContainerNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
+  getText: (node: TEBaseNode) => string[] | undefined;
   canHaveCursor: boolean;
 };
 
@@ -25,6 +26,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: true,
     isInlineContainerNode: false,
     getLength: () => undefined,
+    getText: () => undefined,
     canHaveCursor: false
   },
   {
@@ -39,6 +41,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
         return node.text.length;
       }
     },
+    getText: (node: TETextNode) => node.text,
     canHaveCursor: true
   },
   {
@@ -47,6 +50,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: false,
     isInlineContainerNode: false,
     getLength: () => 1,
+    getText: () => undefined,
     canHaveCursor: true
   },
   {
@@ -55,6 +59,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: false,
     isInlineContainerNode: false,
     getLength: () => 1,
+    getText: () => undefined,
     canHaveCursor: true
   },
   {
@@ -63,6 +68,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
+    getText: () => undefined,
     canHaveCursor: false
   },
   {
@@ -71,6 +77,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
+    getText: () => undefined,
     canHaveCursor: false
   },
   {
@@ -79,6 +86,7 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isBlockNode: false,
     isInlineContainerNode: true,
     getLength: () => undefined,
+    getText: () => undefined,
     canHaveCursor: false
   }
 ];
@@ -150,6 +158,14 @@ export class NodeMapSchema {
     }
   }
 
+  getText(node: TEBaseNode): string[] | undefined {
+    const schema = this.nodes[node.type];
+
+    if (schema) {
+      return schema.getText(node);
+    }
+  }
+
   registerInternalNode(type: string, schema: Partial<NodeSchema>) {
     this.nodes[type] = {
       ...schema,
@@ -158,6 +174,7 @@ export class NodeMapSchema {
       isBlockNode: schema.isBlockNode || false,
       isInlineContainerNode: schema.isInlineContainerNode || false,
       getLength: schema.getLength || (() => undefined),
+      getText: schema.getText || (() => undefined),
       canHaveCursor: schema.canHaveCursor || false
     };
   }
@@ -170,6 +187,7 @@ export class NodeMapSchema {
       isBlockNode: schema.isBlockNode || false,
       isInlineContainerNode: schema.isInlineContainerNode || false,
       getLength: schema.getLength || (() => undefined),
+      getText: schema.getText || (() => undefined),
       canHaveCursor: schema.canHaveCursor || false
     };
   }

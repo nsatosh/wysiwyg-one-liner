@@ -74,8 +74,10 @@ export function getSubtreeText(nodeMap: NodeMap, nodeId: TENodeID): string {
     return node.children.map(id => getSubtreeText(nodeMap, id)).join("");
   }
 
-  if (node.type === "text") {
-    return node.text.join("");
+  const text = nodeMap.schema.getText(node);
+
+  if (text) {
+    return text.join("");
   }
 
   return "";
