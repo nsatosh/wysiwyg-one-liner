@@ -1,8 +1,10 @@
 import NodeMap from "./NodeMap/NodeMap";
+import { getChildren } from "./nodeFinders";
+import { TETextNode } from "./types";
 
 export function validateNodeMap(nodeMap: NodeMap): void {
   nodeMap.forEach(node => {
-    if (node.parent) {
+    if (nodeMap.schema.isChildNode(node)) {
       const parentNode = nodeMap.getNode(node.parent);
 
       if (!parentNode) {
@@ -22,14 +24,10 @@ export function validateNodeMap(nodeMap: NodeMap): void {
       }
     }
 
-    if (node.type === "row") {
-      node.children.forEach(childId => {
-        const childNode = nodeMap.getNode(childId);
+    if (nodeMap.schema.isParentNode(node)) {
+      const children = getChildren(nodeMap, node);
 
-        if (!childNode) {
-          throw new Error(`childNode ${childId} must be found`);
-        }
-
+      children.forEach(childNode => {
         if (childNode.parent !== node.id) {
           throw new Error(
             `parent attribute of childNode(${childNode.id}) must be ${node.id} but ${childNode.parent}`
@@ -37,11 +35,12 @@ export function validateNodeMap(nodeMap: NodeMap): void {
         }
       });
 
-      const id = node.children[node.children.length - 1];
-      const n = nodeMap.getNode(id);
+      if (node.type === "row") {
+        const n = children[children.length - 1];
 
-      if (!n || n.type !== "text" || !n.end) {
-        throw new Error("sentinel node must be found at last of children");
+        if (!n || n.type !== "text" || !(n as TETextNode).end) {
+          throw new Error("sentinel node must be found at last of children");
+        }
       }
     }
   });

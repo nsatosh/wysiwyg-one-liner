@@ -1,7 +1,14 @@
 import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
-import { TEInternalNode, TELeafNode, TEBaseNode, TENodeID } from "./types";
+import {
+  TEInternalNode,
+  TELeafNode,
+  TEBaseNode,
+  TENodeID,
+  TEParentNode,
+  TEChildNode
+} from "./types";
 
 export function findNode(
   nodeMap: NodeMap,
@@ -164,9 +171,9 @@ export function getChildNode(
 
 export function getChildren(
   nodeMap: NodeMap,
-  parentNode: TEInternalNode
-): TEBaseNode[] {
-  return parentNode.children.map(id => nodeMap.ensureNode(id));
+  parentNode: TEParentNode
+): TEChildNode[] {
+  return parentNode.children.map(id => nodeMap.ensureNode(id) as TEChildNode);
 }
 
 export function findForwardNode(
