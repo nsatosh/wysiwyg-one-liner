@@ -94,6 +94,8 @@ function joinSameStyleTextNodes(
     const b = nodeMap.ensureNode(ids[i + 1]);
 
     if (
+      nodeMap.schema.isChildNode(a) &&
+      nodeMap.schema.isChildNode(b) &&
       a.parent === b.parent &&
       nodeMap.schema.isTextNode(a) &&
       !a.end &&

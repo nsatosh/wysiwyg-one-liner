@@ -3,7 +3,7 @@ import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { ascendNodes, getSiblingNode } from "../nodeFinders";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import { TELeafNode, TETextPosition, TETextRange } from "../types";
+import { TELeafNode, TETextPosition, TETextRange, TETextNode } from "../types";
 
 export class ReplaceTextCommand extends EditorCommand {
   private range?: TETextRange;
@@ -98,7 +98,7 @@ function _insert(
         };
       }
     } else {
-      const { id } = nodeMap.insertBefore(
+      const { id } = nodeMap.insertBefore<TETextNode>(
         cur.parent!,
         {
           type: "text",

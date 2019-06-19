@@ -39,7 +39,7 @@ export class AddMathNodeCommand extends EditorCommand {
       type: "sentinel"
     });
 
-    const textNode = nodeMap.appendChild(mathNode.id, {
+    const textNode = nodeMap.appendChild<TETextNode>(mathNode.id, {
       type: "text",
       text: []
     }) as TETextNode;

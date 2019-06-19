@@ -33,7 +33,9 @@ export class PasteCommand extends EditorCommand {
       nextCursorAt = ensureExists(deleteRange(nodeMap, range));
     }
 
-    let parent = ensureExists(nodeMap.ensureNode(nextCursorAt.id).parent);
+    let parent = ensureExists(
+      (nodeMap.ensureNode(nextCursorAt.id) as TELeafNode).parent
+    );
 
     this.text.split(/\r?\n/).forEach(line => {
       nodeMap.insertBefore(
