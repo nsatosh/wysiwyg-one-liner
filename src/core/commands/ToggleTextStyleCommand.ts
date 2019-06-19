@@ -75,7 +75,7 @@ function updateStyle(
       delete nextStyle[styleName];
     }
 
-    this.setNode(node.id, {
+    nodeMap.setNode(node.id, {
       ...node,
       style: nextStyle
     });
