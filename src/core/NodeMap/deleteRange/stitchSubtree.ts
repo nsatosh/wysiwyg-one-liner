@@ -31,7 +31,7 @@ export function stitchSubtree(
       nextNodeId = stitchRow(nodeMap, context);
     } else if (nodeMap.schema.isInlineContainerNode(node)) {
       nextNodeId = stitchInlinerContainer(nodeMap, context);
-    } else if (node.type === "text") {
+    } else if (nodeMap.schema.isTextNode(node)) {
       nextNodeId = stitchText(nodeMap, context);
     } else {
       break;
@@ -55,14 +55,14 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     context.nextCursorAt = { id: closing.id, ch: 0 };
   }
 
-  if (opening.type === "text") {
+  if (nodeMap.schema.isTextNode(opening)) {
     if (opening.text.length === 0 || opening.end) {
       nodeMap.deleteNode(opening.id);
       return;
     }
 
     if (
-      closing.type !== "text" ||
+      !nodeMap.schema.isTextNode(closing) ||
       closing.end ||
       !isSameStyle(opening, closing)
     ) {
@@ -81,12 +81,12 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
       return;
     }
 
-    if (closing.type === "text" && !closing.end) {
+    if (nodeMap.schema.isTextNode(closing) && !closing.end) {
       const backward = getSiblingNode(nodeMap, opening.id, -1);
       if (
         backward &&
-        backward.type === "text" &&
-        closing.type === "text" &&
+        nodeMap.schema.isTextNode(backward) &&
+        nodeMap.schema.isTextNode(closing) &&
         closing.text.length > 0 &&
         isSameStyle(backward, closing)
       ) {
@@ -121,7 +121,10 @@ function stitchInlinerContainer(
     return;
   }
 
-  if (opening.type === "text" && closing.type === "text") {
+  if (
+    nodeMap.schema.isTextNode(opening) &&
+    nodeMap.schema.isTextNode(closing)
+  ) {
     nodeMap.updateText(closing.id, opening.text.concat(closing.text));
     nodeMap.deleteNode(opening.id);
     context.nextCursorAt = { id: closing.id, ch: opening.text.length };
@@ -139,7 +142,7 @@ function isEmptyInlineContainer(nodeMap: NodeMap, node: TEBaseNode) {
 
   const firstNode = getFirstLeaf(nodeMap, node);
 
-  if (firstNode.type === "text" && firstNode.text.length === 0) {
+  if (nodeMap.schema.isTextNode(firstNode) && firstNode.text.length === 0) {
     return true;
   }
 

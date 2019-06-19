@@ -56,7 +56,7 @@ function _insert(
   let nextCompositionRange: TETextRange | undefined = undefined;
   let nextCursorAt = cursorAt;
 
-  if (current.type === "text" && !current.end) {
+  if (nodeMap.schema.isTextNode(current) && !current.end) {
     nodeMap.updateText(current.id, [
       ...current.text.slice(0, cursorAt.ch),
       ...text,
@@ -75,7 +75,7 @@ function _insert(
     let cur = current;
     let back = getSiblingNode(nodeMap, current.id, -1);
 
-    if (!back || back.type !== "text") {
+    if (!back || !nodeMap.schema.isTextNode(back)) {
       cur = ascendNodes<TELeafNode>(nodeMap, current.id, node => {
         if (
           nodeMap.schema.isChildNode(node) &&
@@ -88,7 +88,7 @@ function _insert(
       back = getSiblingNode(nodeMap, cur.id, -1);
     }
 
-    if (back && back.type === "text") {
+    if (back && nodeMap.schema.isTextNode(back)) {
       nodeMap.updateText(back.id, back.text.concat(text));
 
       if (inComposition) {

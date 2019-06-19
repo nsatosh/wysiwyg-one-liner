@@ -66,7 +66,7 @@ function updateStyle(
 ): void {
   const node = nodeMap.ensureNode(id) as TETextNode;
 
-  if (node.type === "text" && !node.end) {
+  if (nodeMap.schema.isTextNode(node) && !node.end) {
     const nextStyle = { ...node.style };
 
     if (!nextStyle[styleName]) {
@@ -95,9 +95,9 @@ function joinSameStyleTextNodes(
 
     if (
       a.parent === b.parent &&
-      a.type === "text" &&
+      nodeMap.schema.isTextNode(a) &&
       !a.end &&
-      b.type === "text" &&
+      nodeMap.schema.isTextNode(b) &&
       !b.end &&
       isSameStyle(a, b)
     ) {
@@ -112,15 +112,11 @@ function joinSameStyleTextNodes(
 }
 
 function expandRange(nodeMap: NodeMap, range: TETextRange): TETextRange {
-  const backward = findBackwardNode(
-    nodeMap,
-    range.start.id,
-    node => node.type === "text"
+  const backward = findBackwardNode(nodeMap, range.start.id, node =>
+    nodeMap.schema.isTextNode(node)
   );
-  const forward = findForwardNode(
-    nodeMap,
-    range.end.id,
-    node => node.type === "text"
+  const forward = findForwardNode(nodeMap, range.end.id, node =>
+    nodeMap.schema.isTextNode(node)
   );
 
   return {

@@ -38,7 +38,7 @@ export function validateNodeMap(nodeMap: NodeMap): void {
       if (node.type === "row") {
         const n = children[children.length - 1];
 
-        if (!n || n.type !== "text" || !(n as TETextNode).end) {
+        if (!n || !nodeMap.schema.isTextNode(n) || !(n as TETextNode).end) {
           throw new Error("sentinel node must be found at last of children");
         }
       }

@@ -31,7 +31,7 @@ export function deleteSubtree(
   traverseInRange(nodeMap, root, range, (nodeId, stat) => {
     const node = nodeMap.ensureNode(nodeId);
 
-    if (node.type === "text") {
+    if (nodeMap.schema.isTextNode(node)) {
       return deleteOrSliceTextNode(nodeMap, node, range, stat);
     } else if (node.type === "media") {
       return deleteMediaNode(nodeMap, node, stat);

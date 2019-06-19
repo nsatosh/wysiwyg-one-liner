@@ -26,7 +26,7 @@ export class UpdateCursorInComposition extends EditorCommand {
 
     const node = nodeMap.getNode(compositionRange.start.id);
 
-    if (!node || node.type !== "text") {
+    if (!node || !nodeMap.schema.isTextNode(node)) {
       return;
     }
 

@@ -82,7 +82,7 @@ export function splitLeafNode(
   node: TELeafNode,
   ch: number
 ): TENodeID {
-  if (node.type !== "text" || ch === 0) {
+  if (!nodeMap.schema.isTextNode(node) || ch === 0) {
     return node.id;
   }
 

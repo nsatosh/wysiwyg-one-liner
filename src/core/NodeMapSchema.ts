@@ -138,6 +138,14 @@ export class NodeMapSchema {
     return schema ? schema.isBlockNode : false;
   }
 
+  isTextNode(node: TEBaseNode): node is TETextNode {
+    return node.type === "text";
+  }
+
+  isEndNode(node: TEBaseNode): node is TETextNode {
+    return node.type === "text" && !!(node as TETextNode).end;
+  }
+
   isInlineContainerNode(node: TEBaseNode): node is TEInlineContainerNode {
     const schema = this.nodes[node.type];
 
