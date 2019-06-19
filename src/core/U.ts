@@ -19,6 +19,7 @@ export class U {
       ...attrs,
       type: "text",
       id,
+      style: (attrs && attrs.style) || {},
       text: text.split("")
     };
   }
@@ -27,6 +28,8 @@ export class U {
     return {
       type: "text",
       id,
+      text: [],
+      style: {},
       end: true
     };
   }
@@ -61,6 +64,7 @@ export class U {
     return {
       ...attrs,
       type: "media",
+      size: (attrs && attrs.size) || { width: 0, height: 0 },
       id
     };
   }
@@ -69,6 +73,7 @@ export class U {
     return {
       ...attrs,
       type: "link",
+      url: (attrs && attrs.url) || "",
       id
     };
   }

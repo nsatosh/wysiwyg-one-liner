@@ -102,6 +102,7 @@ function _insert(
         cur.parent!,
         {
           type: "text",
+          style: {},
           text: text
         },
         cur.id
