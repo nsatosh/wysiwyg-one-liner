@@ -11,7 +11,7 @@ import { validateNodeMap } from "../validateNodeMap";
 import deleteNode from "./deleteNode";
 import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
-import { moveChildren, moveExistingNode, flattenChildren } from "./moveNode";
+import { moveChildren, moveExistingNode } from "./moveNode";
 import { NodeMapSchema } from "../NodeMapSchema";
 
 export type NodeMapOptions = {
@@ -127,10 +127,6 @@ export default class NodeMap {
     afterId?: TENodeID
   ): void {
     return moveChildren(this, fromId, toId, children, beforeId, afterId);
-  }
-
-  flattenChildren(nodeId: TENodeID): void {
-    return flattenChildren(this, nodeId);
   }
 
   moveExistingNode(

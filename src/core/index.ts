@@ -1,7 +1,5 @@
 export { getIdsInRange } from "./range";
 
-export { getSubtreeText } from "./text";
-
 export { validateNodeMap } from "./validateNodeMap";
 
 export {

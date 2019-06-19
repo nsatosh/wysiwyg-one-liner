@@ -4,7 +4,8 @@ import {
   TELeafNode,
   TENodeID,
   TENodeType,
-  TETextPosition
+  TETextPosition,
+  TETextNode
 } from "../types";
 import { getFullPath } from "./getFullPath";
 import NodeMap from "./NodeMap";
@@ -88,7 +89,7 @@ export function splitLeafNode(
 
   nodeMap.updateText(node.id, node.text.slice(0, ch));
 
-  const newNode = nodeMap.insertAfter(
+  const newNode = nodeMap.insertAfter<TETextNode>(
     node.parent,
     {
       type: "text",
@@ -102,39 +103,12 @@ export function splitLeafNode(
   return newNode.id;
 }
 
-export function splitBranchNode(
-  nodeMap: NodeMap,
-  node: TEInternalNode,
-  prevChildId: TENodeID
-): TENodeID {
-  if (!node.parent) {
-    throw new Error("Can't split root node");
-  }
-
-  const newNode = nodeMap.insertAfter(
-    node.parent,
-    {
-      ...node,
-      id: undefined,
-      children: []
-    },
-    node.id
-  ) as TEInternalNode;
-
-  const n = nodeMap.ensureNode(node.id) as TEInternalNode;
-
-  const sliceStart = n.children.indexOf(prevChildId);
-  nodeMap.moveChildren(n.id, newNode.id, n.children.slice(sliceStart));
-
-  return newNode.id;
-}
-
 function splitInlineContainerNode(
   nodeMap: NodeMap,
   node: TEInlineContainerNode,
   prevChildId: TENodeID
 ): TENodeID {
-  const newNode = nodeMap.insertAfter(
+  const newNode = nodeMap.insertAfter<TEInlineContainerNode>(
     node.parent,
     {
       ...node,
@@ -142,7 +116,7 @@ function splitInlineContainerNode(
       children: []
     },
     node.id
-  ) as TEInternalNode;
+  ) as TEInlineContainerNode;
 
   nodeMap.insertBefore(
     node.id,

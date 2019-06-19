@@ -1,7 +1,7 @@
 import { walkBackwardNodes, walkForwardNodes } from "./nodeFinders";
 import NodeMap from "./NodeMap/NodeMap";
 import { isPositionEquals } from "./position";
-import { TENodeID, TETextPosition } from "./types";
+import { TETextPosition } from "./types";
 
 export function getNextChar(
   nodeMap: NodeMap,
@@ -65,20 +65,4 @@ export function getNextChar(
   }
 
   return nextCursorAt;
-}
-
-export function getSubtreeText(nodeMap: NodeMap, nodeId: TENodeID): string {
-  const node = nodeMap.ensureNode(nodeId);
-
-  if (nodeMap.schema.isInternalNode(node)) {
-    return node.children.map(id => getSubtreeText(nodeMap, id)).join("");
-  }
-
-  const text = nodeMap.schema.getText(node);
-
-  if (text) {
-    return text.join("");
-  }
-
-  return "";
 }
