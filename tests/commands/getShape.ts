@@ -9,7 +9,7 @@ export function printShape(nodeMap: TENodeMap, rootId?: TENodeID): void {
 export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
   if (rootId === undefined) {
     rootId = Object.keys(nodeMap).find(
-      id => nodeMap[id]!.parent === undefined
+      id => (nodeMap[id] as any).parent === undefined
     )!;
   }
 
@@ -25,7 +25,7 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
   };
 
   delete cloned.id;
-  delete cloned.parent;
+  delete (cloned as any).parent;
 
   for (let key in cloned) {
     if ((cloned as any)[key] === undefined) {
@@ -35,7 +35,7 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
 
   const nm = new NodeMap(nodeMap);
 
-  if (nm.schema.isInternalNode(cloned)) {
+  if (nm.schema.isParentNode(cloned)) {
     cloned.children = cloned.children.map(id => getShape(nodeMap, id));
   }
 
