@@ -5,7 +5,13 @@ import {
   TENodeMap,
   TEMode,
   TERowNode,
-  ensureExists
+  ensureExists,
+  TETextNode,
+  TEMediaNode,
+  TELinkNode,
+  TEMathNode,
+  TESentinelNode,
+  TEGroupingNode
 } from "../core";
 import { TextPositionContext } from "../service/TextPosition";
 import InlineLink from "./node/InlineLink";
@@ -60,18 +66,24 @@ export const Line: FC<Props> = props => {
     <LineDiv ref={lineRef}>
       {inlineNodes.map(node => {
         if (node.type === "text") {
-          return <InlineText key={node.id} inDebug={inDebug} node={node} />;
+          return (
+            <InlineText
+              key={node.id}
+              inDebug={inDebug}
+              node={node as TETextNode}
+            />
+          );
         }
 
         if (node.type === "media") {
-          return <InlineMedia key={node.id} node={node} />;
+          return <InlineMedia key={node.id} node={node as TEMediaNode} />;
         }
 
         if (node.type === "link") {
           return (
             <InlineLink
               key={node.id}
-              node={node}
+              node={node as TELinkNode}
               nodeMap={nodeMap}
               inDebug={inDebug}
             />
@@ -83,7 +95,7 @@ export const Line: FC<Props> = props => {
             <InlineMath
               key={node.id}
               mode={mode}
-              node={node}
+              node={node as TEMathNode}
               nodeMap={nodeMap}
               inDebug={inDebug}
             />
@@ -91,14 +103,20 @@ export const Line: FC<Props> = props => {
         }
 
         if (node.type === "sentinel") {
-          return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
+          return (
+            <InlineSentinel
+              key={node.id}
+              node={node as TESentinelNode}
+              inDebug={inDebug}
+            />
+          );
         }
 
         if (node.type === "grouping") {
           return (
             <InlineGrouping
               key={node.id}
-              node={node}
+              node={node as TEGroupingNode}
               nodeMap={nodeMap}
               inDebug={inDebug}
             />

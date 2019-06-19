@@ -1,6 +1,12 @@
 import React, { FC, memo } from "react";
 import styled from "styled-components";
-import { TELeafNode, TELinkNode, TENodeMap } from "../../core";
+import {
+  TELeafNode,
+  TELinkNode,
+  TENodeMap,
+  TETextNode,
+  TESentinelNode
+} from "../../core";
 import InlineSentinel from "./InlineSentinel";
 import InlineText from "./InlineText";
 
@@ -34,11 +40,23 @@ const InlineLink: FC<Props> = memo(props => {
     <A href={node.url} target="_blank">
       {nodes.map(node => {
         if (node.type === "text") {
-          return <InlineText key={node.id} inDebug={inDebug} node={node} />;
+          return (
+            <InlineText
+              key={node.id}
+              inDebug={inDebug}
+              node={node as TETextNode}
+            />
+          );
         }
 
         if (node.type === "sentinel") {
-          return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
+          return (
+            <InlineSentinel
+              key={node.id}
+              node={node as TESentinelNode}
+              inDebug={inDebug}
+            />
+          );
         }
       })}
     </A>

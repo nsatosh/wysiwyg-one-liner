@@ -1,5 +1,12 @@
 import React, { FC, memo } from "react";
-import { TEGroupingNode, TEBaseNode, TENodeMap, TETextNode } from "../../core";
+import {
+  TEGroupingNode,
+  TEBaseNode,
+  TENodeMap,
+  TETextNode,
+  TESentinelNode,
+  TEMediaNode
+} from "../../core";
 import { U } from "../../core/U";
 import InlineMedia from "./InlineMedia";
 import InlineSentinel from "./InlineSentinel";
@@ -32,19 +39,29 @@ const InlineGrouping: FC<Props> = memo(props => {
       {nodes.map(node => {
         switch (node.type) {
           case "text":
-            return <InlineText key={node.id} inDebug={inDebug} node={node} />;
+            return (
+              <InlineText
+                key={node.id}
+                inDebug={inDebug}
+                node={node as TETextNode}
+              />
+            );
           case "sentinel":
             return (
-              <InlineSentinel key={node.id} node={node} inDebug={inDebug} />
+              <InlineSentinel
+                key={node.id}
+                node={node as TESentinelNode}
+                inDebug={inDebug}
+              />
             );
           case "media":
-            return <InlineMedia key={node.id} node={node} />;
+            return <InlineMedia key={node.id} node={node as TEMediaNode} />;
           case "grouping":
             return (
               <InlineGrouping
                 key={node.id}
                 nodeMap={nodeMap}
-                node={node}
+                node={node as TEGroupingNode}
                 inDebug={inDebug}
               />
             );

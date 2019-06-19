@@ -1,7 +1,13 @@
 import katex from "katex";
 import React, { FC, memo, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { TEMathNode, TEMode, TENodeMap } from "../../core";
+import {
+  TEMathNode,
+  TEMode,
+  TENodeMap,
+  TESentinelNode,
+  TETextNode
+} from "../../core";
 import InlineSentinel from "./InlineSentinel";
 import InlineText from "./InlineText";
 
@@ -33,7 +39,9 @@ const InlineMath: FC<Props> = memo(props => {
 
   useEffect(() => {
     if (t0 && t0.type === "text" && mode === "wysiwyg" && ref.current) {
-      katex.render(t0.text.join(""), ref.current, { throwOnError: false });
+      katex.render((t0 as TETextNode).text.join(""), ref.current, {
+        throwOnError: false
+      });
     }
   }, [mode, t0]);
 
@@ -50,18 +58,30 @@ const InlineMath: FC<Props> = memo(props => {
 
   return (
     <Span>
-      <InlineSentinel key={s0.id} node={s0} inDebug={inDebug} />
+      <InlineSentinel
+        key={s0.id}
+        node={s0 as TESentinelNode}
+        inDebug={inDebug}
+      />
       {mode === "plain" ? (
         <span key="plain">
-          <InlineText key={t0.id} inDebug={inDebug} node={t0} />
-          <InlineSentinel key={s1.id} node={s1} inDebug={inDebug} />
+          <InlineText key={t0.id} inDebug={inDebug} node={t0 as TETextNode} />
+          <InlineSentinel
+            key={s1.id}
+            node={s1 as TESentinelNode}
+            inDebug={inDebug}
+          />
         </span>
       ) : (
         <span key="wysiwyg">
           <span ref={ref} />
           <SpanHover>
-            <InlineText key={t0.id} inDebug={inDebug} node={t0} />
-            <InlineSentinel key={s1.id} node={s1} inDebug={inDebug} />
+            <InlineText key={t0.id} inDebug={inDebug} node={t0 as TETextNode} />
+            <InlineSentinel
+              key={s1.id}
+              node={s1 as TESentinelNode}
+              inDebug={inDebug}
+            />
           </SpanHover>
         </span>
       )}
