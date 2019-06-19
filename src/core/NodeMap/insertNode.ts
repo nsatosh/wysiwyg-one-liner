@@ -16,7 +16,7 @@ export function insertNode<T extends TEBaseNode>(
 
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!nodeMap.schema.isInternalNode(parentNode)) {
+  if (!nodeMap.schema.isParentNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -77,7 +77,7 @@ function updateReference(
 ) {
   const parentNode = nodeMap.ensureNode(parentNodeId);
 
-  if (!nodeMap.schema.isInternalNode(parentNode)) {
+  if (!nodeMap.schema.isParentNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 

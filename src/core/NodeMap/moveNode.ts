@@ -18,8 +18,8 @@ export function moveChildren(
 
   const fromNode = nodeMap.ensureNode(fromId);
 
-  if (!nodeMap.schema.isInternalNode(fromNode)) {
-    throw new Error("The node specified with fromId must be an section");
+  if (!nodeMap.schema.isParentNode(fromNode)) {
+    throw new Error("The node specified with fromId must be parent node");
   }
 
   nodeMap.setNode(fromNode.id, {
@@ -50,8 +50,8 @@ export function moveChildren(
 
   const toNode = nodeMap.ensureNode(toId);
 
-  if (!nodeMap.schema.isInternalNode(toNode)) {
-    throw new Error("The node specified with toId must be an section");
+  if (!nodeMap.schema.isParentNode(toNode)) {
+    throw new Error("The node specified with toId must be parent node");
   }
 
   if (beforeId !== undefined) {
@@ -109,8 +109,8 @@ export function moveExistingNode(
 
   const toParentNode = nodeMap.ensureNode(toParentNodeId);
 
-  if (!nodeMap.schema.isInternalNode(toParentNode)) {
-    throw new Error("parent node must be branch");
+  if (!nodeMap.schema.isParentNode(toParentNode)) {
+    throw new Error("specified node is not parent");
   }
 
   if (referenceNodeId === undefined) {
@@ -141,36 +141,4 @@ export function moveExistingNode(
             referenceNode.id
           )
   });
-}
-
-export function flattenChildren(nodeMap: NodeMap, nodeId: TENodeID) {
-  const node = nodeMap.ensureNode(nodeId);
-
-  if (!nodeMap.schema.isInternalNode(node)) {
-    return;
-  }
-
-  const parentNode = getParentNode(nodeMap, node)!;
-  const indexOfNode = parentNode.children.indexOf(node.id);
-
-  nodeMap.setNode(parentNode.id, {
-    ...parentNode,
-    children: ImmutableArray.splice(
-      parentNode.children,
-      indexOfNode,
-      1,
-      ...node.children
-    )
-  });
-
-  node.children.forEach(id => {
-    const childNode = nodeMap.ensureNode(id);
-
-    nodeMap.setNode(id, {
-      ...childNode,
-      parent: parentNode.id
-    });
-  });
-
-  nodeMap.unsetNode(node.id);
 }

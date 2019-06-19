@@ -152,7 +152,7 @@ function traversePostOrder(
 ): void {
   const node = nodeMap.ensureNode(rootNodeId);
 
-  if (nodeMap.schema.isInternalNode(node)) {
+  if (nodeMap.schema.isParentNode(node)) {
     node.children.forEach(id => traversePostOrder(nodeMap, id, callback));
   }
 

@@ -9,7 +9,7 @@ export default function deleteNode(
 ) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
-  if (!nodeMap.schema.isInternalNode(removingNode)) {
+  if (!nodeMap.schema.isParentNode(removingNode)) {
     deleteLeafNode(nodeMap, nodeId);
   } else {
     removingNode.children.forEach(childId => {
@@ -36,7 +36,7 @@ function deleteLeafNode(nodeMap: NodeMap, nodeId: TENodeID) {
   const removingNode = nodeMap.ensureNode(nodeId);
 
   if (
-    nodeMap.schema.isInternalNode(removingNode) &&
+    nodeMap.schema.isParentNode(removingNode) &&
     removingNode.children.length > 0
   ) {
     throw new Error(

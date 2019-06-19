@@ -2,12 +2,11 @@ import EditorMutator from "./EditorMutator";
 import { ensureExists } from "./ensureExists";
 import NodeMap from "./NodeMap/NodeMap";
 import {
-  TEInternalNode,
-  TELeafNode,
   TEBaseNode,
+  TEChildNode,
+  TELeafNode,
   TENodeID,
-  TEParentNode,
-  TEChildNode
+  TEParentNode
 } from "./types";
 
 export function findNode(
@@ -104,7 +103,7 @@ export function getSiblingLeafInSameBlock(
 export function getParentNode(
   nodeMap: NodeMap,
   childNode: TEBaseNode
-): TEInternalNode | undefined {
+): TEParentNode | undefined {
   if (!nodeMap.schema.isChildNode(childNode)) {
     return;
   }
@@ -115,7 +114,7 @@ export function getParentNode(
 
   const parentNode = nodeMap.ensureNode(childNode.parent);
 
-  if (!nodeMap.schema.isInternalNode(parentNode)) {
+  if (!nodeMap.schema.isParentNode(parentNode)) {
     throw new Error("parentNode must have children attribute");
   }
 
@@ -231,7 +230,7 @@ export function getForwardNodeId(
     return;
   }
 
-  if (nodeMap.schema.isInternalNode(node)) {
+  if (nodeMap.schema.isParentNode(node)) {
     return node.children[0];
   }
 

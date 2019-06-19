@@ -13,8 +13,8 @@ export function validateNodeMap(nodeMap: NodeMap): void {
         );
       }
 
-      if (!nodeMap.schema.isInternalNode(parentNode)) {
-        throw new Error("parent node must be branch");
+      if (!nodeMap.schema.isParentNode(parentNode)) {
+        throw new Error("parentNode must have children attribute");
       }
 
       if (parentNode.children.indexOf(node.id) === -1) {
