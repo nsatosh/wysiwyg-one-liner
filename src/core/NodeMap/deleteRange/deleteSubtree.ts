@@ -1,14 +1,13 @@
 import {
-  TEInternalNode,
-  TEMediaNode,
   TENodeID,
-  TETextNode,
   TETextRange,
-  TESentinelNode
+  TELeafNode,
+  TEParentNode,
+  TEBaseNode
 } from "../../types";
 import NodeMap from "../NodeMap";
 
-enum Stat {
+export enum Stat {
   before,
   opened,
   between,
@@ -17,113 +16,53 @@ enum Stat {
   after
 }
 
-interface OpenableRange extends TETextRange {
+export interface OpenableRange extends TETextRange {
   open?: "start" | "end";
 }
+
+export type DeleteFuntion = (
+  nodeMap: NodeMap,
+  node: TEBaseNode,
+  range: OpenableRange,
+  stat: Stat,
+  deletables: Set<TENodeID>
+) => void;
 
 export function deleteSubtree(
   nodeMap: NodeMap,
   root: TENodeID,
   range: OpenableRange
 ): void {
-  const deletableSentinels = new Set<TENodeID>();
+  const deletables = new Set<TENodeID>();
 
   traverseInRange(nodeMap, root, range, (nodeId, stat) => {
     const node = nodeMap.ensureNode(nodeId);
 
-    if (nodeMap.schema.isTextNode(node)) {
-      return deleteOrSliceTextNode(nodeMap, node, range, stat);
-    } else if (node.type === "media") {
-      return deleteMediaNode(nodeMap, node, stat);
-    } else if (node.type === "sentinel") {
-      return deleteSentinelNode(nodeMap, node, stat, deletableSentinels);
-    } else {
-      return deleteEmptyParent(nodeMap, node, deletableSentinels);
+    const deleteFunc = nodeMap.schema.getDeteteFunction(node);
+
+    if (deleteFunc) {
+      return deleteFunc(nodeMap, node, range, stat, deletables);
     }
+
+    if (nodeMap.schema.isLeafNode(node)) {
+      return deleteLeaf(nodeMap, node, stat);
+    }
+
+    return deleteEmptyParent(nodeMap, node as TEParentNode, deletables);
   });
 }
 
-function deleteOrSliceTextNode(
-  nodeMap: NodeMap,
-  node: TETextNode,
-  range: OpenableRange,
-  stat: Stat
-): void {
-  const startCh = range.start.ch;
-  const endCh = range.end.ch;
-  const { id, text } = node;
-
+function deleteLeaf(nodeMap: NodeMap, node: TELeafNode, stat: Stat): void {
   switch (stat) {
     case Stat.before:
     case Stat.after:
       return;
-
-    case Stat.between:
-      nodeMap.deleteNode(id, true);
-      return;
-
-    case Stat.single:
-      nodeMap.updateText(id, text.slice(0, startCh).concat(text.slice(endCh)));
-      return;
-
-    case Stat.opened:
-      nodeMap.updateText(id, text.slice(0, startCh));
-      return;
-
-    case Stat.closed:
-      nodeMap.updateText(id, text.slice(endCh));
-      return;
-
-    default:
-      throw new Error("Unexpected condition");
-  }
-}
-
-function deleteMediaNode(
-  nodeMap: NodeMap,
-  node: TEMediaNode,
-  stat: Stat
-): void {
-  switch (stat) {
-    case Stat.before:
-    case Stat.after:
-    case Stat.closed:
-      return;
-    case Stat.opened:
-      nodeMap.setNode(node.id, {
-        id: node.id,
-        parent: node.parent,
-        type: "text",
-        text: [],
-        style: {},
-        end: false
-      });
-      return;
-    case Stat.between:
-      nodeMap.deleteNode(node.id, true);
-      return;
-    case Stat.single:
-    default:
-      throw new Error("Unexpected condition");
-  }
-}
-
-function deleteSentinelNode(
-  _nodeMap: NodeMap,
-  node: TESentinelNode,
-  stat: Stat,
-  deletableSentinels: Set<TENodeID>
-): void {
-  switch (stat) {
-    case Stat.before:
-    case Stat.after:
     case Stat.closed:
     case Stat.opened:
-      return;
     case Stat.between:
-      deletableSentinels.add(node.id);
-      return;
     case Stat.single:
+      nodeMap.deleteNode(node.id);
+      return;
     default:
       throw new Error("Unexpected condition");
   }
@@ -131,22 +70,22 @@ function deleteSentinelNode(
 
 function deleteEmptyParent(
   nodeMap: NodeMap,
-  node: TEInternalNode,
+  node: TEParentNode,
   deletableSentinels: Set<TENodeID>
 ): void {
   if (
     node.children.length === 0 ||
-    hasOnlyDeletableSentinel(node, deletableSentinels)
+    hasOnlyDeletable(node, deletableSentinels)
   ) {
     nodeMap.deleteNode(node.id, true);
   }
 }
 
-function hasOnlyDeletableSentinel(
-  node: TEInternalNode,
-  deletableSentinels: Set<TENodeID>
+function hasOnlyDeletable(
+  node: TEParentNode,
+  deletables: Set<TENodeID>
 ): boolean {
-  return node.children.every(id => deletableSentinels.has(id));
+  return node.children.every(id => deletables.has(id));
 }
 
 function traverseInRange(

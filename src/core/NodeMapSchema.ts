@@ -6,8 +6,17 @@ import {
   TETextNode,
   TERootNode,
   TEChildNode,
-  TEParentNode
+  TEParentNode,
+  TEMediaNode,
+  TESentinelNode,
+  TENodeID
 } from "./types";
+import { NodeMap } from ".";
+import {
+  Stat,
+  OpenableRange,
+  DeleteFuntion
+} from "./NodeMap/deleteRange/deleteSubtree";
 
 type NodeSchema = {
   type: string;
@@ -16,6 +25,7 @@ type NodeSchema = {
   isInlineContainerNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
   getText: (node: TEBaseNode) => string[] | undefined;
+  delete?: DeleteFuntion;
   canHaveCursor: boolean;
 };
 
@@ -42,6 +52,44 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
       }
     },
     getText: (node: TETextNode) => node.text,
+    delete: (
+      nodeMap: NodeMap,
+      node: TETextNode,
+      range: OpenableRange,
+      stat: Stat
+    ) => {
+      const startCh = range.start.ch;
+      const endCh = range.end.ch;
+      const { id, text } = node;
+
+      switch (stat) {
+        case Stat.before:
+        case Stat.after:
+          return;
+
+        case Stat.between:
+          nodeMap.deleteNode(id, true);
+          return;
+
+        case Stat.single:
+          nodeMap.updateText(
+            id,
+            text.slice(0, startCh).concat(text.slice(endCh))
+          );
+          return;
+
+        case Stat.opened:
+          nodeMap.updateText(id, text.slice(0, startCh));
+          return;
+
+        case Stat.closed:
+          nodeMap.updateText(id, text.slice(endCh));
+          return;
+
+        default:
+          throw new Error("Unexpected condition");
+      }
+    },
     canHaveCursor: true
   },
   {
@@ -51,6 +99,27 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isInlineContainerNode: false,
     getLength: () => 1,
     getText: () => undefined,
+    delete: (
+      _nodeMap: NodeMap,
+      node: TESentinelNode,
+      _range,
+      stat: Stat,
+      deletables: Set<TENodeID>
+    ): void => {
+      switch (stat) {
+        case Stat.before:
+        case Stat.after:
+        case Stat.closed:
+        case Stat.opened:
+          return;
+        case Stat.between:
+          deletables.add(node.id);
+          return;
+        case Stat.single:
+        default:
+          throw new Error("Unexpected condition");
+      }
+    },
     canHaveCursor: true
   },
   {
@@ -60,6 +129,30 @@ const BUILTIN_NODE_SCHEMAS: NodeSchema[] = [
     isInlineContainerNode: false,
     getLength: () => 1,
     getText: () => undefined,
+    delete: (nodeMap: NodeMap, node: TEMediaNode, _range, stat: Stat): void => {
+      switch (stat) {
+        case Stat.before:
+        case Stat.after:
+        case Stat.closed:
+          return;
+        case Stat.opened:
+          nodeMap.setNode(node.id, {
+            id: node.id,
+            parent: node.parent,
+            type: "text",
+            text: [],
+            style: {},
+            end: false
+          });
+          return;
+        case Stat.between:
+          nodeMap.deleteNode(node.id, true);
+          return;
+        case Stat.single:
+        default:
+          throw new Error("Unexpected condition");
+      }
+    },
     canHaveCursor: true
   },
   {
@@ -171,6 +264,14 @@ export class NodeMapSchema {
 
     if (schema) {
       return schema.getText(node);
+    }
+  }
+
+  getDeteteFunction(node: TEBaseNode): DeleteFuntion | undefined {
+    const schema = this.nodes[node.type];
+
+    if (schema) {
+      return schema.delete;
     }
   }
 
