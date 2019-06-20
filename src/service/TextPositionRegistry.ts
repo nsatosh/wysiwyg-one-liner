@@ -2,7 +2,8 @@ import {
   TELeafNode,
   TENodeID,
   TENonCanonicalTextPosition,
-  TETextNode
+  TETextNode,
+  TETextPosition
 } from "../core";
 import { getElementOffset } from "./getElementOffset";
 
@@ -45,8 +46,8 @@ export class TextPositionRegistry {
     this.dummyTextEl = dummyTextEl;
   }
 
-  getCoordPoint(nodeId: TENodeID, index?: number): Coord | undefined {
-    const el = this.mapping[nodeId];
+  getCoordPoint(p: TETextPosition): Coord | undefined {
+    const el = this.mapping[p.id];
 
     if (!el) {
       return;
@@ -54,23 +55,22 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type !== "leaf") {
+    if (!item || item.type === "line") {
       return;
     }
 
-    const { node } = item;
     const { top, left } = getElementOffset(this.contaierEl, el);
 
-    if (node.type !== "text") {
+    if (item.node.type === "text") {
       return {
         top,
-        left
+        left: left + this.calcTextWidth(el, item.node, p.ch)
       };
     }
 
     return {
       top,
-      left: left + this.calcTextWidth(el, node, index)
+      left
     };
   }
 

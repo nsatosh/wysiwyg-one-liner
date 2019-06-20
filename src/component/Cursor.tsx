@@ -54,8 +54,7 @@ const Cursor: FC<Props> = props => {
       return;
     }
 
-    const { id, ch } = cursorAt;
-    const p = context.getCoordPoint(id, ch);
+    const p = context.getCoordPoint(cursorAt);
 
     if (p) {
       const el = cursorRef.current!;
