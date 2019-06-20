@@ -133,37 +133,61 @@ export class TextPositionRegistry {
     }
 
     if (item.type === "line") {
-      const indexClicked =
-        mouseClientX <=
-        element.getBoundingClientRect()!.left + item.indentWidth;
-
-      return {
-        id: indexClicked ? item.firstNodeId : item.lastNodeId,
-        ch: 0,
-        nonCanonical: true
-      };
+      return this.getPositionFromMouseEventLine(element, mouseClientX, item);
+    } else if (item.node.type === "media") {
+      return this.getPositionFromMouseEventMedia(element, mouseClientX, item);
+    } else if (item.node.type === "sentinel") {
+      return this.getPositionFromMouseEventSentinel(item);
+    } else {
+      return this.getPositionFromMouseEventText(element, mouseClientX, item);
     }
+  }
 
-    const { node } = item;
+  private getPositionFromMouseEventLine(
+    element: HTMLElement,
+    mouseClientX: number,
+    item: LookupLineItem
+  ): TENonCanonicalTextPosition | undefined {
+    const indexClicked =
+      mouseClientX <= element.getBoundingClientRect()!.left + item.indentWidth;
 
-    if (node.type === "media") {
-      const r = element.getBoundingClientRect();
+    return {
+      id: indexClicked ? item.firstNodeId : item.lastNodeId,
+      ch: 0,
+      nonCanonical: true
+    };
+  }
 
-      return {
-        id: item.node.id,
-        ch: mouseClientX <= (r.left + r.right) / 2 ? 0 : 1,
-        nonCanonical: true
-      };
-    }
+  private getPositionFromMouseEventMedia(
+    element: HTMLElement,
+    mouseClientX: number,
+    item: LookupLeafItem
+  ): TENonCanonicalTextPosition | undefined {
+    const r = element.getBoundingClientRect();
 
-    if (node.type === "sentinel") {
-      return {
-        id: item.node.id,
-        ch: 0,
-        nonCanonical: true
-      };
-    }
+    return {
+      id: item.node.id,
+      ch: mouseClientX <= (r.left + r.right) / 2 ? 0 : 1,
+      nonCanonical: true
+    };
+  }
 
+  private getPositionFromMouseEventSentinel(
+    item: LookupLeafItem
+  ): TENonCanonicalTextPosition | undefined {
+    return {
+      id: item.node.id,
+      ch: 0,
+      nonCanonical: true
+    };
+  }
+
+  private getPositionFromMouseEventText(
+    element: HTMLElement,
+    mouseClientX: number,
+    item: LookupLeafItem
+  ): TENonCanonicalTextPosition | undefined {
+    const node = item.node;
     const el = this.mapping[node.id];
 
     if (!el) {
