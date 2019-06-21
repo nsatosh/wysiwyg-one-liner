@@ -12,22 +12,22 @@ import deleteNode from "./deleteNode";
 import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
 import { moveChildren, moveExistingNode } from "./moveNode";
-import { NodeMapSchema } from "../NodeMapSchema";
+import { NodeSchema } from "../NodeSchema";
 
 export type NodeMapOptions = {
   isSubtree?: boolean;
-  schema?: NodeMapSchema;
+  schema?: NodeSchema;
 };
 
 export default class NodeMap {
   private source: TENodeMap | undefined;
   private mutable: TENodeMap | undefined;
-  public schema: NodeMapSchema;
+  public schema: NodeSchema;
   private nodeMapLogs: TENodeMapLog[];
 
   constructor(source: TENodeMap, options: NodeMapOptions = {}) {
     this.source = source;
-    this.schema = options.schema || new NodeMapSchema();
+    this.schema = options.schema || new NodeSchema();
     this.nodeMapLogs = [];
   }
 
