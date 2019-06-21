@@ -1,4 +1,8 @@
+import { NodeSchema } from "./NodeSchema";
+
 export interface TEEditor {
+  nodeSchema: NodeSchema;
+
   rootNodeId: TENodeID;
 
   documentRootNodeId: TENodeID;

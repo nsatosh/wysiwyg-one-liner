@@ -7,6 +7,8 @@ import {
   TETextSelection,
   TETextNode
 } from "./types";
+import { NodeSchema } from "./NodeSchema";
+import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
 
 const DEFAULT_EDITOR_STATE = {
   cursorAt: null,
@@ -51,8 +53,10 @@ export default class EditorMutator {
     this.mutatorLogs = [];
   }
 
-  static createNewEditorState(): TEEditor {
-    const nodeMap = new NodeMap({});
+  static createNewEditorState(nodeSchema?: NodeSchema): TEEditor {
+    const schema = nodeSchema || new NodeSchema(BUILTIN_ITEMS);
+
+    const nodeMap = new NodeMap({}, { schema });
     const rootNodeId = nodeMap.createRootNode();
 
     nodeMap.appendChild<TETextNode>(rootNodeId, {
@@ -62,6 +66,7 @@ export default class EditorMutator {
 
     return {
       ...DEFAULT_EDITOR_STATE,
+      nodeSchema: schema,
       rootNodeId,
       documentRootNodeId: rootNodeId,
       nodeMap: nodeMap.getCurrentState(),
@@ -72,6 +77,7 @@ export default class EditorMutator {
   static createFromNodeMap(src: NodeMap, rootNodeId: TENodeID): TEEditor {
     return {
       ...DEFAULT_EDITOR_STATE,
+      nodeSchema: src.schema,
       rootNodeId,
       documentRootNodeId: rootNodeId,
       nodeMap: src.getValidCurrentState(),
@@ -84,7 +90,11 @@ export default class EditorMutator {
   }
 
   getNodeMap(): NodeMap {
-    return new NodeMap((this.mutable || this.source).nodeMap);
+    const { nodeMap, nodeSchema } = this.getState();
+
+    return new NodeMap(nodeMap, {
+      schema: nodeSchema
+    });
   }
 
   getMutatorLogs(): TEMutatorLog[] {
