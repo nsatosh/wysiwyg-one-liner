@@ -51,6 +51,7 @@ export const Content: FC<Props> = props => {
   }, [editor, onChange]);
 
   const {
+    nodeSchema,
     nodeMap,
     mode,
     inDebug,
@@ -79,7 +80,7 @@ export const Content: FC<Props> = props => {
 
         if (ev.target === containerRef.current) {
           const textNode = getLastLeaf(
-            NodeMap.createLegacyNodeMap(nodeMap),
+            new NodeMap(nodeSchema, nodeMap),
             nodeMap[rootNodeId]!
           );
           dispatchCommand(new StartEditCommand(textNode.id, 0));
@@ -106,6 +107,7 @@ export const Content: FC<Props> = props => {
             {compositionRange && (
               <Range
                 rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
                 nodeMap={nodeMap}
                 range={compositionRange}
                 style={"composition"}
@@ -115,6 +117,7 @@ export const Content: FC<Props> = props => {
             {compositionFocusedRange && (
               <Range
                 rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
                 nodeMap={nodeMap}
                 range={compositionFocusedRange}
                 style={"compositionFocused"}
@@ -124,6 +127,7 @@ export const Content: FC<Props> = props => {
             {selection && (
               <Range
                 rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
                 nodeMap={nodeMap}
                 range={selection}
                 style={cursorAt ? "selection" : "disabledSelection"}

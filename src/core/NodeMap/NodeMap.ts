@@ -21,10 +21,7 @@ export default class NodeMap {
   public schema: NodeSchema;
   private nodeMapLogs: TENodeMapLog[];
 
-  constructor(
-    schema: NodeSchema,
-    source: TENodeMap
-  ) {
+  constructor(schema: NodeSchema, source: TENodeMap) {
     this.source = source;
     this.schema = schema;
     this.nodeMapLogs = [];

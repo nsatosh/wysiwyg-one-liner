@@ -8,6 +8,7 @@ import {
   TETextRange
 } from "../core";
 import { TextPositionContext } from "../service/TextPosition";
+import { NodeSchema } from "../core/NodeSchema";
 
 type RangeStyle =
   | "selection"
@@ -18,6 +19,7 @@ type RangeStyle =
 interface Props {
   rootNodeId: TENodeID;
   nodeMap: TENodeMap;
+  nodeSchema: NodeSchema;
   range: TETextRange;
   style: RangeStyle;
 }
@@ -42,10 +44,10 @@ const css: { [key in RangeStyle]: React.CSSProperties } = {
 };
 
 const Range: FC<Props> = props => {
-  const { nodeMap, range, style } = props;
+  const { nodeSchema, nodeMap, range, style } = props;
 
   const { start, end } = range;
-  const nodes = getIdsInRange(NodeMap.createLegacyNodeMap(nodeMap), range).map(
+  const nodes = getIdsInRange(new NodeMap(nodeSchema, nodeMap), range).map(
     id => nodeMap[id]!
   );
   const startNode = nodes.shift();
