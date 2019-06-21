@@ -9,7 +9,6 @@ import {
   TERootNode,
   TETextNode
 } from "./types";
-import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
 
 export type NodeSchemaItems = {
   type: string;
@@ -25,10 +24,10 @@ export type NodeSchemaItems = {
 export class NodeSchema {
   private nodes: { [type: string]: NodeSchemaItems };
 
-  constructor() {
+  constructor(items: NodeSchemaItems[]) {
     this.nodes = {};
 
-    BUILTIN_ITEMS.forEach(schema => {
+    items.forEach(schema => {
       this.nodes[schema.type] = schema;
     });
   }
@@ -111,31 +110,5 @@ export class NodeSchema {
     if (schema) {
       return schema.delete;
     }
-  }
-
-  registerInternalNode(type: string, schema: Partial<NodeSchemaItems>) {
-    this.nodes[type] = {
-      ...schema,
-      type: type,
-      category: "internal",
-      isBlockNode: schema.isBlockNode || false,
-      isInlineContainerNode: schema.isInlineContainerNode || false,
-      getLength: schema.getLength || (() => undefined),
-      getText: schema.getText || (() => undefined),
-      canHaveCursor: schema.canHaveCursor || false
-    };
-  }
-
-  registerLeafNode(type: string, schema: Partial<NodeSchemaItems>) {
-    this.nodes[type] = {
-      ...schema,
-      type: type,
-      category: "leaf",
-      isBlockNode: schema.isBlockNode || false,
-      isInlineContainerNode: schema.isInlineContainerNode || false,
-      getLength: schema.getLength || (() => undefined),
-      getText: schema.getText || (() => undefined),
-      canHaveCursor: schema.canHaveCursor || false
-    };
   }
 }

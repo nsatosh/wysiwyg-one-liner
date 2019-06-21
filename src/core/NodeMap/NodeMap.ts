@@ -13,6 +13,7 @@ import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
 import { moveChildren, moveExistingNode } from "./moveNode";
 import { NodeSchema } from "../NodeSchema";
+import { BUILTIN_ITEMS } from "../BuiltinNodeSchema";
 
 export type NodeMapOptions = {
   isSubtree?: boolean;
@@ -27,7 +28,7 @@ export default class NodeMap {
 
   constructor(source: TENodeMap, options: NodeMapOptions = {}) {
     this.source = source;
-    this.schema = options.schema || new NodeSchema();
+    this.schema = options.schema || new NodeSchema(BUILTIN_ITEMS);
     this.nodeMapLogs = [];
   }
 
