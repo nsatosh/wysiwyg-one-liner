@@ -9,7 +9,7 @@ import { U } from "../../src/core/U";
 let editor: TEEditor;
 
 beforeEach(() => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

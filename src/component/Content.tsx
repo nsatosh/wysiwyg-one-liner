@@ -79,7 +79,7 @@ export const Content: FC<Props> = props => {
 
         if (ev.target === containerRef.current) {
           const textNode = getLastLeaf(
-            new NodeMap(nodeMap),
+            NodeMap.createLegacyNodeMap(nodeMap),
             nodeMap[rootNodeId]!
           );
           dispatchCommand(new StartEditCommand(textNode.id, 0));

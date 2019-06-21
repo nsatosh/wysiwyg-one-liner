@@ -58,7 +58,7 @@ function redoNodeMap(
   editorMutator: EditorMutator,
   mutatorLog: TEMutatorLogUpdateNodeMap
 ): void {
-  const nodeMap = new NodeMap(editorMutator.getState().nodeMap);
+  const nodeMap = NodeMap.createLegacyNodeMap(editorMutator.getState().nodeMap);
 
   mutatorLog.nodeMapLogs.forEach(nodeMapLog => {
     const { prev, next } = nodeMapLog;

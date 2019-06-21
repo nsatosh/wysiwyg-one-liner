@@ -6,7 +6,7 @@ import { TETextPosition, TETextSelection } from "../../src/core/types";
 import { U } from "../../src/core/U";
 
 test("Do nothing when document is empty", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
@@ -18,7 +18,7 @@ test("Do nothing when document is empty", () => {
 });
 
 test("Selection covers all node in document", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -44,7 +44,7 @@ test("Selection covers all node in document", () => {
 });
 
 test("Cursor positions at end of document", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

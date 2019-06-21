@@ -5,7 +5,7 @@ import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { U } from "../../src/core/U";
 
 test("Do nothing when cursor is not enabled", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -19,7 +19,7 @@ test("Do nothing when cursor is not enabled", () => {
 });
 
 test("Make selection that covers backward character", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
@@ -40,7 +40,7 @@ test("Make selection that covers backward character", () => {
 });
 
 test("Make selection that covers forward character", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
@@ -61,7 +61,7 @@ test("Make selection that covers forward character", () => {
 });
 
 test("Make selection that covers backward node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -83,7 +83,7 @@ test("Make selection that covers backward node", () => {
 });
 
 test("Make selection that covers forward node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));

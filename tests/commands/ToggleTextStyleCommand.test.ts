@@ -11,7 +11,7 @@ describe("Change style on single text node", () => {
   let editor: TEEditor;
 
   beforeEach(() => {
-    const nodeMap = new NodeMap({});
+    const nodeMap = NodeMap.createLegacyNodeMap({});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abcdef"));
@@ -99,7 +99,7 @@ describe("Change style on single text node", () => {
 
 describe("Change text style across text nodes", () => {
   test("intermediate", () => {
-    const nodeMap = new NodeMap({});
+    const nodeMap = NodeMap.createLegacyNodeMap({});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -128,7 +128,7 @@ describe("Change text style across text nodes", () => {
   });
 
   test("all", () => {
-    const nodeMap = new NodeMap({});
+    const nodeMap = NodeMap.createLegacyNodeMap({});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -159,7 +159,7 @@ describe("Change text style across link node", () => {
   let editor: TEEditor;
 
   beforeEach(() => {
-    const nodeMap = new NodeMap({});
+    const nodeMap = NodeMap.createLegacyNodeMap({});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -263,7 +263,7 @@ describe("Change text style across link node", () => {
 });
 
 test("Combine nodes after changing text style", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "a"));

@@ -33,7 +33,7 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
     }
   }
 
-  const nm = new NodeMap(nodeMap);
+  const nm = NodeMap.createLegacyNodeMap(nodeMap);
 
   if (nm.schema.isParentNode(cloned)) {
     cloned.children = cloned.children.map(id => getShape(nodeMap, id));

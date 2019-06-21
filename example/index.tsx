@@ -5,7 +5,7 @@ import { EditorMutator, NodeMap } from "../src/core";
 import { U } from "../src/core/U";
 
 const Editor: FC = () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t1", "hello", { style: { bold: true } }));
   nodeMap.appendChild("root", U.text("t2", "world"));

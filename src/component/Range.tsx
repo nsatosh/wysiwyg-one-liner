@@ -45,7 +45,7 @@ const Range: FC<Props> = props => {
   const { nodeMap, range, style } = props;
 
   const { start, end } = range;
-  const nodes = getIdsInRange(new NodeMap(nodeMap), range).map(
+  const nodes = getIdsInRange(NodeMap.createLegacyNodeMap(nodeMap), range).map(
     id => nodeMap[id]!
   );
   const startNode = nodes.shift();

@@ -56,7 +56,7 @@ export default class EditorMutator {
   static createNewEditorState(nodeSchema?: NodeSchema): TEEditor {
     const schema = nodeSchema || new NodeSchema(BUILTIN_ITEMS);
 
-    const nodeMap = new NodeMap({}, { schema });
+    const nodeMap = new NodeMap(schema, {});
     const rootNodeId = nodeMap.createRootNode();
 
     nodeMap.appendChild<TETextNode>(rootNodeId, {
@@ -92,9 +92,7 @@ export default class EditorMutator {
   getNodeMap(): NodeMap {
     const { nodeMap, nodeSchema } = this.getState();
 
-    return new NodeMap(nodeMap, {
-      schema: nodeSchema
-    });
+    return new NodeMap(nodeSchema, nodeMap);
   }
 
   getMutatorLogs(): TEMutatorLog[] {

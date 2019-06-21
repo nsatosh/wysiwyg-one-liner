@@ -5,7 +5,7 @@ import { invokeCommand } from "../../src/core/EditorCommand";
 import { U } from "../../src/core/U";
 
 test("Cancel selection", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abcdef"));
@@ -30,7 +30,7 @@ test("Cancel selection", () => {
 });
 
 test("Start edit with node ID", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
@@ -43,7 +43,7 @@ test("Start edit with node ID", () => {
 });
 
 test("Start edit with node ID and offset", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abcdef"));

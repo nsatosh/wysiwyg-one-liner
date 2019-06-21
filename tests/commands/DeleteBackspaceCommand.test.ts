@@ -8,7 +8,7 @@ import { U } from "../../src/core/U";
 import { getShape } from "./getShape";
 
 test("Backspace from lead of link node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
 
@@ -44,7 +44,7 @@ test("Backspace from lead of link node", () => {
 });
 
 test("Delete last of link node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -79,7 +79,7 @@ test("Delete last of link node", () => {
 });
 
 test("Backspace more than two or more sentinels", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -107,7 +107,7 @@ test("Backspace more than two or more sentinels", () => {
 });
 
 test("Backspace from lead of empty link node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -139,7 +139,7 @@ test("Backspace from lead of empty link node", () => {
 });
 
 test("Backspace a empty link node that positions at lead of row", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.link("l0"));
@@ -160,7 +160,7 @@ test("Backspace a empty link node that positions at lead of row", () => {
 });
 
 test("Backspace in link node that positions at lead of row", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.link("l0"));

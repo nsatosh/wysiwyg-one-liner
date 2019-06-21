@@ -17,7 +17,6 @@ import { BUILTIN_ITEMS } from "../BuiltinNodeSchema";
 
 export type NodeMapOptions = {
   isSubtree?: boolean;
-  schema?: NodeSchema;
 };
 
 export default class NodeMap {
@@ -26,10 +25,18 @@ export default class NodeMap {
   public schema: NodeSchema;
   private nodeMapLogs: TENodeMapLog[];
 
-  constructor(source: TENodeMap, options: NodeMapOptions = {}) {
+  constructor(
+    schema: NodeSchema,
+    source: TENodeMap,
+    options: NodeMapOptions = {}
+  ) {
     this.source = source;
-    this.schema = options.schema || new NodeSchema(BUILTIN_ITEMS);
+    this.schema = schema;
     this.nodeMapLogs = [];
+  }
+
+  static createLegacyNodeMap(source: TENodeMap, options: NodeMapOptions = {}) {
+    return new NodeMap(new NodeSchema(BUILTIN_ITEMS), source, options);
   }
 
   getValidCurrentState(): TENodeMap {

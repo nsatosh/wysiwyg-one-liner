@@ -14,7 +14,7 @@ import { getShape } from "./getShape";
 let editor: TEEditor;
 
 test("Insert text at cursor position", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -32,7 +32,7 @@ test("Insert text at cursor position", () => {
 });
 
 test("Replace text within single inline text node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.end("te"));
@@ -56,7 +56,7 @@ test("Replace text within single inline text node", () => {
 });
 
 test("Replace text across multiple text nodes", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -82,7 +82,7 @@ test("Replace text across multiple text nodes", () => {
 });
 
 test("Replace text all", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -92,7 +92,7 @@ test("Replace text all", () => {
   editor = invokeCommand(
     new ReplaceTextCommand(
       "replaced",
-      getRangeCoversAll(new NodeMap(editor.nodeMap), editor.rootNodeId)
+      getRangeCoversAll(NodeMap.createLegacyNodeMap(editor.nodeMap), editor.rootNodeId)
     ),
     editor
   );
@@ -107,7 +107,7 @@ test("Replace text all", () => {
 });
 
 test("Input IME text in empty row", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "k"));
   nodeMap.appendChild("root", U.end("te"));
@@ -145,7 +145,7 @@ test("Input IME text in empty row", () => {
 });
 
 test("Modify backward node if input has occurred at sentinel", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.link("l0"));
@@ -178,7 +178,7 @@ test("Modify backward node if input has occurred at sentinel", () => {
 });
 
 test("Undo", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -196,7 +196,7 @@ test("Undo", () => {
 });
 
 test("Undo command restores cursor position", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -217,7 +217,7 @@ test("Undo command restores cursor position", () => {
 });
 
 test("Undo/Redo IME input", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -261,7 +261,7 @@ test("Undo/Redo IME input", () => {
 });
 
 test("Undo/Redo first IME input", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   editor = EditorMutator.createFromNodeMap(nodeMap, "root");

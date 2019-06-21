@@ -8,7 +8,7 @@ import { getShape } from "./getShape";
 import { RedoCommand } from "../../src/core";
 
 test("Delete text within single inline text node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.end("te"));
@@ -32,7 +32,7 @@ test("Delete text within single inline text node", () => {
 });
 
 test("Delete text across multiple text nodes", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -58,7 +58,7 @@ test("Delete text across multiple text nodes", () => {
 });
 
 test("Delete text all", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -83,7 +83,7 @@ test("Delete text all", () => {
 });
 
 test("Delete media node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.media("m0", { url: "http://example.com/0" }));
   nodeMap.appendChild("root", U.media("m1", { url: "http://example.com/1" }));
@@ -114,7 +114,7 @@ test("Delete media node", () => {
 });
 
 test("Delete text node that behinds link node", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "a"));
   nodeMap.appendChild("root", U.link("l0"));
@@ -154,7 +154,7 @@ test("Delete text node that behinds link node", () => {
 });
 
 test("Delete link node and combine between sibling nodes", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "a"));
   nodeMap.appendChild("root", U.link("l0"));
@@ -184,7 +184,7 @@ test("Delete link node and combine between sibling nodes", () => {
 });
 
 test("Keep empty link node if delete range does not cover sentinels", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.link("l0"));
   nodeMap.appendChild("l0", U.sentinel("l0s0"));
@@ -218,7 +218,7 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
 });
 
 test("Undo/Redo", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -266,7 +266,7 @@ test("Undo/Redo", () => {
 });
 
 test("Undo all deletion", () => {
-  const nodeMap = new NodeMap({});
+  const nodeMap = NodeMap.createLegacyNodeMap({});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
