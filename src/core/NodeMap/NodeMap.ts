@@ -15,10 +15,6 @@ import { moveChildren, moveExistingNode } from "./moveNode";
 import { NodeSchema } from "../NodeSchema";
 import { BUILTIN_ITEMS } from "../BuiltinNodeSchema";
 
-export type NodeMapOptions = {
-  isSubtree?: boolean;
-};
-
 export default class NodeMap {
   private source: TENodeMap | undefined;
   private mutable: TENodeMap | undefined;
@@ -27,16 +23,15 @@ export default class NodeMap {
 
   constructor(
     schema: NodeSchema,
-    source: TENodeMap,
-    options: NodeMapOptions = {}
+    source: TENodeMap
   ) {
     this.source = source;
     this.schema = schema;
     this.nodeMapLogs = [];
   }
 
-  static createLegacyNodeMap(source: TENodeMap, options: NodeMapOptions = {}) {
-    return new NodeMap(new NodeSchema(BUILTIN_ITEMS), source, options);
+  static createLegacyNodeMap(source: TENodeMap) {
+    return new NodeMap(new NodeSchema(BUILTIN_ITEMS), source);
   }
 
   getValidCurrentState(): TENodeMap {
