@@ -41,7 +41,8 @@ export class AddMathNodeCommand extends EditorCommand {
 
     const textNode = nodeMap.appendChild<TETextNode>(mathNode.id, {
       type: "text",
-      text: []
+      text: [],
+      style: {}
     }) as TETextNode;
 
     nodeMap.appendChild(mathNode.id, {
