@@ -1,25 +1,14 @@
 import React, { FC, useContext, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import {
-  TEBaseNode,
-  TENodeMap,
-  TEMode,
-  TERowNode,
   ensureExists,
-  TETextNode,
-  TEMediaNode,
-  TELinkNode,
-  TEMathNode,
-  TESentinelNode,
-  TEGroupingNode
+  TEBaseNode,
+  TEEditor,
+  TERowNode,
+  TEChildNode
 } from "../core";
 import { TextPositionContext } from "../service/TextPosition";
-import InlineLink from "./node/InlineLink";
-import InlineMath from "./node/InlineMath";
-import InlineMedia from "./node/InlineMedia";
-import InlineSentinel from "./node/InlineSentinel";
-import InlineText from "./node/InlineText";
-import InlineGrouping from "./node/InlineGrouping";
+import { CustomNodeProps } from "./CustomNodeProps";
 
 const PADDING_LEFT = 10;
 
@@ -31,15 +20,16 @@ const LineDiv = styled.div`
 
 interface Props {
   node: TERowNode;
-  nodeMap: TENodeMap;
-  mode: TEMode;
-  inDebug?: boolean;
+  editor: TEEditor;
 }
 
 export const Line: FC<Props> = props => {
-  const { node, inDebug, nodeMap, mode } = props;
+  const { node, editor } = props;
+  const { nodeMap } = editor;
 
-  const inlineNodes = node.children.map(id => ensureExists(nodeMap[id]));
+  const inlineNodes = node.children.map(
+    id => ensureExists(nodeMap[id]) as TEChildNode
+  );
 
   const firstNode = inlineNodes[0] as TEBaseNode | undefined;
   const lastNode = inlineNodes[inlineNodes.length - 1] as
@@ -65,65 +55,17 @@ export const Line: FC<Props> = props => {
   return (
     <LineDiv ref={lineRef}>
       {inlineNodes.map(node => {
-        if (node.type === "text") {
-          return (
-            <InlineText
-              key={node.id}
-              inDebug={inDebug}
-              node={node as TETextNode}
-            />
-          );
+        const { nodeSchema } = editor;
+        const Component = nodeSchema.getCustomNodeComponent(node) as
+          | React.ComponentClass<CustomNodeProps>
+          | undefined;
+
+        if (!Component) {
+          console.error(`Can't render node: ${node.type}`);
+          return null;
         }
 
-        if (node.type === "media") {
-          return <InlineMedia key={node.id} node={node as TEMediaNode} />;
-        }
-
-        if (node.type === "link") {
-          return (
-            <InlineLink
-              key={node.id}
-              node={node as TELinkNode}
-              nodeMap={nodeMap}
-              inDebug={inDebug}
-            />
-          );
-        }
-
-        if (node.type === "math") {
-          return (
-            <InlineMath
-              key={node.id}
-              mode={mode}
-              node={node as TEMathNode}
-              nodeMap={nodeMap}
-              inDebug={inDebug}
-            />
-          );
-        }
-
-        if (node.type === "sentinel") {
-          return (
-            <InlineSentinel
-              key={node.id}
-              node={node as TESentinelNode}
-              inDebug={inDebug}
-            />
-          );
-        }
-
-        if (node.type === "grouping") {
-          return (
-            <InlineGrouping
-              key={node.id}
-              node={node as TEGroupingNode}
-              nodeMap={nodeMap}
-              inDebug={inDebug}
-            />
-          );
-        }
-
-        throw new Error(`Unsupported node type: ${node.type}`);
+        return <Component key={node.id} editor={editor} node={node} />;
       })}
     </LineDiv>
   );

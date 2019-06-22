@@ -53,8 +53,6 @@ export const Content: FC<Props> = props => {
   const {
     nodeSchema,
     nodeMap,
-    mode,
-    inDebug,
     rootNodeId,
     selection,
     cursorAt,
@@ -134,12 +132,7 @@ export const Content: FC<Props> = props => {
               />
             )}
 
-            <Line
-              node={nodeMap[rootNodeId] as TERowNode}
-              nodeMap={nodeMap}
-              mode={mode}
-              inDebug={inDebug}
-            />
+            <Line node={nodeMap[rootNodeId] as TERowNode} editor={editor} />
 
             {cursorAt && <Cursor editor={editor} />}
           </ContainerDiv>
