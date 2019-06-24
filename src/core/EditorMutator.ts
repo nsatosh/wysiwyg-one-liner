@@ -10,39 +10,6 @@ import {
 import { NodeSchema } from "./NodeSchema";
 import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
 
-const DEFAULT_EDITOR_STATE = {
-  cursorAt: null,
-  selection: null,
-  isActive: false,
-  commandHistory: {
-    past: [],
-    future: []
-  },
-  inDebug: false && process.env.NODE_ENV === "development",
-  keybindSettings: {
-    ArrowLeft: "MoveCursorLeft",
-    ArrowRight: "MoveCursorRight",
-    "Shift+ArrowLeft": "ModifyNodeSelectionLeft",
-    "Shift+ArrowRight": "ModifyNodeSelectionRight",
-    Escape: "Escape",
-    Backspace: "DeleteBackspace",
-    "Ctrl+i": "ToggleTextStyleItalic",
-    "Ctrl+b": "ToggleTextStyleBold",
-    "Ctrl+u": "ToggleTextStyleUnderline",
-    "Ctrl+t": "ToggleTextStyleStrikethrough",
-    "Ctrl+a": "MoveCursorToStart",
-    "Ctrl+e": "MoveCursorToEnd",
-    "Meta+a": "SelectAllNodes",
-    "Meta+c": "Copy",
-    "Meta+x": "Cut",
-    "Ctrl+l": "AddMathNode",
-    "Meta+z": "Undo",
-    "Meta+/": "MetaSlash",
-    "Meta+Shift+z": "Redo",
-    F11: "ToggleDebugMode"
-  }
-};
-
 export default class EditorMutator {
   private source: TEEditor;
   private mutable: TEEditor | undefined;
@@ -64,25 +31,11 @@ export default class EditorMutator {
       end: true
     });
 
-    return {
-      ...DEFAULT_EDITOR_STATE,
-      nodeSchema: schema,
-      rootNodeId,
-      documentRootNodeId: rootNodeId,
-      nodeMap: nodeMap.getCurrentState(),
-      mode: "wysiwyg"
-    };
+    return generateInitialEditorState(schema, nodeMap, rootNodeId);
   }
 
   static createFromNodeMap(src: NodeMap, rootNodeId: TENodeID): TEEditor {
-    return {
-      ...DEFAULT_EDITOR_STATE,
-      nodeSchema: src.schema,
-      rootNodeId,
-      documentRootNodeId: rootNodeId,
-      nodeMap: src.getValidCurrentState(),
-      mode: "wysiwyg"
-    };
+    return generateInitialEditorState(src.schema, src, rootNodeId);
   }
 
   getState(): Readonly<TEEditor> {
@@ -160,4 +113,48 @@ export default class EditorMutator {
 
     return this.mutable;
   }
+}
+
+function generateInitialEditorState(
+  nodeSchema: NodeSchema,
+  nodeMap: NodeMap,
+  rootNodeId: TENodeID
+): TEEditor {
+  return {
+    nodeSchema: nodeSchema || new NodeSchema(BUILTIN_ITEMS),
+    nodeMap: nodeMap.getCurrentState(),
+    rootNodeId,
+    documentRootNodeId: rootNodeId,
+    cursorAt: null,
+    selection: null,
+    isActive: false,
+    commandHistory: {
+      past: [],
+      future: []
+    },
+    mode: "wysiwyg",
+    inDebug: false && process.env.NODE_ENV === "development",
+    keybindSettings: {
+      ArrowLeft: "MoveCursorLeft",
+      ArrowRight: "MoveCursorRight",
+      "Shift+ArrowLeft": "ModifyNodeSelectionLeft",
+      "Shift+ArrowRight": "ModifyNodeSelectionRight",
+      Escape: "Escape",
+      Backspace: "DeleteBackspace",
+      "Ctrl+i": "ToggleTextStyleItalic",
+      "Ctrl+b": "ToggleTextStyleBold",
+      "Ctrl+u": "ToggleTextStyleUnderline",
+      "Ctrl+t": "ToggleTextStyleStrikethrough",
+      "Ctrl+a": "MoveCursorToStart",
+      "Ctrl+e": "MoveCursorToEnd",
+      "Meta+a": "SelectAllNodes",
+      "Meta+c": "Copy",
+      "Meta+x": "Cut",
+      "Ctrl+l": "AddMathNode",
+      "Meta+z": "Undo",
+      "Meta+/": "MetaSlash",
+      "Meta+Shift+z": "Redo",
+      F11: "ToggleDebugMode"
+    }
+  };
 }
