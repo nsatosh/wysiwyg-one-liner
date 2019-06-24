@@ -140,7 +140,6 @@ export type TENodeType =
   | "text"
   | "sentinel"
   | "row"
-  | "link"
   | "media"
   | "grouping"
   | "math";
@@ -209,16 +208,6 @@ export interface TEGroupingNode extends TEBaseNode {
   type: "grouping";
 
   children: TENodeID[];
-
-  parent: TENodeID;
-}
-
-export interface TELinkNode extends TEBaseNode {
-  type: "link";
-
-  children: TENodeID[];
-
-  url: string;
 
   parent: TENodeID;
 }
