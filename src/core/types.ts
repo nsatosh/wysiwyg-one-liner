@@ -136,13 +136,7 @@ export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 export type TEBlockNode = TERowNode;
 export type TELeafBlockNode = TERowNode;
 
-export type TENodeType =
-  | "text"
-  | "sentinel"
-  | "row"
-  | "media"
-  | "grouping"
-  | "math";
+export type TENodeType = string;
 
 export interface TEBaseNode {
   type: TENodeType;
