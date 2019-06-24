@@ -36,7 +36,7 @@ export function getCurrentNode(editor: EditorMutator): TELeafNode | undefined {
   const found = nodeMap.ensureNode(cursorAt.id);
 
   if (!nodeMap.schema.isLeafNode(found)) {
-    throw new Error("current node must be text or link");
+    throw new Error("Current node must be leaf");
   }
 
   return found;
