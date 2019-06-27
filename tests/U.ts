@@ -1,13 +1,25 @@
 import {
-  TELinkNode,
   TEMathNode,
   TEMediaNode,
   TENodeID,
   TERowNode,
   TESentinelNode,
   TETextNode,
-  TEGroupingNode
+  TEBaseNode,
 } from "../src/core/types";
+
+interface TELinkNode extends TEBaseNode {
+  type: "link";
+  children: TENodeID[];
+  url: string;
+  parent: TENodeID;
+}
+
+interface TEGroupingNode extends TEBaseNode {
+  type: "grouping";
+  children: TENodeID[];
+  parent: TENodeID;
+}
 
 export class U {
   static text(
