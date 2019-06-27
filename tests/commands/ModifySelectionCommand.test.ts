@@ -3,9 +3,10 @@ import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { U } from "../U";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 test("Do nothing when cursor is not enabled", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
   let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -19,7 +20,7 @@ test("Do nothing when cursor is not enabled", () => {
 });
 
 test("Make selection that covers backward character", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
@@ -40,7 +41,7 @@ test("Make selection that covers backward character", () => {
 });
 
 test("Make selection that covers forward character", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "0123"));
   nodeMap.appendChild("root", U.end("te"));
@@ -61,7 +62,7 @@ test("Make selection that covers forward character", () => {
 });
 
 test("Make selection that covers backward node", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));
@@ -83,7 +84,7 @@ test("Make selection that covers backward node", () => {
 });
 
 test("Make selection that covers forward node", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
   nodeMap.appendChild("root", U.text("t1", "def"));

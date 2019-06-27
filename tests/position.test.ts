@@ -1,9 +1,10 @@
 import { NodeMap } from "../src/core";
 import { getCanonicalTextPosition } from "../src/core/position";
 import { U } from "./U";
+import { TestingNodeSchema } from "./TestingNodeSchema";
 
 test("Get canonical position from branch node", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
@@ -37,7 +38,7 @@ test("Get canonical position from branch node", () => {
 });
 
 test("Get undefined if specified position is out of range", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -53,7 +54,7 @@ test("Get undefined if specified position is out of range", () => {
 });
 
 test("Get a position that is at neighbor leaf node", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

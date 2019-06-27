@@ -1,6 +1,7 @@
 import { inspect } from "util";
 import { NodeMap } from "../../src/core";
 import { TENodeID, TENodeMap } from "../../src/core/types";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 export function printShape(nodeMap: TENodeMap, rootId?: TENodeID): void {
   console.log(inspect(getShape(nodeMap, rootId), false, null));
@@ -33,7 +34,7 @@ export function getShape(nodeMap: TENodeMap, rootId?: TENodeID): any {
     }
   }
 
-  const nm = NodeMap.createLegacyNodeMap(nodeMap);
+  const nm = new NodeMap(TestingNodeSchema, nodeMap);
 
   if (nm.schema.isParentNode(cloned)) {
     cloned.children = cloned.children.map(id => getShape(nodeMap, id));

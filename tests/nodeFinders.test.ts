@@ -6,9 +6,10 @@ import {
 import NodeMap from "../src/core/NodeMap/NodeMap";
 import { TENodeID } from "../src/core/types";
 import { U } from "./U";
+import { TestingNodeSchema } from "./TestingNodeSchema";
 
 test("getSiblingLeafInSameBlock", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -41,7 +42,7 @@ test("getSiblingLeafInSameBlock", () => {
 
 describe("walkForwardNodes", () => {
   test("Start traverse from specified node ID", () => {
-    const nodeMap = NodeMap.createLegacyNodeMap({});
+    const nodeMap = new NodeMap(TestingNodeSchema, {});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -73,7 +74,7 @@ describe("walkForwardNodes", () => {
   });
 
   test("Terminate traverse if specified condition is matched", () => {
-    const nodeMap = NodeMap.createLegacyNodeMap({});
+    const nodeMap = new NodeMap(TestingNodeSchema, {});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "a"));
@@ -94,7 +95,7 @@ describe("walkForwardNodes", () => {
 
 describe("walkBackwardNodes", () => {
   test("Start traverse from specified node ID", () => {
-    const nodeMap = NodeMap.createLegacyNodeMap({});
+    const nodeMap = new NodeMap(TestingNodeSchema, {});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -118,7 +119,7 @@ describe("walkBackwardNodes", () => {
   });
 
   test("Terminate traverse if specified condition is matched", () => {
-    const nodeMap = NodeMap.createLegacyNodeMap({});
+    const nodeMap = new NodeMap(TestingNodeSchema, {});
 
     nodeMap.createRootNode("root");
     nodeMap.appendChild("root", U.text("t0", "a"));

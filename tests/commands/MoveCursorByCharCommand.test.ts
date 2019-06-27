@@ -5,11 +5,12 @@ import { MoveCursorCommand } from "../../src/core/commands/MoveCursorCommand";
 import { MoveCursorByCharCommand } from "../../src/core/commands/MoveCursorByCharCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import { U } from "../U";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 let editor: TEEditor;
 
 beforeEach(() => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

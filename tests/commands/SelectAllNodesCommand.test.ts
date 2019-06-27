@@ -4,9 +4,10 @@ import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TETextPosition, TETextSelection } from "../../src/core/types";
 import { U } from "../U";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 test("Do nothing when document is empty", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
@@ -18,7 +19,7 @@ test("Do nothing when document is empty", () => {
 });
 
 test("Selection covers all node in document", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));
@@ -44,7 +45,7 @@ test("Selection covers all node in document", () => {
 });
 
 test("Cursor positions at end of document", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

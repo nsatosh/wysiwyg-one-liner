@@ -7,11 +7,12 @@ import { invokeCommand } from "../../src/core/EditorCommand";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor, TETextPosition } from "../../src/core/types";
 import { U } from "../U";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 let editor: TEEditor;
 
 beforeEach(() => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abc"));

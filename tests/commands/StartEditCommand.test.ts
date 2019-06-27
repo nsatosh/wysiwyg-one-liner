@@ -3,9 +3,10 @@ import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import { invokeCommand } from "../../src/core/EditorCommand";
 import { U } from "../U";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 
 test("Cancel selection", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abcdef"));
@@ -30,7 +31,7 @@ test("Cancel selection", () => {
 });
 
 test("Start edit with node ID", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.end("te"));
@@ -43,7 +44,7 @@ test("Start edit with node ID", () => {
 });
 
 test("Start edit with node ID and offset", () => {
-  const nodeMap = NodeMap.createLegacyNodeMap({});
+  const nodeMap = new NodeMap(TestingNodeSchema, {});
 
   nodeMap.createRootNode("root");
   nodeMap.appendChild("root", U.text("t0", "abcdef"));
