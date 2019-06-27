@@ -137,14 +137,5 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     getLength: () => undefined,
     getText: () => undefined,
     canHaveCursor: false
-  },
-  {
-    type: "grouping",
-    category: "internal",
-    isBlockNode: false,
-    isInlineContainerNode: true,
-    getLength: () => undefined,
-    getText: () => undefined,
-    canHaveCursor: false
   }
 ];

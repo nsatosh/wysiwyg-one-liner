@@ -193,19 +193,6 @@ export interface TERowNode extends TEBaseNode {
   parent?: TENodeID;
 }
 
-/**
- * Inline node that has any other inline nodes as children.
- *
- * This node must have parent such as row node or other grouping node.
- */
-export interface TEGroupingNode extends TEBaseNode {
-  type: "grouping";
-
-  children: TENodeID[];
-
-  parent: TENodeID;
-}
-
 export interface TEMediaNode extends TEBaseNode {
   type: "media";
 
