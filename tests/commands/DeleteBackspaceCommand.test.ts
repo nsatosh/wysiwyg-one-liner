@@ -127,11 +127,13 @@ test("Backspace from lead of empty link node", () => {
     children: [
       { type: "text", text: ["a", "b"], style: {} },
       {
-        type: "link", children: [
+        type: "link",
+        children: [
           { type: "sentinel" },
           { type: "text", text: [], style: {} },
           { type: "sentinel" }
-        ], url: ""
+        ],
+        url: ""
       },
       { type: "text", text: [], style: {}, end: true }
     ]

@@ -1,7 +1,15 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
 import { Content } from "../../src/component/Content";
-import { EditorMutator, NodeMap, TETextNode, TEBaseNode, TENodeID, TENodeMap, TELeafNode, TESentinelNode } from "../../src/core";
+import {
+  EditorMutator,
+  NodeMap,
+  TETextNode,
+  TEBaseNode,
+  TENodeID,
+  TELeafNode,
+  TESentinelNode
+} from "../../src/core";
 import { U } from "../../tests/U";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
@@ -66,7 +74,7 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
 const CustomTextNode: FC<CustomNodeProps<TETextNode>> = props => {
   const { node } = props;
 
-  return <InlineText node={node} />
+  return <InlineText node={node} />;
 };
 
 const Editor: FC = () => {
@@ -106,6 +114,6 @@ const Editor: FC = () => {
   );
 };
 
-window.addEventListener("load", function () {
+window.addEventListener("load", function() {
   render(<Editor />, document.getElementById("root"));
 });

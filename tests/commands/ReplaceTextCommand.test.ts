@@ -1,4 +1,9 @@
-import { EndCompositionCommand, RedoCommand, StartCompositionCommand, UpdateCursorInComposition } from "../../src/core";
+import {
+  EndCompositionCommand,
+  RedoCommand,
+  StartCompositionCommand,
+  UpdateCursorInComposition
+} from "../../src/core";
 import { MoveCursorByCharCommand } from "../../src/core/commands/MoveCursorByCharCommand";
 import { ReplaceTextCommand } from "../../src/core/commands/ReplaceTextCommand";
 import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
@@ -28,7 +33,7 @@ test("Insert text at cursor position", () => {
       { type: "text", text: ["a", "b", "c"], style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Replace text within single inline text node", () => {
@@ -52,7 +57,7 @@ test("Replace text within single inline text node", () => {
       { type: "text", text: ["a", "d", "c"], style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Replace text across multiple text nodes", () => {
@@ -78,7 +83,7 @@ test("Replace text across multiple text nodes", () => {
       { type: "text", text: "abgef".split(""), style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Replace text all", () => {
@@ -92,7 +97,10 @@ test("Replace text all", () => {
   editor = invokeCommand(
     new ReplaceTextCommand(
       "replaced",
-      getRangeCoversAll(NodeMap.createLegacyNodeMap(editor.nodeMap), editor.rootNodeId)
+      getRangeCoversAll(
+        NodeMap.createLegacyNodeMap(editor.nodeMap),
+        editor.rootNodeId
+      )
     ),
     editor
   );
@@ -103,7 +111,7 @@ test("Replace text all", () => {
       { type: "text", text: "replaced".split(""), style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Input IME text in empty row", () => {
@@ -118,22 +126,13 @@ test("Input IME text in empty row", () => {
   expect(editor.inComposition).toBe(true);
   expect(editor.compositionRange).toBeUndefined();
 
-  editor = invokeCommand(
-    new ReplaceTextCommand("k"),
-    editor
-  );
+  editor = invokeCommand(new ReplaceTextCommand("k"), editor);
   expect(editor.inComposition).toBe(true);
   expect(editor.compositionRange).not.toBeUndefined();
 
-  editor = invokeCommand(
-    new ReplaceTextCommand("っk"),
-    editor
-  );
+  editor = invokeCommand(new ReplaceTextCommand("っk"), editor);
 
-  editor = invokeCommand(
-    new ReplaceTextCommand("っっk"),
-    editor
-  );
+  editor = invokeCommand(new ReplaceTextCommand("っっk"), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
@@ -141,7 +140,7 @@ test("Input IME text in empty row", () => {
       { type: "text", text: "kっっk".split(""), style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Modify backward node if input has occurred at sentinel", () => {
@@ -189,9 +188,7 @@ test("Undo", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: [], style: {}, end: true }]
   });
 });
 
@@ -283,9 +280,7 @@ test("Undo/Redo first IME input", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: [], style: {}, end: true }]
   });
 
   editor = invokeCommand(new RedoCommand(), editor);

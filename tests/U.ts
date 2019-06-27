@@ -5,7 +5,7 @@ import {
   TERowNode,
   TESentinelNode,
   TETextNode,
-  TEBaseNode,
+  TEBaseNode
 } from "../src/core/types";
 
 interface TELinkNode extends TEBaseNode {

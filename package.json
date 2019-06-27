@@ -4,7 +4,7 @@
   "description": "one-liner WYSIWYG input component",
   "main": "index.js",
   "scripts": {
-    "lint": "prettier --write 'src/**/*.ts' 'src/**/*.tsx'",
+    "lint": "prettier --write '{src,example,tests}/**/*.ts' '{src,example,tests}/**/*.tsx'",
     "test": "jest"
   },
   "repository": {

@@ -11,7 +11,7 @@ import { CustomNodeProps } from "../../src/component/CustomNodeProps";
 const CustomTextNode: FC<CustomNodeProps<TETextNode>> = props => {
   const { node } = props;
 
-  return <InlineText node={node} />
+  return <InlineText node={node} />;
 };
 
 const Editor: FC = () => {
@@ -32,6 +32,6 @@ const Editor: FC = () => {
   );
 };
 
-window.addEventListener("load", function () {
+window.addEventListener("load", function() {
   render(<Editor />, document.getElementById("root"));
 });

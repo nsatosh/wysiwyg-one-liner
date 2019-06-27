@@ -19,7 +19,7 @@ test("Delete text within single inline text node", () => {
       start: { id: "t0", ch: 1 },
       end: { id: "t0", ch: 2 }
     }),
-    editor,
+    editor
   );
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
@@ -28,7 +28,7 @@ test("Delete text within single inline text node", () => {
       { type: "text", text: ["a", "c"], style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Delete text across multiple text nodes", () => {
@@ -54,7 +54,7 @@ test("Delete text across multiple text nodes", () => {
       { type: "text", text: "abhi".split(""), style: {} },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Delete text all", () => {
@@ -76,10 +76,8 @@ test("Delete text all", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: [], style: {}, end: true }
-    ]
-  })
+    children: [{ type: "text", text: [], style: {}, end: true }]
+  });
 });
 
 test("Delete media node", () => {
@@ -103,14 +101,16 @@ test("Delete media node", () => {
     type: "row",
     children: [
       {
-        type: "media", url: "http://example.com/2", size: {
+        type: "media",
+        url: "http://example.com/2",
+        size: {
           height: 0,
-          width: 0,
+          width: 0
         }
       },
       { type: "text", text: [], style: {}, end: true }
     ]
-  })
+  });
 });
 
 test("Delete text node that behinds link node", () => {
@@ -137,10 +137,12 @@ test("Delete text node that behinds link node", () => {
     type: "row",
     children: [
       {
-        type: "link", url: "", children: [
+        type: "link",
+        url: "",
+        children: [
           { type: "sentinel" },
           { type: "text", text: ["b"], style: {} },
-          { type: "sentinel" },
+          { type: "sentinel" }
         ]
       },
       { type: "text", text: [], style: {}, end: true }
@@ -206,10 +208,12 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
     type: "row",
     children: [
       {
-        type: "link", url: "", children: [
+        type: "link",
+        url: "",
+        children: [
           { type: "sentinel" },
           { type: "text", text: [], style: {} },
-          { type: "sentinel" },
+          { type: "sentinel" }
         ]
       },
       { type: "text", text: [], style: {}, end: true }
@@ -298,8 +302,6 @@ test("Undo all deletion", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: [], style: {}, end: true }
-    ]
-  })
+    children: [{ type: "text", text: [], style: {}, end: true }]
+  });
 });

@@ -92,7 +92,10 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
       ) {
         nodeMap.updateText(closing.id, backward.text.concat(closing.text));
         nodeMap.deleteNode(backward.id);
-        context.nextCursorAt = { id: closing.id, ch: backward.text.length };
+        context.nextCursorAt = {
+          id: closing.id,
+          ch: backward.text.length
+        };
       }
     }
 

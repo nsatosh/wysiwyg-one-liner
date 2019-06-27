@@ -1,4 +1,8 @@
-import { getSiblingLeafInSameBlock, walkBackwardNodes, walkForwardNodes } from "../src/core/nodeFinders";
+import {
+  getSiblingLeafInSameBlock,
+  walkBackwardNodes,
+  walkForwardNodes
+} from "../src/core/nodeFinders";
 import NodeMap from "../src/core/NodeMap/NodeMap";
 import { TENodeID } from "../src/core/types";
 import { U } from "./U";
@@ -24,15 +28,15 @@ test("getSiblingLeafInSameBlock", () => {
 
   expect(f(nodeMap, "t0", 1)).toBe("l0s0");
   expect(f(nodeMap, "l0s0", 1)).toBe("l0t0");
-  expect(f(nodeMap, "l0t0", 1)).toBe("l0s1")
-  expect(f(nodeMap, "l0s1", 1)).toBe("te")
+  expect(f(nodeMap, "l0t0", 1)).toBe("l0s1");
+  expect(f(nodeMap, "l0s1", 1)).toBe("te");
   expect(f(nodeMap, "te", 1)).toBeUndefined();
 
   expect(f(nodeMap, "t0", -1)).toBeUndefined();
   expect(f(nodeMap, "l0s0", -1)).toBe("t0");
-  expect(f(nodeMap, "l0t0", -1)).toBe("l0s0")
-  expect(f(nodeMap, "l0s1", -1)).toBe("l0t0")
-  expect(f(nodeMap, "te", -1)).toBe("l0s1")
+  expect(f(nodeMap, "l0t0", -1)).toBe("l0s0");
+  expect(f(nodeMap, "l0s1", -1)).toBe("l0t0");
+  expect(f(nodeMap, "te", -1)).toBe("l0s1");
 });
 
 describe("walkForwardNodes", () => {
@@ -54,7 +58,7 @@ describe("walkForwardNodes", () => {
       ["l0s0", ["l0s0", "l0t0", "l0s1", "te"]],
       ["l0t0", ["l0t0", "l0s1", "te"]],
       ["l0s1", ["l0s1", "te"]],
-      ["te", ["te"]],
+      ["te", ["te"]]
     ] as [TENodeID, TENodeID[]][];
 
     patterns.forEach(([startNodeId, expectResults]) => {
@@ -130,5 +134,5 @@ describe("walkBackwardNodes", () => {
     });
 
     expect(results).toEqual(["t2", "t1"]);
-  })
+  });
 });
