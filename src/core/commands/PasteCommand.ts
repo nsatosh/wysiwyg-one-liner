@@ -1,11 +1,9 @@
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import { TETextRange, TELeafNode } from "../types";
+import { TETextRange, TELeafNode, TETextNode } from "../types";
 import { ensureExists } from "../ensureExists";
 import { splitNodeV2 } from "../NodeMap/splitNode";
-import { generateNewId } from "../nodeIdGenerator";
-import { U } from "../U";
 
 export class PasteCommand extends EditorCommand {
   private range?: TETextRange;
@@ -38,11 +36,12 @@ export class PasteCommand extends EditorCommand {
     );
 
     this.text.split(/\r?\n/).forEach(line => {
-      nodeMap.insertBefore(
-        parent,
-        U.text(generateNewId(), line),
-        nextCursorAt.id
-      );
+      const newNodeAttrs: Partial<TETextNode> = {
+        type: "text",
+        text: line.split("")
+      };
+
+      nodeMap.insertBefore(parent, newNodeAttrs, nextCursorAt.id);
 
       const id = splitNodeV2(
         nodeMap,
