@@ -1,7 +1,7 @@
 import { getSiblingLeafInSameBlock, walkBackwardNodes, walkForwardNodes } from "../src/core/nodeFinders";
 import NodeMap from "../src/core/NodeMap/NodeMap";
 import { TENodeID } from "../src/core/types";
-import { U } from "../src/core/U";
+import { U } from "./U";
 
 test("getSiblingLeafInSameBlock", () => {
   const nodeMap = NodeMap.createLegacyNodeMap({});

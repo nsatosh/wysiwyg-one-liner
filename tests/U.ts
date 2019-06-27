@@ -7,7 +7,7 @@ import {
   TESentinelNode,
   TETextNode,
   TEGroupingNode
-} from "./types";
+} from "../src/core/types";
 
 export class U {
   static text(

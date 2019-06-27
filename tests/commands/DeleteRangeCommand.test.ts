@@ -3,7 +3,7 @@ import { UndoCommand } from "../../src/core/commands/UndoCommand";
 import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 import { getShape } from "./getShape";
 import { RedoCommand } from "../../src/core";
 

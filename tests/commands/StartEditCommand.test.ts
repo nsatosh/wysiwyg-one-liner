@@ -2,7 +2,7 @@ import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import { invokeCommand } from "../../src/core/EditorCommand";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 
 test("Cancel selection", () => {
   const nodeMap = NodeMap.createLegacyNodeMap({});

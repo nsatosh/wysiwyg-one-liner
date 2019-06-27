@@ -4,7 +4,7 @@ import {
   invokeCommand,
   NodeMap
 } from "../../src/core";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 import { getShape } from "./getShape";
 
 test("Backspace from lead of link node", () => {

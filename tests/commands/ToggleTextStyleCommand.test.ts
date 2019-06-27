@@ -3,7 +3,7 @@ import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor } from "../../src/core/types";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 import { getShape } from "./getShape";
 
 

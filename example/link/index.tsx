@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { render } from "react-dom";
 import { Content } from "../../src/component/Content";
 import { EditorMutator, NodeMap, TETextNode, TEBaseNode, TENodeID, TENodeMap, TELeafNode, TESentinelNode } from "../../src/core";
-import { U } from "../../src/core/U";
+import { U } from "../../tests/U";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
 import InlineSentinel from "../../src/component/node/InlineSentinel";

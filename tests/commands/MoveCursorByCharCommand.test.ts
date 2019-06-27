@@ -4,7 +4,7 @@ import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { MoveCursorCommand } from "../../src/core/commands/MoveCursorCommand";
 import { MoveCursorByCharCommand } from "../../src/core/commands/MoveCursorByCharCommand";
 import EditorMutator from "../../src/core/EditorMutator";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 
 let editor: TEEditor;
 

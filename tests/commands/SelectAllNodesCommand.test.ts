@@ -3,7 +3,7 @@ import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TETextPosition, TETextSelection } from "../../src/core/types";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 
 test("Do nothing when document is empty", () => {
   const nodeMap = NodeMap.createLegacyNodeMap({});

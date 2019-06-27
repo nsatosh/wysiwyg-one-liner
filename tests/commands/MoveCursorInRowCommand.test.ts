@@ -3,7 +3,7 @@ import { MoveCursorToEndCommand, MoveCursorToStartCommand } from "../../src/core
 import { invokeCommand } from "../../src/core/EditorCommand";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor, TETextPosition } from "../../src/core/types";
-import { U } from "../../src/core/U";
+import { U } from "../U";
 
 let editor: TEEditor;
 
