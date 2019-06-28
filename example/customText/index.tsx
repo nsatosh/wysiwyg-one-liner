@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { render } from "react-dom";
 import { Content } from "../../src/component/Content";
 import { EditorMutator, NodeMap, TETextNode } from "../../src/core";
-import { U } from "../../src/core/U";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
 import { BUILTIN_ITEMS } from "../../src/core/BuiltinNodeSchema";
@@ -20,9 +19,22 @@ const Editor: FC = () => {
 
   const nodeMap = new NodeMap(nodeSchema, {});
   nodeMap.createRootNode("root");
-  nodeMap.appendChild("root", U.text("t1", "hello", { style: { bold: true } }));
-  nodeMap.appendChild("root", U.text("t2", "world"));
-  nodeMap.appendChild("root", U.end("t3"));
+  nodeMap.appendChild<TETextNode>("root", {
+    type: "text",
+    text: "hello".split(""),
+    style: {}
+  });
+  nodeMap.appendChild<TETextNode>("root", {
+    type: "text",
+    text: "world".split(""),
+    style: { bold: true }
+  });
+  nodeMap.appendChild<TETextNode>("root", {
+    type: "text",
+    end: true,
+    style: {},
+    text: []
+  });
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
   return (

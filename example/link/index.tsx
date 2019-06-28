@@ -10,7 +10,6 @@ import {
   TELeafNode,
   TESentinelNode
 } from "../../src/core";
-import { U } from "../../tests/U";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
 import InlineSentinel from "../../src/component/node/InlineSentinel";
@@ -100,10 +99,19 @@ const Editor: FC = () => {
     type: "link",
     url: "https://example.com"
   });
-  nodeMap.appendChild(id, U.sentinel("s0"));
-  nodeMap.appendChild(id, U.text("t2", "A link to example.com"));
-  nodeMap.appendChild(id, U.sentinel("s1"));
-  nodeMap.appendChild("root", U.end("te"));
+  nodeMap.appendChild<TESentinelNode>(id, { type: "sentinel" });
+  nodeMap.appendChild<TETextNode>(id, {
+    type: "text",
+    text: "A link to example.com".split(""),
+    style: {}
+  });
+  nodeMap.appendChild<TESentinelNode>(id, { type: "sentinel" });
+  nodeMap.appendChild<TETextNode>("root", {
+    type: "text",
+    style: {},
+    text: [],
+    end: true
+  });
 
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 
