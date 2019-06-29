@@ -1,18 +1,27 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "incremental": true,
     "noUnusedLocals": true,
+    "noImplicitAny": true,
     "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "target": "es2017",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "sourceMap": true,
     "rootDir": "..",
     "module": "commonjs",
-    "target": "es6",
-    "jsx": "react",
     "types": [
       "node",
       "jest",
       "jest-environment-puppeteer"
     ],
-    "composite": true,
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "declaration": true,
     "declarationMap": true,
     "noEmit": true
