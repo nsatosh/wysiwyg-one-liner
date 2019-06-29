@@ -174,8 +174,6 @@ export interface TESentinelNode extends TEBaseNode {
 }
 
 export interface TETextNode extends TEBaseNode {
-  type: "text";
-
   text: string[];
 
   style: TETextStyles;
