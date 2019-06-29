@@ -2,6 +2,7 @@ import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
 import { TEMediaNode, TENodeID, TESentinelNode, TETextNode } from "./types";
 import { NodeSchemaItems } from "./NodeSchema";
+import InlineEnd from "../component/node/InlineEnd";
 
 export const BUILTIN_ITEMS: NodeSchemaItems[] = [
   {
@@ -40,6 +41,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
           throw new Error("Unexpected condition");
       }
     },
+    component: InlineEnd,
     canHaveCursor: true
   },
   {
