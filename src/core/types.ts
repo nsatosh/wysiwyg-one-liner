@@ -183,6 +183,10 @@ export interface TETextNode extends TEBaseNode {
   end?: boolean;
 }
 
+export interface TEEndNode extends TEBaseNode {
+  type: "end";
+}
+
 export interface TERowNode extends TEBaseNode {
   type: "row";
 

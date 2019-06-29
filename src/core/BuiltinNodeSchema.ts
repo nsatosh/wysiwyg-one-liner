@@ -14,6 +14,15 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     canHaveCursor: false
   },
   {
+    type: "end",
+    category: "leaf",
+    isBlockNode: false,
+    isInlineContainerNode: false,
+    getLength: () => 1,
+    getText: () => undefined,
+    canHaveCursor: true
+  },
+  {
     type: "text",
     category: "leaf",
     isBlockNode: false,
