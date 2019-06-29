@@ -20,6 +20,26 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     isInlineContainerNode: false,
     getLength: () => 1,
     getText: () => undefined,
+    delete: (
+      nodeMap: NodeMap,
+      node: TETextNode,
+      _range: OpenableRange,
+      stat: Stat
+    ) => {
+      switch (stat) {
+        case Stat.before:
+        case Stat.after:
+        case Stat.closed:
+        case Stat.opened:
+          return;
+        case Stat.between:
+          nodeMap.deleteNode(node.id, true);
+          return;
+        case Stat.single:
+        default:
+          throw new Error("Unexpected condition");
+      }
+    },
     canHaveCursor: true
   },
   {
@@ -27,13 +47,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     category: "leaf",
     isBlockNode: false,
     isInlineContainerNode: false,
-    getLength: (node: TETextNode) => {
-      if (node.end) {
-        return 1;
-      } else {
-        return node.text.length;
-      }
-    },
+    getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
     delete: (
       nodeMap: NodeMap,

@@ -30,10 +30,7 @@ const Editor: FC = () => {
     style: { bold: true }
   });
   nodeMap.appendChild<TETextNode>("root", {
-    type: "text",
-    end: true,
-    style: {},
-    text: []
+    type: "end"
   });
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
 

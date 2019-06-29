@@ -56,7 +56,7 @@ function _insert(
   let nextCompositionRange: TETextRange | undefined = undefined;
   let nextCursorAt = cursorAt;
 
-  if (nodeMap.schema.isTextNode(current) && !current.end) {
+  if (nodeMap.schema.isTextNode(current)) {
     nodeMap.updateText(current.id, [
       ...current.text.slice(0, cursorAt.ch),
       ...text,

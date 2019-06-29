@@ -179,8 +179,6 @@ export interface TETextNode extends TEBaseNode {
   style: TETextStyles;
 
   parent: TENodeID;
-
-  end?: boolean;
 }
 
 export interface TEEndNode extends TEBaseNode {

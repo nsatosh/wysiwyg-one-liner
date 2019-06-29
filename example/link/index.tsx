@@ -107,10 +107,7 @@ const Editor: FC = () => {
   });
   nodeMap.appendChild<TESentinelNode>(id, { type: "sentinel" });
   nodeMap.appendChild<TETextNode>("root", {
-    type: "text",
-    style: {},
-    text: [],
-    end: true
+    type: "end"
   });
 
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");

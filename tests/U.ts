@@ -5,7 +5,8 @@ import {
   TERowNode,
   TESentinelNode,
   TETextNode,
-  TEBaseNode
+  TEBaseNode,
+  TEEndNode
 } from "../src/core/types";
 
 interface TELinkNode extends TEBaseNode {
@@ -36,13 +37,10 @@ export class U {
     };
   }
 
-  static end(id: TENodeID): Partial<TETextNode> {
+  static end(id: TENodeID): Partial<TEEndNode> {
     return {
-      type: "text",
-      id,
-      text: [],
-      style: {},
-      end: true
+      type: "end",
+      id
     };
   }
 

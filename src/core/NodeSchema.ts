@@ -8,7 +8,8 @@ import {
   TELeafNode,
   TEParentNode,
   TERootNode,
-  TETextNode
+  TETextNode,
+  TEEndNode
 } from "./types";
 
 export type NodeSchemaItems = {
@@ -74,8 +75,8 @@ export class NodeSchema {
     return node.type === "text";
   }
 
-  isEndNode(node: TEBaseNode): node is TETextNode {
-    return node.type === "text" && !!(node as TETextNode).end;
+  isEndNode(node: TEBaseNode): node is TEEndNode {
+    return node.type === "end";
   }
 
   isInlineContainerNode(node: TEBaseNode): node is TEInlineContainerNode {
