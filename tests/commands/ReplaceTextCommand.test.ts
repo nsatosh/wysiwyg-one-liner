@@ -98,10 +98,7 @@ test("Replace text all", () => {
   editor = invokeCommand(
     new ReplaceTextCommand(
       "replaced",
-      getRangeCoversAll(
-        NodeMap.createLegacyNodeMap(editor.nodeMap),
-        editor.rootNodeId
-      )
+      getRangeCoversAll(nodeMap, editor.rootNodeId)
     ),
     editor
   );

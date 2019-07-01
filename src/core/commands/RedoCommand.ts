@@ -7,7 +7,6 @@ import {
   TEMutatorLogUpdateRootNodeId
 } from "../types";
 import EditorMutator from "../EditorMutator";
-import NodeMap from "../NodeMap/NodeMap";
 
 export class RedoCommand extends EditorCommand {
   constructor() {
@@ -58,7 +57,7 @@ function redoNodeMap(
   editorMutator: EditorMutator,
   mutatorLog: TEMutatorLogUpdateNodeMap
 ): void {
-  const nodeMap = NodeMap.createLegacyNodeMap(editorMutator.getState().nodeMap);
+  const nodeMap = editorMutator.getNodeMap();
 
   mutatorLog.nodeMapLogs.forEach(nodeMapLog => {
     const { prev, next } = nodeMapLog;
