@@ -55,15 +55,20 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     context.nextCursorAt = { id: closing.id, ch: 0 };
   }
 
+  if (nodeMap.schema.isEndNode(opening)) {
+    nodeMap.deleteNode(opening.id);
+    return;
+  }
+
   if (nodeMap.schema.isTextNode(opening)) {
-    if (opening.text.length === 0 || opening.end) {
+    if (opening.text.length === 0) {
       nodeMap.deleteNode(opening.id);
       return;
     }
 
     if (
       !nodeMap.schema.isTextNode(closing) ||
-      closing.end ||
+      nodeMap.schema.isEndNode(closing) ||
       !isSameStyle(opening, closing)
     ) {
       return;
@@ -81,7 +86,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
       return;
     }
 
-    if (nodeMap.schema.isTextNode(closing) && !closing.end) {
+    if (nodeMap.schema.isTextNode(closing)) {
       const backward = getSiblingNode(nodeMap, opening.id, -1);
       if (
         backward &&

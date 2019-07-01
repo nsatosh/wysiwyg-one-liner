@@ -1,6 +1,5 @@
 import NodeMap from "./NodeMap/NodeMap";
 import { getChildren } from "./nodeFinders";
-import { TETextNode } from "./types";
 
 export function validateNodeMap(nodeMap: NodeMap): void {
   nodeMap.forEach(node => {
@@ -38,8 +37,8 @@ export function validateNodeMap(nodeMap: NodeMap): void {
       if (node.type === "row") {
         const n = children[children.length - 1];
 
-        if (!n || !nodeMap.schema.isTextNode(n) || !(n as TETextNode).end) {
-          throw new Error("sentinel node must be found at last of children");
+        if (!n || !nodeMap.schema.isEndNode(n)) {
+          throw new Error("'end' node must be at last of row");
         }
       }
     }

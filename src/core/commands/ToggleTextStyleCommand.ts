@@ -66,7 +66,7 @@ function updateStyle(
 ): void {
   const node = nodeMap.ensureNode(id) as TETextNode;
 
-  if (nodeMap.schema.isTextNode(node) && !node.end) {
+  if (nodeMap.schema.isTextNode(node)) {
     const nextStyle = { ...node.style };
 
     if (!nextStyle[styleName]) {
@@ -98,9 +98,7 @@ function joinSameStyleTextNodes(
       nodeMap.schema.isChildNode(b) &&
       a.parent === b.parent &&
       nodeMap.schema.isTextNode(a) &&
-      !a.end &&
       nodeMap.schema.isTextNode(b) &&
-      !b.end &&
       isSameStyle(a, b)
     ) {
       nodeMap.updateText(a.id, a.text.concat(b.text));

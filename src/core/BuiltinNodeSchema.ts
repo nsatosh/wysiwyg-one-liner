@@ -2,6 +2,7 @@ import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
 import { TEMediaNode, TENodeID, TESentinelNode, TETextNode } from "./types";
 import { NodeSchemaItems } from "./NodeSchema";
+import InlineEnd from "../component/node/InlineEnd";
 
 export const BUILTIN_ITEMS: NodeSchemaItems[] = [
   {
@@ -14,17 +15,41 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     canHaveCursor: false
   },
   {
+    type: "end",
+    category: "leaf",
+    isBlockNode: false,
+    isInlineContainerNode: false,
+    getLength: () => 1,
+    getText: () => undefined,
+    delete: (
+      nodeMap: NodeMap,
+      node: TETextNode,
+      _range: OpenableRange,
+      stat: Stat
+    ) => {
+      switch (stat) {
+        case Stat.before:
+        case Stat.after:
+        case Stat.closed:
+        case Stat.opened:
+          return;
+        case Stat.between:
+          nodeMap.deleteNode(node.id, true);
+          return;
+        case Stat.single:
+        default:
+          throw new Error("Unexpected condition");
+      }
+    },
+    component: InlineEnd,
+    canHaveCursor: true
+  },
+  {
     type: "text",
     category: "leaf",
     isBlockNode: false,
     isInlineContainerNode: false,
-    getLength: (node: TETextNode) => {
-      if (node.end) {
-        return 1;
-      } else {
-        return node.text.length;
-      }
-    },
+    getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
     delete: (
       nodeMap: NodeMap,

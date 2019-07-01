@@ -13,7 +13,6 @@ import { insertNode } from "./insertNode";
 import { generateNewId } from "../nodeIdGenerator";
 import { moveChildren, moveExistingNode } from "./moveNode";
 import { NodeSchema } from "../NodeSchema";
-import { BUILTIN_ITEMS } from "../BuiltinNodeSchema";
 
 export default class NodeMap {
   private source: TENodeMap | undefined;
@@ -25,10 +24,6 @@ export default class NodeMap {
     this.source = source;
     this.schema = schema;
     this.nodeMapLogs = [];
-  }
-
-  static createLegacyNodeMap(source: TENodeMap) {
-    return new NodeMap(new NodeSchema(BUILTIN_ITEMS), source);
   }
 
   getValidCurrentState(): TENodeMap {

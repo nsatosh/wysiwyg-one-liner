@@ -25,10 +25,7 @@ test("Delete text within single inline text node", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a", "c"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: ["a", "c"], style: {} }, { type: "end" }]
   });
 });
 
@@ -53,7 +50,7 @@ test("Delete text across multiple text nodes", () => {
     type: "row",
     children: [
       { type: "text", text: "abhi".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -77,7 +74,7 @@ test("Delete text all", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: [], style: {}, end: true }]
+    children: [{ type: "end" }]
   });
 });
 
@@ -109,7 +106,7 @@ test("Delete media node", () => {
           width: 0
         }
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -146,7 +143,7 @@ test("Delete text node that behinds link node", () => {
           { type: "sentinel" }
         ]
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -179,10 +176,7 @@ test("Delete link node and combine between sibling nodes", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a", "b"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: ["a", "b"], style: {} }, { type: "end" }]
   });
 });
 
@@ -217,7 +211,7 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
           { type: "sentinel" }
         ]
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -243,7 +237,7 @@ test("Undo/Redo", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "b", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -255,7 +249,7 @@ test("Undo/Redo", () => {
       { type: "text", text: ["a", "b", "c"], style: {} },
       { type: "text", text: ["d", "e", "f"], style: {} },
       { type: "text", text: ["g", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -265,7 +259,7 @@ test("Undo/Redo", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "b", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -295,7 +289,7 @@ test("Undo all deletion", () => {
       { type: "text", text: ["a", "b", "c"], style: {} },
       { type: "text", text: ["d", "e", "f"], style: {} },
       { type: "text", text: ["g", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -303,6 +297,6 @@ test("Undo all deletion", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: [], style: {}, end: true }]
+    children: [{ type: "end" }]
   });
 });

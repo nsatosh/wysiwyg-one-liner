@@ -32,7 +32,7 @@ test("Insert text at cursor position", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "b", "c"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -56,7 +56,7 @@ test("Replace text within single inline text node", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "d", "c"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -82,7 +82,7 @@ test("Replace text across multiple text nodes", () => {
     type: "row",
     children: [
       { type: "text", text: "abgef".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -98,10 +98,7 @@ test("Replace text all", () => {
   editor = invokeCommand(
     new ReplaceTextCommand(
       "replaced",
-      getRangeCoversAll(
-        NodeMap.createLegacyNodeMap(editor.nodeMap),
-        editor.rootNodeId
-      )
+      getRangeCoversAll(nodeMap, editor.rootNodeId)
     ),
     editor
   );
@@ -110,7 +107,7 @@ test("Replace text all", () => {
     type: "row",
     children: [
       { type: "text", text: "replaced".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -139,7 +136,7 @@ test("Input IME text in empty row", () => {
     type: "row",
     children: [
       { type: "text", text: "kっっk".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -172,7 +169,7 @@ test("Modify backward node if input has occurred at sentinel", () => {
         ],
         url: ""
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -189,7 +186,7 @@ test("Undo", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: [], style: {}, end: true }]
+    children: [{ type: "end" }]
   });
 });
 
@@ -233,7 +230,7 @@ test("Undo/Redo IME input", () => {
     type: "row",
     children: [
       { type: "text", text: "aあい".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -243,7 +240,7 @@ test("Undo/Redo IME input", () => {
     type: "row",
     children: [
       { type: "text", text: "a".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 
@@ -253,7 +250,7 @@ test("Undo/Redo IME input", () => {
     type: "row",
     children: [
       { type: "text", text: "aあい".split(""), style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -271,26 +268,20 @@ test("Undo/Redo first IME input", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: ["a"], style: {} }, { type: "end" }]
   });
 
   editor = invokeCommand(new UndoCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: [], style: {}, end: true }]
+    children: [{ type: "end" }]
   });
 
   editor = invokeCommand(new RedoCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
-    ]
+    children: [{ type: "text", text: ["a"], style: {} }, { type: "end" }]
   });
 });

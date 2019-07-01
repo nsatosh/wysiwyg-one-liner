@@ -34,7 +34,7 @@ describe("Change style on single text node", () => {
       children: [
         { type: "text", text: ["a"], style: { bold: true } },
         { type: "text", text: ["b", "c", "d", "e", "f"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -54,7 +54,7 @@ describe("Change style on single text node", () => {
         { type: "text", text: ["a"], style: {} },
         { type: "text", text: ["b", "c"], style: { bold: true } },
         { type: "text", text: ["d", "e", "f"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -77,7 +77,7 @@ describe("Change style on single text node", () => {
           text: ["b", "c", "d", "e", "f"],
           style: { bold: true }
         },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -99,7 +99,7 @@ describe("Change style on single text node", () => {
           text: ["a", "b", "c", "d", "e", "f"],
           style: { bold: true }
         },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -130,7 +130,7 @@ describe("Change text style across text nodes", () => {
         { type: "text", text: ["a", "b"], style: {} },
         { type: "text", text: ["c", "d"], style: { bold: true } },
         { type: "text", text: ["e", "f"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -161,7 +161,7 @@ describe("Change text style across text nodes", () => {
           text: ["a", "b", "c", "d", "e", "f"],
           style: { bold: true }
         },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -210,7 +210,7 @@ describe("Change text style across link node", () => {
           url: ""
         },
         { type: "text", text: ["g", "h", "i"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -240,7 +240,7 @@ describe("Change text style across link node", () => {
         },
         { type: "text", text: ["g"], style: { bold: true } },
         { type: "text", text: ["h", "i"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -272,7 +272,7 @@ describe("Change text style across link node", () => {
           url: ""
         },
         { type: "text", text: ["g", "h", "i"], style: {} },
-        { type: "text", text: [], style: {}, end: true }
+        { type: "end" }
       ]
     });
   });
@@ -301,7 +301,7 @@ test("Combine nodes after changing text style", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "b", "c"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });

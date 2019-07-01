@@ -39,7 +39,7 @@ test("Backspace from lead of link node", () => {
         url: ""
       },
       { type: "text", text: ["g", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -74,7 +74,7 @@ test("Delete last of link node", () => {
         url: ""
       },
       { type: "text", text: ["g", "h", "i"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -102,7 +102,7 @@ test("Backspace more than two or more sentinels", () => {
       { type: "sentinel" },
       { type: "sentinel" },
       { type: "text", text: ["d", "e", "f"], style: {} },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -136,7 +136,7 @@ test("Backspace from lead of empty link node", () => {
         ],
         url: ""
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });
@@ -158,7 +158,7 @@ test("Backspace a empty link node that positions at lead of row", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: [], style: {}, end: true }]
+    children: [{ type: "end" }]
   });
 });
 
@@ -189,7 +189,7 @@ test("Backspace in link node that positions at lead of row", () => {
         ],
         url: ""
       },
-      { type: "text", text: [], style: {}, end: true }
+      { type: "end" }
     ]
   });
 });

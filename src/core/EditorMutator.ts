@@ -27,8 +27,7 @@ export default class EditorMutator {
     const rootNodeId = nodeMap.createRootNode();
 
     nodeMap.appendChild<TETextNode>(rootNodeId, {
-      type: "text",
-      end: true
+      type: "end"
     });
 
     return generateInitialEditorState(schema, nodeMap, rootNodeId);
@@ -122,7 +121,7 @@ function generateInitialEditorState(
 ): TEEditor {
   return {
     nodeSchema: nodeSchema || new NodeSchema(BUILTIN_ITEMS),
-    nodeMap: nodeMap.getCurrentState(),
+    nodeMap: nodeMap.getValidCurrentState(),
     rootNodeId,
     documentRootNodeId: rootNodeId,
     cursorAt: null,
