@@ -38,7 +38,7 @@ export function validateNodeMap(nodeMap: NodeMap): void {
         const n = children[children.length - 1];
 
         if (!n || !nodeMap.schema.isEndNode(n)) {
-          throw new Error("sentinel node must be found at last of children");
+          throw new Error("'end' node must be at last of row");
         }
       }
     }
