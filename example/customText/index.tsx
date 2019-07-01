@@ -29,7 +29,7 @@ const Editor: FC = () => {
     text: "world".split(""),
     style: { bold: true }
   });
-  nodeMap.appendChild<TETextNode>("root", {
+  nodeMap.appendChild("root", {
     type: "end"
   });
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
