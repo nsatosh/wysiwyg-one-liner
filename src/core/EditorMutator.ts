@@ -121,7 +121,7 @@ function generateInitialEditorState(
 ): TEEditor {
   return {
     nodeSchema: nodeSchema || new NodeSchema(BUILTIN_ITEMS),
-    nodeMap: nodeMap.getCurrentState(),
+    nodeMap: nodeMap.getValidCurrentState(),
     rootNodeId,
     documentRootNodeId: rootNodeId,
     cursorAt: null,
