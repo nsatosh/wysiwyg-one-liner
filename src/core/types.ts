@@ -221,3 +221,13 @@ export interface TESubTree {
 
   _tempRootId: TENodeID;
 }
+
+export interface Coord {
+  top: number;
+  left: number;
+}
+
+export interface CoordRect extends Coord {
+  width: number;
+  height: number;
+}

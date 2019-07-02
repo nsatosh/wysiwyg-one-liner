@@ -3,19 +3,11 @@ import {
   TENodeID,
   TENonCanonicalTextPosition,
   TETextNode,
-  TETextPosition
+  TETextPosition,
+  Coord,
+  CoordRect
 } from "../core";
 import { getElementOffset } from "./getElementOffset";
-
-interface Coord {
-  top: number;
-  left: number;
-}
-
-interface CoordRect extends Coord {
-  width: number;
-  height: number;
-}
 
 interface RegistryItems {
   [id: string]: HTMLElement;
