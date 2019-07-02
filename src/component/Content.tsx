@@ -62,7 +62,7 @@ export const Content: FC<Props> = props => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dummyTextRef = useRef<HTMLSpanElement>(null);
-  const TPR = useRef(new TextPositionRegistry());
+  const TPR = useRef(new TextPositionRegistry(nodeSchema));
 
   useEffect(() => {
     TPR.current.setDOMElements(containerRef.current!, dummyTextRef.current!);

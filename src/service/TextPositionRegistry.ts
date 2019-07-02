@@ -8,6 +8,7 @@ import {
   CoordRect
 } from "../core";
 import { getElementOffset } from "./getElementOffset";
+import { NodeSchema } from "../core/NodeSchema";
 
 interface RegistryItems {
   [id: string]: HTMLElement;
@@ -32,6 +33,13 @@ export class TextPositionRegistry {
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
   private contaierEl: HTMLElement;
   private dummyTextEl: HTMLElement;
+  private nodeSchema: NodeSchema;
+
+  constructor(nodeSchema?: NodeSchema) {
+    if (nodeSchema) {
+      this.nodeSchema = nodeSchema;
+    }
+  }
 
   setDOMElements(containerEl: HTMLElement, dummyTextEl: HTMLElement) {
     this.contaierEl = containerEl;
