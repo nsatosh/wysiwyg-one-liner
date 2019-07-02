@@ -9,8 +9,10 @@ import {
   TEParentNode,
   TERootNode,
   TETextNode,
-  TEEndNode
+  TEEndNode,
+  Coord
 } from "./types";
+import { ElementOffset } from "../service/getElementOffset";
 
 export type NodeSchemaItems = {
   type: string;
@@ -19,6 +21,11 @@ export type NodeSchemaItems = {
   isInlineContainerNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
   getText: (node: TEBaseNode) => string[] | undefined;
+  getCoordOffset?: (
+    node: TEBaseNode,
+    eOffset: ElementOffset,
+    ch: number
+  ) => Coord;
   delete?: DeleteFuntion;
   component?: unknown;
   canHaveCursor: boolean;
@@ -120,6 +127,18 @@ export class NodeSchema {
 
     if (schema) {
       return schema.component;
+    }
+  }
+
+  getCoordOffset(
+    node: TELeafNode,
+    offset: ElementOffset,
+    ch: number
+  ): Coord | undefined {
+    const schema = this.nodes[node.type];
+
+    if (schema && schema.getCoordOffset) {
+      return schema.getCoordOffset(node, offset, ch);
     }
   }
 
