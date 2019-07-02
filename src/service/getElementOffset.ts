@@ -1,4 +1,4 @@
-interface Offset {
+export interface ElementOffset {
   top: number;
   left: number;
   bottom: number;
@@ -10,7 +10,7 @@ interface Offset {
 export function getElementOffset(
   baseElement: HTMLElement,
   toElement: HTMLElement
-): Offset {
+): ElementOffset {
   const rb = baseElement.getBoundingClientRect();
   const rt = toElement.getBoundingClientRect();
 
