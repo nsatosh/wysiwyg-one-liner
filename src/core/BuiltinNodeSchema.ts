@@ -1,8 +1,15 @@
 import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
-import { TEMediaNode, TENodeID, TESentinelNode, TETextNode } from "./types";
+import {
+  TEMediaNode,
+  TENodeID,
+  TESentinelNode,
+  TETextNode,
+  Coord
+} from "./types";
 import { NodeSchemaItems } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
+import { ElementOffset } from "../service/getElementOffset";
 
 export const BUILTIN_ITEMS: NodeSchemaItems[] = [
   {
@@ -51,6 +58,16 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     isInlineContainerNode: false,
     getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
+    getCoordOffset: (
+      node: TETextNode,
+      eOffset: ElementOffset,
+      ch: number
+    ): Coord => {
+      return {
+        top: eOffset.top,
+        left: eOffset.left + 10 * ch
+      };
+    },
     delete: (
       nodeMap: NodeMap,
       node: TETextNode,

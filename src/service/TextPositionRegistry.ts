@@ -59,19 +59,14 @@ export class TextPositionRegistry {
       return;
     }
 
-    const { top, left } = getElementOffset(this.contaierEl, el);
+    const eOffset = getElementOffset(this.contaierEl, el);
 
-    if (item.node.type === "text") {
-      return {
-        top,
-        left: left + this.calcTextWidth(el, item.node, p.ch)
-      };
-    }
-
-    return {
-      top,
-      left
-    };
+    return (
+      this.nodeSchema.getCoordOffset(item.node, eOffset, p.ch) || {
+        top: eOffset.top,
+        left: eOffset.left
+      }
+    );
   }
 
   getCoordRect(
@@ -87,25 +82,44 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type !== "leaf" || item.node.type !== "text") {
+    if (!item || item.type === "line") {
       return;
     }
 
     const { node } = item;
-    const rect = getElementOffset(this.contaierEl, el);
+    const eOffset = getElementOffset(this.contaierEl, el);
 
-    if (start === undefined && end === undefined) {
-      return rect;
+    let p0 = {
+      top: eOffset.top,
+      left: eOffset.left
+    };
+
+    if (start !== undefined) {
+      const p = this.nodeSchema.getCoordOffset(node, eOffset, start);
+
+      if (p) {
+        p0 = p;
+      }
     }
 
-    const p0 = start ? this.calcTextWidth(el, node, start) : 0;
-    const p1 = this.calcTextWidth(el, node, end);
+    let p1 = {
+      top: eOffset.bottom,
+      left: eOffset.right
+    };
+
+    if (end !== undefined) {
+      const p = this.nodeSchema.getCoordOffset(node, eOffset, end);
+
+      if (p) {
+        p1 = p;
+      }
+    }
 
     return {
-      top: rect.top,
-      left: rect.left + p0,
-      width: p1 - p0,
-      height: rect.height
+      top: p0.top,
+      left: p0.left,
+      width: p1.left - p0.left,
+      height: eOffset.height
     };
   }
 
