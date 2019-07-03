@@ -58,7 +58,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     isInlineContainerNode: false,
     getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
-    getCoordOffset: (
+    textPositionToCoord: (
       node: TETextNode,
       eOffset: ElementOffset,
       ch: number

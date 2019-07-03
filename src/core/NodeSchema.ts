@@ -21,7 +21,7 @@ export type NodeSchemaItems = {
   isInlineContainerNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
   getText: (node: TEBaseNode) => string[] | undefined;
-  getCoordOffset?: (
+  textPositionToCoord?: (
     node: TEBaseNode,
     eOffset: ElementOffset,
     ch: number
@@ -130,15 +130,15 @@ export class NodeSchema {
     }
   }
 
-  getCoordOffset(
+  textPositionToCoord(
     node: TELeafNode,
     offset: ElementOffset,
     ch: number
   ): Coord | undefined {
     const schema = this.nodes[node.type];
 
-    if (schema && schema.getCoordOffset) {
-      return schema.getCoordOffset(node, offset, ch);
+    if (schema && schema.textPositionToCoord) {
+      return schema.textPositionToCoord(node, offset, ch);
     }
   }
 
