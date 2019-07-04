@@ -25,7 +25,8 @@ export function useDragAndDrop(
           "down",
           TPRRef.current.getPositionFromMouseEvent(
             ev.target as HTMLElement,
-            ev.clientX
+            ev.clientX,
+            ev.clientY
           ),
           ev
         ) === false
@@ -47,7 +48,8 @@ export function useDragAndDrop(
           "move",
           TPRRef.current.getPositionFromMouseEvent(
             ev.target as HTMLElement,
-            ev.clientX
+            ev.clientX,
+            ev.clientY
           ),
           ev
         ) === false
@@ -67,7 +69,8 @@ export function useDragAndDrop(
           "up",
           TPRRef.current.getPositionFromMouseEvent(
             ev.target as HTMLElement,
-            ev.clientX
+            ev.clientX,
+            ev.clientY
           ),
           ev
         ) === false

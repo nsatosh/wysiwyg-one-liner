@@ -125,7 +125,8 @@ export class TextPositionRegistry {
 
   getPositionFromMouseEvent(
     element: HTMLElement,
-    mouseClientX: number
+    mouseClientX: number,
+    mouseClientY: number
   ): TENonCanonicalTextPosition | undefined {
     const item = this.lookUpMap.get(element);
 
