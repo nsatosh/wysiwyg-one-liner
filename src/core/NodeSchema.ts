@@ -10,7 +10,8 @@ import {
   TERootNode,
   TETextNode,
   TEEndNode,
-  Coord
+  Coord,
+  TETextPosition
 } from "./types";
 import { ElementOffset } from "../service/getElementOffset";
 
@@ -26,6 +27,11 @@ export type NodeSchemaItems = {
     eOffset: ElementOffset,
     ch: number
   ) => Coord;
+  coordToTextPosition?: (
+    element: HTMLElement,
+    node: TEBaseNode,
+    coord: Coord
+  ) => TETextPosition;
   delete?: DeleteFuntion;
   component?: unknown;
   canHaveCursor: boolean;
@@ -139,6 +145,18 @@ export class NodeSchema {
 
     if (schema && schema.textPositionToCoord) {
       return schema.textPositionToCoord(node, offset, ch);
+    }
+  }
+
+  coordToTextPosition(
+    element: HTMLElement,
+    node: TELeafNode,
+    coord: Coord
+  ): TETextPosition | undefined {
+    const schema = this.nodes[node.type];
+
+    if (schema && schema.coordToTextPosition) {
+      return schema.coordToTextPosition(element, node, coord);
     }
   }
 
