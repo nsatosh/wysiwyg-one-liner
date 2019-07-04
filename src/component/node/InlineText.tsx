@@ -1,26 +1,22 @@
 import React, { FC, memo } from "react";
 import { TETextNode } from "../../core";
 import { useLeafNodePositionRegistry } from "../../service/TextPosition";
+import { CustomNodeProps } from "../CustomNodeProps";
 
-interface Props {
-  node: TETextNode;
-  fontSize?: number | string;
-  color?: string;
-  inDebug?: boolean;
-}
-
-const InlineText: FC<Props> = memo(props => {
+const InlineText: FC<CustomNodeProps<TETextNode>> = memo(props => {
   const { ref } = useLeafNodePositionRegistry(props.node);
 
-  const { node, fontSize, color, inDebug } = props;
+  const {
+    node,
+    editor: { inDebug }
+  } = props;
   const { bold, italic, strikethrough, underline } = node.style;
 
   const style = {
     whiteSpace: "pre",
     fontWeight: bold ? "bold" : 300,
     fontStyle: italic ? "italic" : "normal",
-    fontSize: fontSize || "var(--TextFontSize)",
-    color: color,
+    fontSize: "var(--TextFontSize)",
     textDecoration: [
       underline ? "underline" : "",
       strikethrough ? "line-through" : ""

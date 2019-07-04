@@ -10,6 +10,7 @@ import {
 import { NodeSchemaItems } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
 import { ElementOffset } from "../service/getElementOffset";
+import InlineText from "../component/node/InlineText";
 
 export const BUILTIN_ITEMS: NodeSchemaItems[] = [
   {
@@ -131,6 +132,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
           throw new Error("Unexpected condition");
       }
     },
+    component: InlineText,
     canHaveCursor: true
   },
   {

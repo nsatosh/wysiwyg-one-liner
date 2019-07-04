@@ -50,8 +50,8 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
           return (
             <InlineText
               key={node.id}
-              inDebug={inDebug}
               node={node as TETextNode}
+              editor={editor}
             />
           );
         }
