@@ -68,6 +68,30 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
         left: eOffset.left + 10 * ch
       };
     },
+    coordToTextPosition: (el, node: TETextNode, coord) => {
+      const mouseX = coord.left - el.getBoundingClientRect()!.left;
+      let left = 0;
+      let right = el.innerText.length;
+
+      while (right - left > 1) {
+        const center = Math.floor((left + right) / 2);
+
+        if (calcTextWidth(el, node, center) < mouseX) {
+          left = center;
+        } else {
+          right = center;
+        }
+      }
+
+      const centerX =
+        (calcTextWidth(el, node, left) + calcTextWidth(el, node, right)) / 2;
+
+      return {
+        id: node.id,
+        ch: mouseX < centerX ? left : right,
+        nonCanonical: true
+      };
+    },
     delete: (
       nodeMap: NodeMap,
       node: TETextNode,
@@ -169,6 +193,15 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
           throw new Error("Unexpected condition");
       }
     },
+    coordToTextPosition: (element, node, coord) => {
+      const r = element.getBoundingClientRect();
+
+      return {
+        id: node.id,
+        ch: coord.left <= (r.left + r.right) / 2 ? 0 : 1,
+        nonCanonical: true
+      };
+    },
     canHaveCursor: true
   },
   {
@@ -181,3 +214,32 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     canHaveCursor: false
   }
 ];
+
+function calcTextWidth(
+  element: HTMLElement,
+  node: TETextNode,
+  end?: number
+): number {
+  const dummyTextEl = getDummyTextElement();
+
+  dummyTextEl.style.fontSize = element.style.fontSize;
+  dummyTextEl.style.fontWeight = element.style.fontWeight;
+  dummyTextEl.innerText = node.text.slice(0, end).join("");
+
+  return dummyTextEl.offsetWidth;
+}
+
+let _dummyTextElement: HTMLElement | undefined;
+
+function getDummyTextElement() {
+  if (_dummyTextElement) {
+    return _dummyTextElement;
+  }
+
+  const el = window.document.createElement("span");
+  window.document.body.appendChild(el);
+
+  _dummyTextElement = el;
+
+  return _dummyTextElement;
+}

@@ -2,7 +2,6 @@ import {
   TELeafNode,
   TENodeID,
   TENonCanonicalTextPosition,
-  TETextNode,
   TETextPosition,
   Coord,
   CoordRect
@@ -32,7 +31,6 @@ export class TextPositionRegistry {
   private mapping = {} as RegistryItems;
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
   private contaierEl: HTMLElement;
-  private dummyTextEl: HTMLElement;
   private nodeSchema: NodeSchema;
 
   constructor(nodeSchema?: NodeSchema) {
@@ -41,9 +39,8 @@ export class TextPositionRegistry {
     }
   }
 
-  setDOMElements(containerEl: HTMLElement, dummyTextEl: HTMLElement) {
+  setDOMElements(containerEl: HTMLElement) {
     this.contaierEl = containerEl;
-    this.dummyTextEl = dummyTextEl;
   }
 
   getCoordPoint(p: TETextPosition): Coord | undefined {
@@ -135,89 +132,29 @@ export class TextPositionRegistry {
     }
 
     if (item.type === "line") {
-      return this.getPositionFromMouseEventLine(element, mouseClientX, item);
-    } else if (item.node.type === "media") {
-      return this.getPositionFromMouseEventMedia(element, mouseClientX, item);
-    } else if (item.node.type === "sentinel") {
-      return this.getPositionFromMouseEventSentinel(item);
-    } else {
-      return this.getPositionFromMouseEventText(element, mouseClientX, item);
+      const indexClicked =
+        mouseClientX <=
+        element.getBoundingClientRect()!.left + item.indentWidth;
+
+      return {
+        id: indexClicked ? item.firstNodeId : item.lastNodeId,
+        ch: 0,
+        nonCanonical: true
+      };
     }
-  }
 
-  private getPositionFromMouseEventLine(
-    element: HTMLElement,
-    mouseClientX: number,
-    item: LookupLineItem
-  ): TENonCanonicalTextPosition | undefined {
-    const indexClicked =
-      mouseClientX <= element.getBoundingClientRect()!.left + item.indentWidth;
+    const pos = this.nodeSchema.coordToTextPosition(element, item.node, {
+      top: mouseClientY,
+      left: mouseClientX
+    });
 
-    return {
-      id: indexClicked ? item.firstNodeId : item.lastNodeId,
-      ch: 0,
-      nonCanonical: true
-    };
-  }
+    if (pos) {
+      return { ...pos, nonCanonical: true };
+    }
 
-  private getPositionFromMouseEventMedia(
-    element: HTMLElement,
-    mouseClientX: number,
-    item: LookupLeafItem
-  ): TENonCanonicalTextPosition | undefined {
-    const r = element.getBoundingClientRect();
-
-    return {
-      id: item.node.id,
-      ch: mouseClientX <= (r.left + r.right) / 2 ? 0 : 1,
-      nonCanonical: true
-    };
-  }
-
-  private getPositionFromMouseEventSentinel(
-    item: LookupLeafItem
-  ): TENonCanonicalTextPosition | undefined {
     return {
       id: item.node.id,
       ch: 0,
-      nonCanonical: true
-    };
-  }
-
-  private getPositionFromMouseEventText(
-    element: HTMLElement,
-    mouseClientX: number,
-    item: LookupLeafItem
-  ): TENonCanonicalTextPosition | undefined {
-    const node = item.node;
-    const el = this.mapping[node.id];
-
-    if (!el) {
-      return;
-    }
-
-    const mouseX = mouseClientX - el.getBoundingClientRect()!.left;
-    let left = 0;
-    let right = el.innerText.length;
-
-    while (right - left > 1) {
-      const center = Math.floor((left + right) / 2);
-
-      if (this.calcTextWidth(el, node, center) < mouseX) {
-        left = center;
-      } else {
-        right = center;
-      }
-    }
-
-    const centerX =
-      (this.calcTextWidth(el, node, left) +
-        this.calcTextWidth(el, node, right)) /
-      2;
-
-    return {
-      id: item.node.id,
-      ch: mouseX < centerX ? left : right,
       nonCanonical: true
     };
   }
@@ -246,19 +183,5 @@ export class TextPositionRegistry {
       firstNodeId,
       lastNodeId
     });
-  }
-
-  private calcTextWidth(
-    element: HTMLElement,
-    node: TETextNode,
-    end?: number
-  ): number {
-    const { dummyTextEl } = this;
-
-    dummyTextEl.style.fontSize = element.style.fontSize;
-    dummyTextEl.style.fontWeight = element.style.fontWeight;
-    dummyTextEl.innerText = node.text.slice(0, end).join("");
-
-    return dummyTextEl.offsetWidth;
   }
 }

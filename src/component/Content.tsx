@@ -65,7 +65,7 @@ export const Content: FC<Props> = props => {
   const TPR = useRef(new TextPositionRegistry(nodeSchema));
 
   useEffect(() => {
-    TPR.current.setDOMElements(containerRef.current!, dummyTextRef.current!);
+    TPR.current.setDOMElements(containerRef.current!);
   }, []);
 
   const onDragAndDrop = useCallback<DragAndDropCallback>(
