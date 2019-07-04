@@ -70,14 +70,8 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
   );
 };
 
-const CustomTextNode: FC<CustomNodeProps<TETextNode>> = props => {
-  const { node } = props;
-
-  return <InlineText node={node} />;
-};
-
 const Editor: FC = () => {
-  let nodeSchema = new NodeSchema([
+  const nodeSchema = new NodeSchema([
     ...BUILTIN_ITEMS,
     {
       type: "link",
@@ -86,11 +80,10 @@ const Editor: FC = () => {
       isInlineContainerNode: true,
       getLength: () => undefined,
       getText: () => undefined,
-      canHaveCursor: false
+      canHaveCursor: false,
+      component: InlineLink
     }
   ]);
-  nodeSchema = nodeSchema.setCustomNodeComponent("text", CustomTextNode);
-  nodeSchema = nodeSchema.setCustomNodeComponent("link", InlineLink);
 
   const nodeMap = new NodeMap(nodeSchema, {});
   nodeMap.createRootNode("root");

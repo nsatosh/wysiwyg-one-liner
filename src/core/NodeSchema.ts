@@ -1,4 +1,3 @@
-import * as ImmutableArray from "@immutable-array/prototype";
 import { DeleteFuntion } from "./NodeMap/deleteRange/deleteSubtree";
 import {
   TEBaseNode,
@@ -160,27 +159,5 @@ export class NodeSchema {
     if (schema && schema.coordToTextPosition) {
       return schema.coordToTextPosition(element, node, coord);
     }
-  }
-
-  setCustomNodeComponent(type: string, component: unknown): NodeSchema {
-    const schema = this.nodes[type];
-
-    if (!schema) {
-      throw new Error("Correspond schema was not found");
-    }
-
-    const items = Object.values(this.nodes);
-    const start = items.findIndex(item => item.type === schema.type);
-
-    if (start === -1) {
-      throw new Error("Unexpected condition");
-    }
-
-    return new NodeSchema(
-      ImmutableArray.splice(items, start, 1, {
-        ...schema,
-        component
-      })
-    );
   }
 }
