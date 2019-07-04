@@ -123,19 +123,6 @@ export class TextPositionRegistry {
     };
   }
 
-  getPositionFromNodeId(
-    id: TENodeID,
-    mouseClientX: number
-  ): TENonCanonicalTextPosition | undefined {
-    const el = this.mapping[id];
-
-    if (!el) {
-      return;
-    }
-
-    return this.getPositionFromMouseEvent(el, mouseClientX);
-  }
-
   getPositionFromMouseEvent(
     element: HTMLElement,
     mouseClientX: number
