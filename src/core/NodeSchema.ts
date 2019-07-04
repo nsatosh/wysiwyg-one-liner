@@ -23,6 +23,7 @@ export type NodeSchemaItems = {
   getLength: (node: TEBaseNode) => number | undefined;
   getText: (node: TEBaseNode) => string[] | undefined;
   textPositionToCoord?: (
+    element: HTMLElement,
     node: TEBaseNode,
     eOffset: ElementOffset,
     ch: number
@@ -137,6 +138,7 @@ export class NodeSchema {
   }
 
   textPositionToCoord(
+    element: HTMLElement,
     node: TELeafNode,
     offset: ElementOffset,
     ch: number
@@ -144,7 +146,7 @@ export class NodeSchema {
     const schema = this.nodes[node.type];
 
     if (schema && schema.textPositionToCoord) {
-      return schema.textPositionToCoord(node, offset, ch);
+      return schema.textPositionToCoord(element, node, offset, ch);
     }
   }
 

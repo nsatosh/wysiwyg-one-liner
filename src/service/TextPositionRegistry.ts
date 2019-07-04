@@ -59,7 +59,7 @@ export class TextPositionRegistry {
     const eOffset = getElementOffset(this.contaierEl, el);
 
     return (
-      this.nodeSchema.textPositionToCoord(item.node, eOffset, p.ch) || {
+      this.nodeSchema.textPositionToCoord(el, item.node, eOffset, p.ch) || {
         top: eOffset.top,
         left: eOffset.left
       }
@@ -92,7 +92,7 @@ export class TextPositionRegistry {
     };
 
     if (start !== undefined) {
-      const p = this.nodeSchema.textPositionToCoord(node, eOffset, start);
+      const p = this.nodeSchema.textPositionToCoord(el, node, eOffset, start);
 
       if (p) {
         p0 = p;
@@ -105,7 +105,7 @@ export class TextPositionRegistry {
     };
 
     if (end !== undefined) {
-      const p = this.nodeSchema.textPositionToCoord(node, eOffset, end);
+      const p = this.nodeSchema.textPositionToCoord(el, node, eOffset, end);
 
       if (p) {
         p1 = p;

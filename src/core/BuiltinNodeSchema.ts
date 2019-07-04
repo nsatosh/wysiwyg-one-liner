@@ -59,13 +59,14 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
     textPositionToCoord: (
+      el,
       node: TETextNode,
       eOffset: ElementOffset,
       ch: number
     ): Coord => {
       return {
         top: eOffset.top,
-        left: eOffset.left + 10 * ch
+        left: eOffset.left + calcTextWidth(el, node, ch)
       };
     },
     coordToTextPosition: (el, node: TETextNode, coord) => {
