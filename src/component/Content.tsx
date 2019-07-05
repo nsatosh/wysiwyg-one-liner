@@ -8,7 +8,7 @@ import {
   NodeMap,
   StartEditCommand,
   TEEditor,
-  TERowNode
+  TEParentNode
 } from "../core";
 import { DragAndDropCallback, useDragAndDrop } from "../service/DragAndDrop";
 import { DispatchEditorCommandContext } from "../service/EditorCommandDispatcher";
@@ -132,7 +132,7 @@ export const Content: FC<Props> = props => {
               />
             )}
 
-            <Line node={nodeMap[rootNodeId] as TERowNode} editor={editor} />
+            <Line node={nodeMap[rootNodeId] as TEParentNode} editor={editor} />
 
             {cursorAt && <Cursor editor={editor} />}
           </ContainerDiv>

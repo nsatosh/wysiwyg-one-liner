@@ -1,6 +1,5 @@
 import {
   TENodeID,
-  TERowNode,
   TESentinelNode,
   TETextNode,
   TEBaseNode,
@@ -45,14 +44,6 @@ export class U {
   static sentinel(id: TENodeID): Partial<TESentinelNode> {
     return {
       type: "sentinel",
-      id
-    };
-  }
-
-  static row(id: TENodeID, attrs?: Partial<TERowNode>): Partial<TERowNode> {
-    return {
-      ...attrs,
-      type: "row",
       id
     };
   }

@@ -4,8 +4,8 @@ import {
   ensureExists,
   TEBaseNode,
   TEEditor,
-  TERowNode,
-  TEChildNode
+  TEChildNode,
+  TEParentNode
 } from "../core";
 import { TextPositionContext } from "../service/TextPosition";
 import { CustomNodeProps } from "./CustomNodeProps";
@@ -19,7 +19,7 @@ const LineDiv = styled.div`
 `;
 
 interface Props {
-  node: TERowNode;
+  node: TEParentNode;
   editor: TEEditor;
 }
 

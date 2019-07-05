@@ -133,9 +133,6 @@ export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
 
 export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
-export type TEBlockNode = TERowNode;
-export type TELeafBlockNode = TERowNode;
-
 export type TENodeType = string;
 
 export interface TEBaseNode {
@@ -183,14 +180,6 @@ export interface TETextNode extends TEBaseNode {
 
 export interface TEEndNode extends TEBaseNode {
   type: "end";
-}
-
-export interface TERowNode extends TEBaseNode {
-  type: "row";
-
-  children: TENodeID[];
-
-  parent?: TENodeID;
 }
 
 export interface TESubTree {
