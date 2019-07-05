@@ -24,15 +24,10 @@
   "dependencies": {
     "@immutable-array/prototype": "^1.0.4",
     "debounce": "^1.2.0",
-    "path-to-regexp": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "remark-parse": "^6.0.3",
-    "remark-stringify": "^6.0.4",
     "split-graphemes": "^0.1.2",
-    "styled-components": "^4.3.1",
-    "unified": "^7.1.0",
-    "uuid": "^3.3.2"
+    "styled-components": "^4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -42,14 +37,11 @@
     "@types/debug": "^4.1.4",
     "@types/jest": "^24.0.13",
     "@types/jest-environment-puppeteer": "^4.0.0",
-    "@types/katex": "^0.10.1",
-    "@types/mdast": "^3.0.2",
     "@types/parcel-bundler": "^1.12.0",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^4.3.3",
     "@types/react-test-renderer": "^16.8.1",
-    "@types/react-transition-group": "^2.9.2",
     "@types/styled-components": "^4.1.16",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "jest": "^24.8.0",
