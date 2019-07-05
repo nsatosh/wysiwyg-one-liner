@@ -78,39 +78,6 @@ test("Delete text all", () => {
   });
 });
 
-test("Delete media node", () => {
-  const nodeMap = new NodeMap(TestingNodeSchema, {});
-  nodeMap.createRootNode("root");
-  nodeMap.appendChild("root", U.media("m0", { url: "http://example.com/0" }));
-  nodeMap.appendChild("root", U.media("m1", { url: "http://example.com/1" }));
-  nodeMap.appendChild("root", U.media("m2", { url: "http://example.com/2" }));
-  nodeMap.appendChild("root", U.end("te"));
-  let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
-
-  editor = invokeCommand(
-    new DeleteRangeCommand({
-      start: { id: "m0", ch: 0 },
-      end: { id: "m2", ch: 0 }
-    }),
-    editor
-  );
-
-  expect(getShape(editor.nodeMap, "root")).toEqual({
-    type: "row",
-    children: [
-      {
-        type: "media",
-        url: "http://example.com/2",
-        size: {
-          height: 0,
-          width: 0
-        }
-      },
-      { type: "end" }
-    ]
-  });
-});
-
 test("Delete text node that behinds link node", () => {
   const nodeMap = new NodeMap(TestingNodeSchema, {});
   nodeMap.createRootNode("root");

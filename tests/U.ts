@@ -1,5 +1,4 @@
 import {
-  TEMediaNode,
   TENodeID,
   TERowNode,
   TESentinelNode,
@@ -54,18 +53,6 @@ export class U {
     return {
       ...attrs,
       type: "row",
-      id
-    };
-  }
-
-  static media(
-    id: TENodeID,
-    attrs?: Partial<TEMediaNode>
-  ): Partial<TEMediaNode> {
-    return {
-      ...attrs,
-      type: "media",
-      size: (attrs && attrs.size) || { width: 0, height: 0 },
       id
     };
   }

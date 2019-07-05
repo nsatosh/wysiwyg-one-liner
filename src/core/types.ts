@@ -193,21 +193,6 @@ export interface TERowNode extends TEBaseNode {
   parent?: TENodeID;
 }
 
-export interface TEMediaNode extends TEBaseNode {
-  type: "media";
-
-  url: string;
-
-  parent: TENodeID;
-
-  size: TEMediaSize;
-}
-
-export interface TEMediaSize {
-  width: number;
-  height: number;
-}
-
 export interface TESubTree {
   nodeMap: TENodeMap;
 

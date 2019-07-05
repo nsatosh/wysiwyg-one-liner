@@ -1,12 +1,6 @@
 import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
-import {
-  TEMediaNode,
-  TENodeID,
-  TESentinelNode,
-  TETextNode,
-  Coord
-} from "./types";
+import { TENodeID, TESentinelNode, TETextNode, Coord } from "./types";
 import { NodeSchemaItems } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
 import { ElementOffset } from "../service/getElementOffset";
@@ -162,48 +156,6 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
         default:
           throw new Error("Unexpected condition");
       }
-    },
-    canHaveCursor: true
-  },
-  {
-    type: "media",
-    category: "leaf",
-    isBlockNode: false,
-    isInlineContainerNode: false,
-    getLength: () => 1,
-    getText: () => undefined,
-    delete: (nodeMap: NodeMap, node: TEMediaNode, _range, stat: Stat): void => {
-      switch (stat) {
-        case Stat.before:
-        case Stat.after:
-        case Stat.closed:
-          return;
-        case Stat.opened:
-          nodeMap.setNode(node.id, {
-            id: node.id,
-            parent: node.parent,
-            type: "text",
-            text: [],
-            style: {},
-            end: false
-          });
-          return;
-        case Stat.between:
-          nodeMap.deleteNode(node.id, true);
-          return;
-        case Stat.single:
-        default:
-          throw new Error("Unexpected condition");
-      }
-    },
-    coordToTextPosition: (element, node, coord) => {
-      const r = element.getBoundingClientRect();
-
-      return {
-        id: node.id,
-        ch: coord.left <= (r.left + r.right) / 2 ? 0 : 1,
-        nonCanonical: true
-      };
     },
     canHaveCursor: true
   }
