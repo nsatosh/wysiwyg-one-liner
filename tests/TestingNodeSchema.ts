@@ -7,7 +7,7 @@ export const TestingNodeSchema = new NodeSchema([
     type: "link",
     category: "internal",
     isBlockNode: false,
-    isInlineContainerNode: true,
+    isInternalNode: true,
     getLength: () => undefined,
     getText: () => undefined,
     canHaveCursor: false

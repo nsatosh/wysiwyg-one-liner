@@ -29,7 +29,7 @@ export function stitchSubtree(
 
     if (node.type === "row") {
       nextNodeId = stitchRow(nodeMap, context);
-    } else if (nodeMap.schema.isInlineContainerNode(node)) {
+    } else if (nodeMap.schema.isInternalNode(node)) {
       nextNodeId = stitchInlinerContainer(nodeMap, context);
     } else if (nodeMap.schema.isTextNode(node)) {
       nextNodeId = stitchText(nodeMap, context);
@@ -49,7 +49,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     return;
   }
 
-  if (nodeMap.schema.isInlineContainerNode(closing)) {
+  if (nodeMap.schema.isInternalNode(closing)) {
     context.nextCursorAt = { id: closing.children[0], ch: 0 };
   } else {
     context.nextCursorAt = { id: closing.id, ch: 0 };
@@ -81,7 +81,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     return;
   }
 
-  if (nodeMap.schema.isInlineContainerNode(opening)) {
+  if (nodeMap.schema.isInternalNode(opening)) {
     if (!isEmptyInlineContainer(nodeMap, opening)) {
       return;
     }
@@ -144,7 +144,7 @@ function stitchText(nodeMap: NodeMap, context: StichingContext): void {
 }
 
 function isEmptyInlineContainer(nodeMap: NodeMap, node: TEBaseNode) {
-  if (!nodeMap.schema.isInlineContainerNode(node)) {
+  if (!nodeMap.schema.isInternalNode(node)) {
     return false;
   }
 

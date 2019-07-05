@@ -2,7 +2,6 @@ import { DeleteFuntion } from "./NodeMap/deleteRange/deleteSubtree";
 import {
   TEBaseNode,
   TEChildNode,
-  TEInlineContainerNode,
   TEInternalNode,
   TELeafNode,
   TEParentNode,
@@ -18,7 +17,7 @@ export type NodeSchemaItems = {
   type: string;
   category: "leaf" | "internal" | "root";
   isBlockNode: boolean;
-  isInlineContainerNode: boolean;
+  isInternalNode: boolean;
   getLength: (node: TEBaseNode) => number | undefined;
   getText: (node: TEBaseNode) => string[] | undefined;
   textPositionToCoord?: (
@@ -90,12 +89,6 @@ export class NodeSchema {
 
   isEndNode(node: TEBaseNode): node is TEEndNode {
     return node.type === "end";
-  }
-
-  isInlineContainerNode(node: TEBaseNode): node is TEInlineContainerNode {
-    const schema = this.nodes[node.type];
-
-    return schema ? schema.isInlineContainerNode : false;
   }
 
   canHaveCursor(node: TEBaseNode): boolean {

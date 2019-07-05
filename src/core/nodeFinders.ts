@@ -82,7 +82,7 @@ export function getSiblingLeafInSameBlock(
   const sibling = getSiblingNode(nodeMap, nodeId, dir);
 
   if (!sibling) {
-    if (!nodeMap.schema.isInlineContainerNode(parent)) {
+    if (!nodeMap.schema.isInternalNode(parent)) {
       return;
     }
 

@@ -77,7 +77,7 @@ const Editor: FC = () => {
       type: "link",
       category: "internal",
       isBlockNode: false,
-      isInlineContainerNode: true,
+      isInternalNode: true,
       getLength: () => undefined,
       getText: () => undefined,
       canHaveCursor: false,

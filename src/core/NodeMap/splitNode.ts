@@ -1,6 +1,5 @@
 import {
   TEInternalNode,
-  TEInlineContainerNode,
   TELeafNode,
   TENodeID,
   TENodeType,
@@ -34,8 +33,8 @@ export function splitNodeV2(
 
     if (nodeMap.schema.isLeafNode(node)) {
       newId = splitLeafNode(nodeMap, node, ch);
-    } else if (nodeMap.schema.isInlineContainerNode(node)) {
-      newId = splitInlineContainerNode(nodeMap, node, newId!);
+    } else if (nodeMap.schema.isInternalNode(node)) {
+      newId = splitInternalNode(nodeMap, node, newId!);
     }
 
     if (returnId === undefined) {
@@ -70,8 +69,8 @@ export function splitNode(
     if (nodeMap.schema.isLeafNode(node)) {
       newId = splitLeafNode(nodeMap, node, cursorAt.ch);
       nextCursorAt = { id: newId, ch: 0 };
-    } else if (nodeMap.schema.isInlineContainerNode(node)) {
-      newId = splitInlineContainerNode(nodeMap, node, newId!);
+    } else if (nodeMap.schema.isInternalNode(node)) {
+      newId = splitInternalNode(nodeMap, node, newId!);
     }
   }
 
@@ -103,12 +102,12 @@ export function splitLeafNode(
   return newNode.id;
 }
 
-function splitInlineContainerNode(
+function splitInternalNode(
   nodeMap: NodeMap,
-  node: TEInlineContainerNode,
+  node: TEInternalNode,
   prevChildId: TENodeID
 ): TENodeID {
-  const newNode = nodeMap.insertAfter<TEInlineContainerNode>(
+  const newNode = nodeMap.insertAfter<TEInternalNode>(
     node.parent,
     {
       ...node,
@@ -116,7 +115,7 @@ function splitInlineContainerNode(
       children: []
     },
     node.id
-  ) as TEInlineContainerNode;
+  );
 
   nodeMap.insertBefore(
     node.id,

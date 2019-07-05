@@ -11,7 +11,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     type: "row",
     category: "root",
     isBlockNode: true,
-    isInlineContainerNode: false,
+    isInternalNode: false,
     getLength: () => undefined,
     getText: () => undefined,
     canHaveCursor: false
@@ -20,7 +20,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     type: "end",
     category: "leaf",
     isBlockNode: false,
-    isInlineContainerNode: false,
+    isInternalNode: false,
     getLength: () => 1,
     getText: () => undefined,
     delete: (
@@ -50,7 +50,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     type: "text",
     category: "leaf",
     isBlockNode: false,
-    isInlineContainerNode: false,
+    isInternalNode: false,
     getLength: (node: TETextNode) => node.text.length,
     getText: (node: TETextNode) => node.text,
     textPositionToCoord: (
@@ -133,7 +133,7 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
     type: "sentinel",
     category: "leaf",
     isBlockNode: false,
-    isInlineContainerNode: false,
+    isInternalNode: false,
     getLength: () => 1,
     getText: () => undefined,
     delete: (
