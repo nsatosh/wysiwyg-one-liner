@@ -1,5 +1,4 @@
 import {
-  AddMathNodeCommand,
   CopyCommand,
   CutCommand,
   DeleteBackspaceCommand,
@@ -39,7 +38,6 @@ export const keybindableCommands: KeybindableCommands = {
   SelectAllNodes: new SelectAllNodesCommand(),
   Copy: new CopyCommand(),
   Cut: new CutCommand(),
-  AddMathNode: new AddMathNodeCommand(),
   Undo: new UndoCommand(),
   MetaSlash: new MetaSlashCommand(),
   Redo: new RedoCommand(),

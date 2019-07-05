@@ -149,7 +149,6 @@ function generateInitialEditorState(
       "Meta+a": "SelectAllNodes",
       "Meta+c": "Copy",
       "Meta+x": "Cut",
-      "Ctrl+l": "AddMathNode",
       "Meta+z": "Undo",
       "Meta+/": "MetaSlash",
       "Meta+Shift+z": "Redo",

@@ -208,14 +208,6 @@ export interface TEMediaSize {
   height: number;
 }
 
-export interface TEMathNode extends TEBaseNode {
-  type: "math";
-
-  children: TENodeID[];
-
-  parent: TENodeID;
-}
-
 export interface TESubTree {
   nodeMap: TENodeMap;
 

@@ -1,5 +1,4 @@
 import {
-  TEMathNode,
   TEMediaNode,
   TENodeID,
   TERowNode,
@@ -55,14 +54,6 @@ export class U {
     return {
       ...attrs,
       type: "row",
-      id
-    };
-  }
-
-  static math(id: TENodeID, attrs?: Partial<TEMathNode>): Partial<TEMathNode> {
-    return {
-      ...attrs,
-      type: "math",
       id
     };
   }

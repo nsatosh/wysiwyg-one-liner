@@ -206,15 +206,6 @@ export const BUILTIN_ITEMS: NodeSchemaItems[] = [
       };
     },
     canHaveCursor: true
-  },
-  {
-    type: "math",
-    category: "internal",
-    isBlockNode: false,
-    isInlineContainerNode: true,
-    getLength: () => undefined,
-    getText: () => undefined,
-    canHaveCursor: false
   }
 ];
 

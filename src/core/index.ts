@@ -45,7 +45,6 @@ export { CutCommand } from "./commands/CutCommand";
 export { ToggleDebugMode } from "./commands/ToggleDebugMode";
 export { StartCompositionCommand } from "./commands/StartCompositionCommand";
 export { EndCompositionCommand } from "./commands/EndCompositionCommand";
-export { AddMathNodeCommand } from "./commands/AddMathNodeCommand";
 export { ModifyModeCommand } from "./commands/ModifyModeCommand";
 export { PasteCommand } from "./commands/PasteCommand";
 
