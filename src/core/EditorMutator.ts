@@ -131,7 +131,6 @@ function generateInitialEditorState(
       past: [],
       future: []
     },
-    mode: "wysiwyg",
     inDebug: false && process.env.NODE_ENV === "development",
     keybindSettings: {
       ArrowLeft: "MoveCursorLeft",
@@ -150,7 +149,6 @@ function generateInitialEditorState(
       "Meta+c": "Copy",
       "Meta+x": "Cut",
       "Meta+z": "Undo",
-      "Meta+/": "MetaSlash",
       "Meta+Shift+z": "Redo",
       F11: "ToggleDebugMode"
     }

@@ -16,7 +16,6 @@ import {
 } from "../core";
 import { CommandSelector } from "./commandSelector/CommandSelector";
 import { EscapeCommand } from "./commandSelector/EscapeCommand";
-import { MetaSlashCommand } from "./commandSelector/MetaSlashCommand";
 
 export interface KeybindableCommands {
   [name: string]: CommandSelector | EditorCommand;
@@ -39,7 +38,6 @@ export const keybindableCommands: KeybindableCommands = {
   Copy: new CopyCommand(),
   Cut: new CutCommand(),
   Undo: new UndoCommand(),
-  MetaSlash: new MetaSlashCommand(),
   Redo: new RedoCommand(),
   ToggleDebugMode: new ToggleDebugMode()
 };

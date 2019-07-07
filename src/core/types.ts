@@ -27,8 +27,6 @@ export interface TEEditor {
 
   inComposition?: boolean;
 
-  mode: TEMode;
-
   keybindSettings?: TEKeybindSettings;
 
   showConfig?: boolean;
@@ -39,8 +37,6 @@ export interface TEEditor {
 export interface TEKeybindSettings {
   [key: string]: string;
 }
-
-export type TEMode = "plain" | "wysiwyg";
 
 export interface TECommandHistory {
   past: TECommandHistoryItem[];
