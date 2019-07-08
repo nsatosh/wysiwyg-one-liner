@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { useLeafNodePositionRegistry } from "../../service/TextPosition";
+import { usePositionRegistry } from "../../service/TextPosition";
 import styled from "styled-components";
 import { CustomNodeProps } from "../CustomNodeProps";
 
@@ -10,7 +10,7 @@ const Span = styled.span`
 `;
 
 const InlineEnd: FC<CustomNodeProps> = memo(props => {
-  const { ref } = useLeafNodePositionRegistry(props.node);
+  const { ref } = usePositionRegistry(props.node);
 
   return <Span ref={ref}>{props.editor.inDebug ? "□" : " "}</Span>;
 });

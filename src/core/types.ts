@@ -164,8 +164,6 @@ export interface TETextNode extends TEBaseNode {
   text: string[];
 
   style: TETextStyles;
-
-  parent: TENodeID;
 }
 
 export interface TEEndNode extends TEBaseNode {

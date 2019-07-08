@@ -1,10 +1,10 @@
 import {
-  TELeafNode,
   TENodeID,
   TENonCanonicalTextPosition,
   TETextPosition,
   Coord,
-  CoordRect
+  CoordRect,
+  TEBaseNode
 } from "../core";
 import { getElementOffset } from "./getElementOffset";
 import { NodeSchema } from "../core/NodeSchema";
@@ -13,11 +13,11 @@ interface RegistryItems {
   [id: string]: HTMLElement;
 }
 
-type LookupItem = LookupLeafItem | LookupLineItem;
+type LookupItem = LookupElementItem | LookupLineItem;
 
-interface LookupLeafItem {
-  type: "leaf";
-  node: TELeafNode;
+interface LookupElementItem {
+  type: "element";
+  node: TEBaseNode;
 }
 
 interface LookupLineItem {
@@ -159,15 +159,15 @@ export class TextPositionRegistry {
     };
   }
 
-  registerLeafElement(node: TELeafNode, element: HTMLElement): void {
+  registerElement(node: TEBaseNode, element: HTMLElement): void {
     this.mapping[node.id] = element;
     this.lookUpMap.set(element, {
-      type: "leaf",
+      type: "element",
       node
     });
   }
 
-  unregisterLeafElement(nodeId: TENodeID): void {
+  unregisterElement(nodeId: TENodeID): void {
     delete this.mapping[nodeId];
   }
 

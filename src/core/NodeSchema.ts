@@ -131,7 +131,7 @@ export class NodeSchema {
 
   textPositionToCoord(
     element: HTMLElement,
-    node: TELeafNode,
+    node: TEBaseNode,
     offset: ElementOffset,
     ch: number
   ): Coord | undefined {
@@ -144,7 +144,7 @@ export class NodeSchema {
 
   coordToTextPosition(
     element: HTMLElement,
-    node: TELeafNode,
+    node: TEBaseNode,
     coord: Coord
   ): TETextPosition | undefined {
     const schema = this.nodes[node.type];

@@ -1,10 +1,10 @@
 import React, { FC, memo } from "react";
 import { TETextNode } from "../../core";
-import { useLeafNodePositionRegistry } from "../../service/TextPosition";
+import { usePositionRegistry } from "../../service/TextPosition";
 import { CustomNodeProps } from "../CustomNodeProps";
 
 const InlineText: FC<CustomNodeProps<TETextNode>> = memo(props => {
-  const { ref } = useLeafNodePositionRegistry(props.node);
+  const { ref } = usePositionRegistry(props.node);
 
   const {
     node,

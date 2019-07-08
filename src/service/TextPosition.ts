@@ -1,4 +1,4 @@
-import { TELeafNode } from "../core";
+import { TEBaseNode } from "../core";
 import React, { useContext, useLayoutEffect, useRef } from "react";
 import { TextPositionRegistry } from "../service/TextPositionRegistry";
 
@@ -6,7 +6,7 @@ export const TextPositionContext = React.createContext<TextPositionRegistry>(
   new TextPositionRegistry()
 );
 
-export function useLeafNodePositionRegistry(node: TELeafNode) {
+export function usePositionRegistry(node: TEBaseNode) {
   const context = useContext(TextPositionContext);
   const ref = useRef<any>(null);
 
@@ -15,12 +15,12 @@ export function useLeafNodePositionRegistry(node: TELeafNode) {
       return;
     }
 
-    context.registerLeafElement(node, ref.current);
+    context.registerElement(node, ref.current);
   });
 
   useLayoutEffect(() => {
     return () => {
-      context.unregisterLeafElement(node.id);
+      context.unregisterElement(node.id);
     };
   }, []);
 

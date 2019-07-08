@@ -1,6 +1,6 @@
 import React, { FC, memo } from "react";
 import { TESentinelNode } from "../../core";
-import { useLeafNodePositionRegistry } from "../../service/TextPosition";
+import { usePositionRegistry } from "../../service/TextPosition";
 import styled from "styled-components";
 
 const Span = styled.span`
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const InlineSentinel: FC<Props> = memo(props => {
-  const { ref } = useLeafNodePositionRegistry(props.node);
+  const { ref } = usePositionRegistry(props.node);
 
   return <Span ref={ref}>{props.inDebug ? "■" : " "}</Span>;
 });
