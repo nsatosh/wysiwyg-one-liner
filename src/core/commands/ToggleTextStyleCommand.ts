@@ -32,12 +32,22 @@ export class ToggleTextStyleCommand extends EditorCommand {
 
     const nodeMap = editor.getNodeMap();
 
-    const nextEnd = splitNode(nodeMap, selection.end, ["text"]);
-    const nextStart = splitNode(nodeMap, selection.start, ["text"]);
+    const nextEnd = splitNode(
+      nodeMap,
+      ["text"],
+      selection.end.id,
+      selection.end.ch
+    );
+    const nextStart = splitNode(
+      nodeMap,
+      ["text"],
+      selection.start.id,
+      selection.start.ch
+    );
 
     const nextSelection: TETextSelection = {
-      start: nextStart || selection.start,
-      end: nextEnd || selection.end,
+      start: nextStart ? { id: nextStart, ch: 0 } : selection.start,
+      end: nextEnd ? { id: nextEnd, ch: 0 } : selection.end,
       focus: selection.focus
     };
 

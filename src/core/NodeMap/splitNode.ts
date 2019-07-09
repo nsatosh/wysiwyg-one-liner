@@ -3,13 +3,12 @@ import {
   TELeafNode,
   TENodeID,
   TENodeType,
-  TETextPosition,
   TETextNode
 } from "../types";
 import { getFullPath } from "./getFullPath";
 import NodeMap from "./NodeMap";
 
-export function splitNodeV2(
+export function splitNode(
   nodeMap: NodeMap,
   splittingType: TENodeType[],
   nodeId: TENodeID,
@@ -43,38 +42,6 @@ export function splitNodeV2(
   }
 
   return returnId;
-}
-
-export function splitNode(
-  nodeMap: NodeMap,
-  cursorAt: TETextPosition,
-  splittingType: TENodeType[]
-): TETextPosition | undefined {
-  const path = getFullPath(nodeMap, cursorAt.id);
-
-  const splittingIndex = path.findIndex(id =>
-    splittingType.includes(nodeMap.ensureNode(id).type)
-  );
-
-  if (splittingIndex === -1) {
-    return;
-  }
-
-  let newId: TENodeID | undefined;
-  let nextCursorAt: TETextPosition | undefined;
-
-  for (let i = 0; i <= splittingIndex; i++) {
-    const node = nodeMap.ensureNode(path[i]);
-
-    if (nodeMap.schema.isLeafNode(node)) {
-      newId = splitLeafNode(nodeMap, node, cursorAt.ch);
-      nextCursorAt = { id: newId, ch: 0 };
-    } else if (nodeMap.schema.isInternalNode(node)) {
-      newId = splitInternalNode(nodeMap, node, newId!);
-    }
-  }
-
-  return nextCursorAt;
 }
 
 export function splitLeafNode(

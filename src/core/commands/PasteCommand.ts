@@ -3,7 +3,7 @@ import EditorMutator from "../EditorMutator";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
 import { TETextRange, TELeafNode, TETextNode } from "../types";
 import { ensureExists } from "../ensureExists";
-import { splitNodeV2 } from "../NodeMap/splitNode";
+import { splitNode } from "../NodeMap/splitNode";
 
 export class PasteCommand extends EditorCommand {
   private range?: TETextRange;
@@ -43,12 +43,7 @@ export class PasteCommand extends EditorCommand {
 
       nodeMap.insertBefore(parent, newNodeAttrs, nextCursorAt.id);
 
-      const id = splitNodeV2(
-        nodeMap,
-        ["row"],
-        nextCursorAt.id,
-        nextCursorAt.ch
-      )!;
+      const id = splitNode(nodeMap, ["row"], nextCursorAt.id, nextCursorAt.ch)!;
 
       const node = nodeMap.ensureNode(id) as TELeafNode;
       nextCursorAt = { id: node.id, ch: 0 };
