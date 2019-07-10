@@ -1,6 +1,6 @@
 import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
-import { TENodeID, TESentinelNode, TETextNode, Coord } from "./types";
+import { TENodeID, TETextNode, Coord } from "./types";
 import { NodeSchemaItem } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
 import { ElementOffset } from "../service/getElementOffset";
@@ -17,7 +17,7 @@ export const SentinelNodeSchema: NodeSchemaItem = {
   getText: () => undefined,
   delete: (
     _nodeMap: NodeMap,
-    node: TESentinelNode,
+    node,
     _range,
     stat: Stat,
     deletables: Set<TENodeID>

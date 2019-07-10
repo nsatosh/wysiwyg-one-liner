@@ -154,12 +154,6 @@ export interface TELeafNode extends TEBaseNode {
 export type TEParentNode = TERootNode | TEInternalNode;
 export type TEChildNode = TELeafNode | TEInternalNode;
 
-export interface TESentinelNode extends TEBaseNode {
-  type: "sentinel";
-
-  parent: TENodeID;
-}
-
 export interface TETextNode extends TEBaseNode {
   text: string[];
 

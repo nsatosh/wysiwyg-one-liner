@@ -7,13 +7,15 @@ import {
   TETextNode,
   TEBaseNode,
   TENodeID,
-  TELeafNode,
-  TESentinelNode
+  TELeafNode
 } from "../../src/core";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
 import InlineSentinel from "../../src/component/node/InlineSentinel";
-import { BUILTIN_ITEMS } from "../../src/core/BuiltinNodeSchema";
+import {
+  BUILTIN_ITEMS,
+  SentinelNodeType
+} from "../../src/core/BuiltinNodeSchema";
 import { CustomNodeProps } from "../../src/component/CustomNodeProps";
 
 interface TELinkNode extends TEBaseNode {
@@ -57,13 +59,7 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
         }
 
         if (node.type === "sentinel") {
-          return (
-            <InlineSentinel
-              key={node.id}
-              node={node as TESentinelNode}
-              inDebug={inDebug}
-            />
-          );
+          return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
         }
       })}
     </a>
@@ -92,13 +88,13 @@ const Editor: FC = () => {
     type: "link",
     url: "https://example.com"
   });
-  nodeMap.appendChild<TESentinelNode>(id, { type: "sentinel" });
+  nodeMap.appendChild(id, { type: SentinelNodeType });
   nodeMap.appendChild<TETextNode>(id, {
     type: "text",
     text: "A link to example.com".split(""),
     style: {}
   });
-  nodeMap.appendChild<TESentinelNode>(id, { type: "sentinel" });
+  nodeMap.appendChild(id, { type: SentinelNodeType });
   nodeMap.appendChild("root", {
     type: "end"
   });

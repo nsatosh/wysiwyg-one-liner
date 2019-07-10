@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { TESentinelNode } from "../../core";
+import { TEBaseNode } from "../../core";
 import { usePositionRegistry } from "../../service/TextPosition";
 import styled from "styled-components";
 
@@ -8,7 +8,7 @@ const Span = styled.span`
 `;
 
 interface Props {
-  node: TESentinelNode;
+  node: TEBaseNode;
   inDebug?: boolean;
 }
 
