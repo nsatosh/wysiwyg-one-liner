@@ -8,6 +8,7 @@ import {
   TETextRange
 } from "../../types";
 import NodeMap from "../NodeMap";
+import { SentinelNodeType } from "../../BuiltinNodeSchema";
 
 export interface StichingContext {
   range: TETextRange;
@@ -148,7 +149,9 @@ function isEmptyInternalNode(nodeMap: NodeMap, node: TEInternalNode) {
   if (nodeMap.schema.isTextNode(firstNode) && firstNode.text.length === 0) {
     return true;
   }
-  if (node.children.every(id => nodeMap.ensureNode(id).type === "sentinel")) {
+  if (
+    node.children.every(id => nodeMap.ensureNode(id).type === SentinelNodeType)
+  ) {
     return true;
   }
 

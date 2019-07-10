@@ -7,6 +7,7 @@ import {
 } from "../types";
 import { getFullPath } from "./getFullPath";
 import NodeMap from "./NodeMap";
+import { SentinelNodeType } from "../BuiltinNodeSchema";
 
 export function splitNode(
   nodeMap: NodeMap,
@@ -87,7 +88,7 @@ function splitInternalNode(
   nodeMap.insertBefore(
     node.id,
     {
-      type: "sentinel"
+      type: SentinelNodeType
     },
     prevChildId
   );
@@ -95,7 +96,7 @@ function splitInternalNode(
   const { id } = nodeMap.insertBefore(
     node.id,
     {
-      type: "sentinel"
+      type: SentinelNodeType
     },
     prevChildId
   );

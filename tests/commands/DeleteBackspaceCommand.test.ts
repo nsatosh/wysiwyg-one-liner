@@ -7,6 +7,7 @@ import {
 import { U } from "../U";
 import { getShape } from "./getShape";
 import { TestingNodeSchema } from "../TestingNodeSchema";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 test("Backspace from lead of link node", () => {
   const nodeMap = new NodeMap(TestingNodeSchema, {});
@@ -32,9 +33,9 @@ test("Backspace from lead of link node", () => {
       {
         type: "link",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: ["d", "e", "f"], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ],
         url: ""
       },
@@ -67,9 +68,9 @@ test("Delete last of link node", () => {
       {
         type: "link",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: ["d", "e"], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ],
         url: ""
       },
@@ -99,8 +100,8 @@ test("Backspace more than two or more sentinels", () => {
     type: "row",
     children: [
       { type: "text", text: ["a", "b"], style: {} },
-      { type: "sentinel" },
-      { type: "sentinel" },
+      { type: SentinelNodeType },
+      { type: SentinelNodeType },
       { type: "text", text: ["d", "e", "f"], style: {} },
       { type: "end" }
     ]
@@ -130,9 +131,9 @@ test("Backspace from lead of empty link node", () => {
       {
         type: "link",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: [], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ],
         url: ""
       },
@@ -183,9 +184,9 @@ test("Backspace in link node that positions at lead of row", () => {
       {
         type: "link",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: [], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ],
         url: ""
       },

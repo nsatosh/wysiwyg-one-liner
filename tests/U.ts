@@ -1,10 +1,5 @@
-import {
-  TENodeID,
-  TESentinelNode,
-  TETextNode,
-  TEBaseNode,
-  TEEndNode
-} from "../src/core/types";
+import { TENodeID, TETextNode, TEBaseNode, TEEndNode } from "../src/core/types";
+import { SentinelNodeType } from "../src/core/BuiltinNodeSchema";
 
 interface TELinkNode extends TEBaseNode {
   type: "link";
@@ -41,9 +36,9 @@ export class U {
     };
   }
 
-  static sentinel(id: TENodeID): Partial<TESentinelNode> {
+  static sentinel(id: TENodeID): Partial<TEBaseNode> {
     return {
-      type: "sentinel",
+      type: SentinelNodeType,
       id
     };
   }

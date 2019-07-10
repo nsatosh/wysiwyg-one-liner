@@ -16,6 +16,7 @@ import { TEEditor } from "../../src/core/types";
 import { U } from "../U";
 import { getShape } from "./getShape";
 import { TestingNodeSchema } from "../TestingNodeSchema";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 let editor: TEEditor;
 
@@ -163,9 +164,9 @@ test("Modify backward node if input has occurred at sentinel", () => {
       {
         type: "link",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: ["d", "e", "f"], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ],
         url: ""
       },

@@ -7,6 +7,7 @@ import { U } from "../U";
 import { getShape } from "./getShape";
 import { RedoCommand } from "../../src/core";
 import { TestingNodeSchema } from "../TestingNodeSchema";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 test("Delete text within single inline text node", () => {
   const nodeMap = new NodeMap(TestingNodeSchema, {});
@@ -105,9 +106,9 @@ test("Delete text node that behinds link node", () => {
         type: "link",
         url: "",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: ["b"], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ]
       },
       { type: "end" }
@@ -173,9 +174,9 @@ test("Keep empty link node if delete range does not cover sentinels", () => {
         type: "link",
         url: "",
         children: [
-          { type: "sentinel" },
+          { type: SentinelNodeType },
           { type: "text", text: [], style: {} },
-          { type: "sentinel" }
+          { type: SentinelNodeType }
         ]
       },
       { type: "end" }

@@ -6,6 +6,39 @@ import InlineEnd from "../component/node/InlineEnd";
 import { ElementOffset } from "../service/getElementOffset";
 import InlineText from "../component/node/InlineText";
 
+export const SentinelNodeType = Symbol("sentinel");
+
+export const SentinelNodeSchema: NodeSchemaItem = {
+  type: SentinelNodeType,
+  category: "leaf",
+  isBlockNode: false,
+  isInternalNode: false,
+  getLength: () => 1,
+  getText: () => undefined,
+  delete: (
+    _nodeMap: NodeMap,
+    node: TESentinelNode,
+    _range,
+    stat: Stat,
+    deletables: Set<TENodeID>
+  ): void => {
+    switch (stat) {
+      case Stat.before:
+      case Stat.after:
+      case Stat.closed:
+      case Stat.opened:
+        return;
+      case Stat.between:
+        deletables.add(node.id);
+        return;
+      case Stat.single:
+      default:
+        throw new Error("Unexpected condition");
+    }
+  },
+  canHaveCursor: true
+};
+
 export const BUILTIN_ITEMS: NodeSchemaItem[] = [
   {
     type: "row",
@@ -127,36 +160,6 @@ export const BUILTIN_ITEMS: NodeSchemaItem[] = [
       }
     },
     component: InlineText,
-    canHaveCursor: true
-  },
-  {
-    type: "sentinel",
-    category: "leaf",
-    isBlockNode: false,
-    isInternalNode: false,
-    getLength: () => 1,
-    getText: () => undefined,
-    delete: (
-      _nodeMap: NodeMap,
-      node: TESentinelNode,
-      _range,
-      stat: Stat,
-      deletables: Set<TENodeID>
-    ): void => {
-      switch (stat) {
-        case Stat.before:
-        case Stat.after:
-        case Stat.closed:
-        case Stat.opened:
-          return;
-        case Stat.between:
-          deletables.add(node.id);
-          return;
-        case Stat.single:
-        default:
-          throw new Error("Unexpected condition");
-      }
-    },
     canHaveCursor: true
   }
 ];

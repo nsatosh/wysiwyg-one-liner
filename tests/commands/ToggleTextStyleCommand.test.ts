@@ -6,6 +6,7 @@ import { TEEditor } from "../../src/core/types";
 import { U } from "../U";
 import { getShape } from "./getShape";
 import { TestingNodeSchema } from "../TestingNodeSchema";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 describe("Change style on single text node", () => {
   let editor: TEEditor;
@@ -202,10 +203,10 @@ describe("Change text style across link node", () => {
         {
           type: "link",
           children: [
-            { type: "sentinel" },
+            { type: SentinelNodeType },
             { type: "text", text: ["d"], style: { bold: true } },
             { type: "text", text: ["e", "f"], style: {} },
-            { type: "sentinel" }
+            { type: SentinelNodeType }
           ],
           url: ""
         },
@@ -231,10 +232,10 @@ describe("Change text style across link node", () => {
         {
           type: "link",
           children: [
-            { type: "sentinel" },
+            { type: SentinelNodeType },
             { type: "text", text: ["d", "e"], style: {} },
             { type: "text", text: ["f"], style: { bold: true } },
-            { type: "sentinel" }
+            { type: SentinelNodeType }
           ],
           url: ""
         },
@@ -261,13 +262,13 @@ describe("Change text style across link node", () => {
         {
           type: "link",
           children: [
-            { type: "sentinel" },
+            { type: SentinelNodeType },
             {
               type: "text",
               text: ["d", "e", "f"],
               style: { bold: true }
             },
-            { type: "sentinel" }
+            { type: SentinelNodeType }
           ],
           url: ""
         },
