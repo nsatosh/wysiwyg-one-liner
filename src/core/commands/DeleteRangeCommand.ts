@@ -73,7 +73,10 @@ function findStartPosition(
       return current;
     }
 
-    if (nodeMap.ensureNode(next.id).type !== "sentinel") {
+    const nextNode = nodeMap.ensureNode(next.id);
+    const text = nodeMap.schema.getText(nextNode);
+
+    if (text && text.length > 0) {
       return next;
     }
 
