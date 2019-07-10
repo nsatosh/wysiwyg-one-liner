@@ -9,12 +9,13 @@ import {
   TETextNode,
   TEEndNode,
   Coord,
-  TETextPosition
+  TETextPosition,
+  TENodeType
 } from "./types";
 import { ElementOffset } from "../service/getElementOffset";
 
 export type NodeSchemaItem = {
-  type: string;
+  type: TENodeType;
   category: "leaf" | "internal" | "root";
   isBlockNode: boolean;
   isInternalNode: boolean;
@@ -43,28 +44,28 @@ export class NodeSchema {
     this.nodes = {};
 
     items.forEach(schema => {
+      if (typeof schema.type !== "string") {
+        return;
+      }
+
       this.nodes[schema.type] = schema;
     });
   }
 
-  getNodeSchema(type: string): NodeSchemaItem | undefined {
-    return this.nodes[type];
-  }
-
   isRootNode(node: TEBaseNode): node is TERootNode {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     return schema ? schema.category === "root" : false;
   }
 
   isInternalNode(node: TEBaseNode): node is TEInternalNode {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     return schema ? schema.category === "internal" : false;
   }
 
   isLeafNode(node: TEBaseNode): node is TELeafNode {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     return schema ? schema.category === "leaf" : false;
   }
@@ -78,7 +79,7 @@ export class NodeSchema {
   }
 
   isBlockNode(node: TEBaseNode): boolean {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     return schema ? schema.isBlockNode : false;
   }
@@ -92,13 +93,13 @@ export class NodeSchema {
   }
 
   canHaveCursor(node: TEBaseNode): boolean {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     return schema ? schema.canHaveCursor : false;
   }
 
   getNodeLength(node: TEBaseNode): number | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema) {
       return schema.getLength(node);
@@ -106,7 +107,7 @@ export class NodeSchema {
   }
 
   getText(node: TEBaseNode): string[] | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema) {
       return schema.getText(node);
@@ -114,7 +115,7 @@ export class NodeSchema {
   }
 
   getDeteteFunction(node: TEBaseNode): DeleteFuntion | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema) {
       return schema.delete;
@@ -122,7 +123,7 @@ export class NodeSchema {
   }
 
   getCustomNodeComponent(node: TEBaseNode): unknown | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema) {
       return schema.component;
@@ -135,7 +136,7 @@ export class NodeSchema {
     offset: ElementOffset,
     ch: number
   ): Coord | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema && schema.textPositionToCoord) {
       return schema.textPositionToCoord(element, node, offset, ch);
@@ -147,10 +148,16 @@ export class NodeSchema {
     node: TEBaseNode,
     coord: Coord
   ): TETextPosition | undefined {
-    const schema = this.nodes[node.type];
+    const schema = this.getNodeSchema(node.type);
 
     if (schema && schema.coordToTextPosition) {
       return schema.coordToTextPosition(element, node, coord);
+    }
+  }
+
+  private getNodeSchema(type: string | symbol): NodeSchemaItem | undefined {
+    if (typeof type === "string") {
+      return this.nodes[type];
     }
   }
 }

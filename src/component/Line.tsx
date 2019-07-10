@@ -61,7 +61,7 @@ export const Line: FC<Props> = props => {
           | undefined;
 
         if (!Component) {
-          console.error(`Can't render node: ${node.type}`);
+          console.error(`Can't render node: ${node.type.toString()}`);
           return null;
         }
 

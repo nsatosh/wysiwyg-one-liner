@@ -129,7 +129,7 @@ export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
 
 export type TETextStyles = { [name in TENodeStyleName]?: boolean };
 
-export type TENodeType = string;
+export type TENodeType = string | symbol;
 
 export interface TEBaseNode {
   type: TENodeType;

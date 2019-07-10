@@ -22,7 +22,7 @@ export class StartEditCommand extends EditorCommand {
     const node = nodeMap.ensureNode(id);
 
     if (!nodeMap.schema.isLeafNode(node)) {
-      throw new Error(`Unexpected node type ${node.type}`);
+      throw new Error(`Unexpected node type ${node.type.toString()}`);
     }
 
     const len = ensureExists(nodeMap.schema.getNodeLength(node));
