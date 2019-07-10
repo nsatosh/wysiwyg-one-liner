@@ -71,12 +71,9 @@ function deleteLeaf(nodeMap: NodeMap, node: TELeafNode, stat: Stat): void {
 function deleteEmptyParent(
   nodeMap: NodeMap,
   node: TEParentNode,
-  deletableSentinels: Set<TENodeID>
+  deletables: Set<TENodeID>
 ): void {
-  if (
-    node.children.length === 0 ||
-    hasOnlyDeletable(node, deletableSentinels)
-  ) {
+  if (node.children.length === 0 || hasOnlyDeletable(node, deletables)) {
     nodeMap.deleteNode(node.id, true);
   }
 }

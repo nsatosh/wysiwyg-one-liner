@@ -3,7 +3,6 @@ import { isSameStyle } from "../../isSameStyle";
 import { getFirstLeaf, getSiblingNode } from "../../nodeFinders";
 import {
   TEInternalNode,
-  TEBaseNode,
   TENodeID,
   TETextPosition,
   TETextRange
@@ -82,7 +81,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
   }
 
   if (nodeMap.schema.isInternalNode(opening)) {
-    if (!isEmptyInlineContainer(nodeMap, opening)) {
+    if (!isEmptyInternalNode(nodeMap, opening)) {
       return;
     }
 
@@ -124,7 +123,7 @@ function stitchInlinerContainer(
 
   context.nextCursorAt = { id: closing.id, ch: 0 };
 
-  if (isEmptyInlineContainer(nodeMap, rootNode)) {
+  if (isEmptyInternalNode(nodeMap, rootNode)) {
     nodeMap.deleteNode(opening.id);
     return;
   }
@@ -143,17 +142,12 @@ function stitchText(nodeMap: NodeMap, context: StichingContext): void {
   context.nextCursorAt = context.range.start;
 }
 
-function isEmptyInlineContainer(nodeMap: NodeMap, node: TEBaseNode) {
-  if (!nodeMap.schema.isInternalNode(node)) {
-    return false;
-  }
-
+function isEmptyInternalNode(nodeMap: NodeMap, node: TEInternalNode) {
   const firstNode = getFirstLeaf(nodeMap, node);
 
   if (nodeMap.schema.isTextNode(firstNode) && firstNode.text.length === 0) {
     return true;
   }
-
   if (node.children.every(id => nodeMap.ensureNode(id).type === "sentinel")) {
     return true;
   }

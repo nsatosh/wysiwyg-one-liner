@@ -1,12 +1,12 @@
 import { NodeMap } from ".";
 import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
 import { TENodeID, TESentinelNode, TETextNode, Coord } from "./types";
-import { NodeSchemaItems } from "./NodeSchema";
+import { NodeSchemaItem } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
 import { ElementOffset } from "../service/getElementOffset";
 import InlineText from "../component/node/InlineText";
 
-export const BUILTIN_ITEMS: NodeSchemaItems[] = [
+export const BUILTIN_ITEMS: NodeSchemaItem[] = [
   {
     type: "row",
     category: "root",

@@ -13,7 +13,7 @@ import {
 } from "./types";
 import { ElementOffset } from "../service/getElementOffset";
 
-export type NodeSchemaItems = {
+export type NodeSchemaItem = {
   type: string;
   category: "leaf" | "internal" | "root";
   isBlockNode: boolean;
@@ -37,9 +37,9 @@ export type NodeSchemaItems = {
 };
 
 export class NodeSchema {
-  private nodes: { [type: string]: NodeSchemaItems };
+  private nodes: { [type: string]: NodeSchemaItem };
 
-  constructor(items: NodeSchemaItems[]) {
+  constructor(items: NodeSchemaItem[]) {
     this.nodes = {};
 
     items.forEach(schema => {
@@ -47,7 +47,7 @@ export class NodeSchema {
     });
   }
 
-  getNodeSchema(type: string): NodeSchemaItems | undefined {
+  getNodeSchema(type: string): NodeSchemaItem | undefined {
     return this.nodes[type];
   }
 
