@@ -30,7 +30,7 @@ interface LookupLineItem {
 export class TextPositionRegistry {
   private mapping = {} as RegistryItems;
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
-  private contaierEl: HTMLElement;
+  private containerEl: HTMLElement;
   private nodeSchema: NodeSchema;
 
   constructor(nodeSchema?: NodeSchema) {
@@ -40,7 +40,7 @@ export class TextPositionRegistry {
   }
 
   setDOMElements(containerEl: HTMLElement) {
-    this.contaierEl = containerEl;
+    this.containerEl = containerEl;
   }
 
   getCoordPoint(p: TETextPosition): Coord | undefined {
@@ -56,7 +56,7 @@ export class TextPositionRegistry {
       return;
     }
 
-    const eOffset = getElementOffset(this.contaierEl, el);
+    const eOffset = getElementOffset(this.containerEl, el);
 
     return (
       this.nodeSchema.textPositionToCoord(el, item.node, eOffset, p.ch) || {
@@ -84,7 +84,7 @@ export class TextPositionRegistry {
     }
 
     const { node } = item;
-    const eOffset = getElementOffset(this.contaierEl, el);
+    const eOffset = getElementOffset(this.containerEl, el);
 
     let p0 = {
       top: eOffset.top,
