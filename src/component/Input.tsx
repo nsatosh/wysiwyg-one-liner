@@ -48,7 +48,12 @@ const Input: FC<Props> = props => {
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
-      if (event.keyCode === 229 || editor.inComposition || !editor.isActive) {
+      if (
+        !TPR ||
+        event.keyCode === 229 ||
+        editor.inComposition ||
+        !editor.isActive
+      ) {
         return;
       }
 

@@ -62,10 +62,10 @@ export const Content: FC<Props> = props => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dummyTextRef = useRef<HTMLSpanElement>(null);
-  const TPR = useRef(new TextPositionRegistry(nodeSchema));
+  const TPR = useRef<TextPositionRegistry | null>(null);
 
   useEffect(() => {
-    TPR.current.setDOMElements(containerRef.current!);
+    TPR.current = new TextPositionRegistry(nodeSchema, containerRef.current!);
   }, []);
 
   const onDragAndDrop = useCallback<DragAndDropCallback>(
@@ -94,7 +94,7 @@ export const Content: FC<Props> = props => {
     [dispatchCommand, containerRef, nodeMap, rootNodeId]
   );
 
-  useDragAndDrop(TPR.current, onDragAndDrop);
+  useDragAndDrop(TPR, onDragAndDrop);
 
   return (
     <DispatchEditorCommandContext.Provider value={dispatchCommand}>

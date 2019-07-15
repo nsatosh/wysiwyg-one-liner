@@ -2,8 +2,8 @@ import { TEBaseNode } from "../core";
 import React, { useContext, useLayoutEffect, useRef } from "react";
 import { TextPositionRegistry } from "../service/TextPositionRegistry";
 
-export const TextPositionContext = React.createContext<TextPositionRegistry>(
-  new TextPositionRegistry()
+export const TextPositionContext = React.createContext<TextPositionRegistry | null>(
+  null
 );
 
 export function usePositionRegistry(node: TEBaseNode) {
@@ -11,7 +11,7 @@ export function usePositionRegistry(node: TEBaseNode) {
   const ref = useRef<any>(null);
 
   useLayoutEffect(() => {
-    if (!ref.current) {
+    if (!ref.current || !context) {
       return;
     }
 
@@ -20,6 +20,10 @@ export function usePositionRegistry(node: TEBaseNode) {
 
   useLayoutEffect(() => {
     return () => {
+      if (!context) {
+        return;
+      }
+
       context.unregisterElement(node.id);
     };
   }, []);

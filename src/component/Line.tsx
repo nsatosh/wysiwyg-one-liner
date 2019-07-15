@@ -42,7 +42,7 @@ export const Line: FC<Props> = props => {
   const lineRef = useRef<any>(null);
 
   useLayoutEffect(() => {
-    if (firstNodeId) {
+    if (context && firstNodeId) {
       context.registerLineElement(
         firstNodeId,
         lastNodeId || firstNodeId,

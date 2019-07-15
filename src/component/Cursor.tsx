@@ -50,7 +50,7 @@ const Cursor: FC<Props> = props => {
     const { editor } = props;
     const { cursorAt } = editor;
 
-    if (!cursorAt) {
+    if (!cursorAt || !context) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import { TENonCanonicalTextPosition } from "../core";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, RefObject } from "react";
 import { TextPositionRegistry } from "../service/TextPositionRegistry";
 
 export type DragAndDropCallback = (
@@ -9,16 +9,19 @@ export type DragAndDropCallback = (
 ) => false | void;
 
 export function useDragAndDrop(
-  TPR: TextPositionRegistry,
+  TPRRef: RefObject<TextPositionRegistry>,
   callback: DragAndDropCallback
 ): boolean {
-  const TPRRef = useRef(TPR);
   const callbackRef = useRef(callback);
   const isPressingRef = useRef(false);
 
   const onMouseDown = useCallback(
     (ev: MouseEvent) => {
       isPressingRef.current = true;
+
+      if (!TPRRef.current) {
+        return;
+      }
 
       if (
         callbackRef.current(
@@ -43,6 +46,10 @@ export function useDragAndDrop(
         return;
       }
 
+      if (!TPRRef.current) {
+        return;
+      }
+
       if (
         callbackRef.current(
           "move",
@@ -63,6 +70,10 @@ export function useDragAndDrop(
   const onMouseUp = useCallback(
     (ev: MouseEvent) => {
       isPressingRef.current = false;
+
+      if (!TPRRef.current) {
+        return;
+      }
 
       if (
         callbackRef.current(

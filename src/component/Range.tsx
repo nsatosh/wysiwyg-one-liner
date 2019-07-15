@@ -104,6 +104,10 @@ const RangePart: FC<PartProps> = memo(props => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!context) {
+      return;
+    }
+
     const { node, start, end } = props;
 
     const rect = context.getCoordRect(node.id, start, end);

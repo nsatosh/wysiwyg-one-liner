@@ -33,13 +33,8 @@ export class TextPositionRegistry {
   private containerEl: HTMLElement;
   private nodeSchema: NodeSchema;
 
-  constructor(nodeSchema?: NodeSchema) {
-    if (nodeSchema) {
-      this.nodeSchema = nodeSchema;
-    }
-  }
-
-  setDOMElements(containerEl: HTMLElement) {
+  constructor(nodeSchema: NodeSchema, containerEl: HTMLElement) {
+    this.nodeSchema = nodeSchema;
     this.containerEl = containerEl;
   }
 
