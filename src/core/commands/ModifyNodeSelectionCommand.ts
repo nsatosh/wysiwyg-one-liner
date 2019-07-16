@@ -1,6 +1,6 @@
 import { TEDirection, TETextPosition } from "../types";
 import { isRangeCollapsed } from "../range";
-import { getNextChar } from "../text";
+import { getNextChar } from "../getNextChar";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { NodeMap } from "..";

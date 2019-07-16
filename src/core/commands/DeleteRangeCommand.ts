@@ -2,7 +2,7 @@ import { TETextRange, TETextPosition } from "../types";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 import { deleteRange } from "../NodeMap/deleteRange/deleteRange";
-import { getNextChar } from "../text";
+import { getNextChar } from "../getNextChar";
 import NodeMap from "../NodeMap/NodeMap";
 import { isPositionEquals } from "../position";
 

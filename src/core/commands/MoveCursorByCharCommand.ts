@@ -1,6 +1,6 @@
 import { TETextPosition } from "../types";
 import { getCurrentNode } from "../nodeFinders";
-import { getNextChar } from "../text";
+import { getNextChar } from "../getNextChar";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
 
