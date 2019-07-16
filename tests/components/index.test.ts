@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const FIRST_LINE = { x: 200, y: 55 };
+const FIRST_LINE = { x: 200, y: 10 };
 const CENTER = { x: 200, y: 200 };
 
 const SCREENSHOT_DIR = "tmp";
