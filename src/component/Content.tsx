@@ -62,10 +62,12 @@ export const Content: FC<Props> = props => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dummyTextRef = useRef<HTMLSpanElement>(null);
-  const TPR = useRef<TextPositionRegistry | null>(null);
+  const TPR = useRef<TextPositionRegistry>(
+    new TextPositionRegistry(nodeSchema)
+  );
 
   useEffect(() => {
-    TPR.current = new TextPositionRegistry(nodeSchema, containerRef.current!);
+    TPR.current.setContainerElement(containerRef.current!);
   }, []);
 
   const onDragAndDrop = useCallback<DragAndDropCallback>(

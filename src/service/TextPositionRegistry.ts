@@ -30,12 +30,15 @@ interface LookupLineItem {
 export class TextPositionRegistry {
   private mapping = {} as RegistryItems;
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
-  private containerEl: HTMLElement;
+  private containerEl: HTMLElement | undefined;
   private nodeSchema: NodeSchema;
 
-  constructor(nodeSchema: NodeSchema, containerEl: HTMLElement) {
+  constructor(nodeSchema: NodeSchema) {
     this.nodeSchema = nodeSchema;
-    this.containerEl = containerEl;
+  }
+
+  setContainerElement(element: HTMLElement) {
+    this.containerEl = element;
   }
 
   getCoordPoint(p: TETextPosition): Coord | undefined {
@@ -47,7 +50,7 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line") {
+    if (!item || item.type === "line" || !this.containerEl) {
       return;
     }
 
@@ -74,7 +77,7 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line") {
+    if (!item || item.type === "line" || !this.containerEl) {
       return;
     }
 
