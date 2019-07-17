@@ -13,7 +13,6 @@ import {
   TENodeType
 } from "./types";
 import { ElementOffset } from "../service/getElementOffset";
-import { SentinelNodeType, SentinelNodeSchema } from "./BuiltinNodeSchema";
 
 export type NodeSchemaItem = {
   type: TENodeType;
@@ -45,11 +44,11 @@ export class NodeSchema {
     this.nodes = {};
 
     items.forEach(schema => {
-      if (typeof schema.type !== "string") {
-        return;
+      if (typeof schema.type === "symbol") {
+        this.nodes[schema.type as any] = schema;
+      } else {
+        this.nodes[schema.type] = schema;
       }
-
-      this.nodes[schema.type] = schema;
     });
   }
 
@@ -157,10 +156,10 @@ export class NodeSchema {
   }
 
   private getNodeSchema(type: TENodeType): NodeSchemaItem | undefined {
-    if (typeof type === "string") {
+    if (typeof type === "symbol") {
+      return this.nodes[type as any];
+    } else {
       return this.nodes[type];
-    } else if (type === SentinelNodeType) {
-      return SentinelNodeSchema;
     }
   }
 }
