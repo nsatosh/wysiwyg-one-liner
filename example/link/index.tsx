@@ -30,7 +30,7 @@ interface TELinkNode extends TEBaseNode {
 
 const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
   const { node, editor } = props;
-  const { nodeMap, inDebug } = editor;
+  const { nodeMap, inDebug, nodeSchema } = editor;
 
   const nodes = node.children.reduce<TELeafNode[]>((nodes, id) => {
     const node = nodeMap[id];
@@ -48,14 +48,8 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
   return (
     <a href={node.url} target="_blank">
       {nodes.map(node => {
-        if (node.type === "text") {
-          return (
-            <InlineText
-              key={node.id}
-              node={node as TETextNode}
-              editor={editor}
-            />
-          );
+        if (nodeSchema.isTextNode(node)) {
+          return <InlineText key={node.id} node={node} editor={editor} />;
         }
 
         if (node.type === SentinelNodeType) {
