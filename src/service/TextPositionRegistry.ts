@@ -8,6 +8,7 @@ import {
 } from "../core";
 import { getElementOffset } from "./getElementOffset";
 import { NodeSchema } from "../core/NodeSchema";
+import { RefObject } from "react";
 
 interface RegistryItems {
   [id: string]: HTMLElement;
@@ -30,15 +31,12 @@ interface LookupLineItem {
 export class TextPositionRegistry {
   private mapping = {} as RegistryItems;
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
-  private containerEl: HTMLElement | undefined;
+  private containerElRef: RefObject<HTMLElement>;
   private nodeSchema: NodeSchema;
 
-  constructor(nodeSchema: NodeSchema) {
+  constructor(nodeSchema: NodeSchema, containerElRef: RefObject<HTMLElement>) {
     this.nodeSchema = nodeSchema;
-  }
-
-  setContainerElement(element: HTMLElement) {
-    this.containerEl = element;
+    this.containerElRef = containerElRef;
   }
 
   getCoordPoint(p: TETextPosition): Coord | undefined {
@@ -50,11 +48,11 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line" || !this.containerEl) {
+    if (!item || item.type === "line" || !this.containerElRef.current) {
       return;
     }
 
-    const eOffset = getElementOffset(this.containerEl, el);
+    const eOffset = getElementOffset(this.containerElRef.current, el);
 
     return (
       this.nodeSchema.textPositionToCoord(el, item.node, eOffset, p.ch) || {
@@ -77,12 +75,12 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line" || !this.containerEl) {
+    if (!item || item.type === "line" || !this.containerElRef.current) {
       return;
     }
 
     const { node } = item;
-    const eOffset = getElementOffset(this.containerEl, el);
+    const eOffset = getElementOffset(this.containerElRef.current, el);
 
     let p0 = {
       top: eOffset.top,
