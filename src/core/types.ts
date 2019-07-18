@@ -125,10 +125,6 @@ export interface TETextSelection extends TETextRange {
   focus: "start" | "end";
 }
 
-export type TENodeStyleName = "bold" | "italic" | "underline" | "strikethrough";
-
-export type TETextStyles = { [name in TENodeStyleName]?: boolean };
-
 export type TENodeType = string | symbol;
 
 export interface TEBaseNode {
@@ -156,8 +152,6 @@ export type TEChildNode = TELeafNode | TEInternalNode;
 
 export interface TETextNode extends TEBaseNode {
   text: string[];
-
-  style: TETextStyles;
 }
 
 export interface TEEndNode extends TEBaseNode {
