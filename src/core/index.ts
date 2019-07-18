@@ -28,7 +28,6 @@ export {
 } from "./commands/ModifyNodeSelectionCommand";
 export { ModifySelectionCommand } from "./commands/ModifySelectionCommand";
 export { DisableCursorCommand } from "./commands/DisableCursorCommand";
-export { ToggleTextStyleCommand } from "./commands/ToggleTextStyleCommand";
 export {
   MoveCursorToStartCommand,
   MoveCursorToEndCommand

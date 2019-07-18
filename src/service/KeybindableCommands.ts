@@ -11,7 +11,6 @@ import {
   SelectAllNodesCommand,
   TEDirection,
   ToggleDebugMode,
-  ToggleTextStyleCommand,
   UndoCommand
 } from "../core";
 import { CommandSelector } from "./commandSelector/CommandSelector";
@@ -28,10 +27,6 @@ export const keybindableCommands: KeybindableCommands = {
   ModifyNodeSelectionRight: new ModifyNodeSelectionCommand(TEDirection.right),
   Escape: new EscapeCommand(),
   DeleteBackspace: new DeleteBackspaceCommand(),
-  ToggleTextStyleItalic: new ToggleTextStyleCommand("italic"),
-  ToggleTextStyleBold: new ToggleTextStyleCommand("bold"),
-  ToggleTextStyleUnderline: new ToggleTextStyleCommand("underline"),
-  ToggleTextStyleStrikethrough: new ToggleTextStyleCommand("strikethrough"),
   MoveCursorToStart: new MoveCursorToStartCommand(),
   MoveCursorToEnd: new MoveCursorToEndCommand(),
   SelectAllNodes: new SelectAllNodesCommand(),
