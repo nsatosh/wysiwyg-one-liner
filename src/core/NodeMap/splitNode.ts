@@ -59,9 +59,8 @@ export function splitLeafNode(
   const newNode = nodeMap.insertAfter<TETextNode>(
     node.parent,
     {
-      type: "text",
+      ...node,
       id: undefined,
-      style: node.style,
       text: node.text.slice(ch)
     },
     node.id
