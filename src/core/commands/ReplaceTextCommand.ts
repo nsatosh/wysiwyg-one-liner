@@ -100,11 +100,7 @@ function _insert(
     } else {
       const { id } = nodeMap.insertBefore<TETextNode>(
         cur.parent!,
-        {
-          type: "text",
-          style: {},
-          text: text
-        },
+        nodeMap.schema.defaultTextNode(text),
         cur.id
       );
 

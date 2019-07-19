@@ -1,5 +1,4 @@
 import { ensureExists } from "../../ensureExists";
-import { isSameStyle } from "../../isSameStyle";
 import { getFirstLeaf, getSiblingNode } from "../../nodeFinders";
 import {
   TEInternalNode,
@@ -69,7 +68,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
     if (
       !nodeMap.schema.isTextNode(closing) ||
       nodeMap.schema.isEndNode(closing) ||
-      !isSameStyle(opening, closing)
+      !nodeMap.schema.isJoinable(opening, closing)
     ) {
       return;
     }
@@ -93,7 +92,7 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
         nodeMap.schema.isTextNode(backward) &&
         nodeMap.schema.isTextNode(closing) &&
         closing.text.length > 0 &&
-        isSameStyle(backward, closing)
+        nodeMap.schema.isJoinable(opening, closing)
       ) {
         nodeMap.updateText(closing.id, backward.text.concat(closing.text));
         nodeMap.deleteNode(backward.id);

@@ -155,6 +155,17 @@ export class NodeSchema {
     }
   }
 
+  defaultTextNode(text: string[]): Partial<TETextNode> {
+    return {
+      type: "text",
+      text
+    };
+  }
+
+  isJoinable(a: TEBaseNode, b: TEBaseNode): boolean {
+    return a.type === b.type;
+  }
+
   private getNodeSchema(type: TENodeType): NodeSchemaItem | undefined {
     if (typeof type === "symbol") {
       return this.nodes[type as any];
