@@ -2,10 +2,8 @@
   "compilerOptions": {
     "incremental": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
+    "strict": true,
+    "strictFunctionTypes": false,
     "target": "es2017",
     "outDir": "dist",
     "module": "commonjs",
