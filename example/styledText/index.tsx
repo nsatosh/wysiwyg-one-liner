@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
 import { Content } from "../../src/component/Content";
-import { EditorMutator, NodeMap, TETextNode } from "../../src";
+import { EditorMutator, NodeMap } from "../../src";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import { BUILTIN_ITEMS } from "../../src/core/BuiltinNodeSchema";
 import { StyledTextNode } from "./StyledTextNode";

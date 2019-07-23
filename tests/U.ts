@@ -15,16 +15,10 @@ interface TEGroupingNode extends TEBaseNode {
 }
 
 export class U {
-  static text(
-    id: TENodeID,
-    text: string,
-    attrs?: Partial<TETextNode>
-  ): Partial<TETextNode> {
+  static text(id: TENodeID, text: string): Partial<TETextNode> {
     return {
-      ...attrs,
       type: "text",
       id,
-      style: (attrs && attrs.style) || {},
       text: text.split("")
     };
   }

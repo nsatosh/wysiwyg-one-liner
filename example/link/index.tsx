@@ -8,7 +8,7 @@ import {
   TEBaseNode,
   TENodeID,
   TELeafNode
-} from "../../src/core";
+} from "../../src";
 import { NodeSchema } from "../../src/core/NodeSchema";
 import InlineText from "../../src/component/node/InlineText";
 import InlineSentinel from "../../src/component/node/InlineSentinel";
@@ -85,8 +85,7 @@ const Editor: FC = () => {
   nodeMap.appendChild(id, { type: SentinelNodeType });
   nodeMap.appendChild<TETextNode>(id, {
     type: "text",
-    text: "A link to example.com".split(""),
-    style: {}
+    text: "A link to example.com".split("")
   });
   nodeMap.appendChild(id, { type: SentinelNodeType });
   nodeMap.appendChild("root", {

@@ -29,10 +29,7 @@ test("Insert text at cursor position", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a", "b", "c"], style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: ["a", "b", "c"] }, { type: "end" }]
   });
 });
 
@@ -53,10 +50,7 @@ test("Replace text within single inline text node", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: ["a", "d", "c"], style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: ["a", "d", "c"] }, { type: "end" }]
   });
 });
 
@@ -79,10 +73,7 @@ test("Replace text across multiple text nodes", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "abgef".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "abgef".split("") }, { type: "end" }]
   });
 });
 
@@ -104,10 +95,7 @@ test("Replace text all", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "replaced".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "replaced".split("") }, { type: "end" }]
   });
 });
 
@@ -133,10 +121,7 @@ test("Input IME text in empty row", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "kっっk".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "kっっk".split("") }, { type: "end" }]
   });
 });
 
@@ -158,12 +143,12 @@ test("Modify backward node if input has occurred at sentinel", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "b", "c", "あ"], style: {} },
+      { type: "text", text: ["a", "b", "c", "あ"] },
       {
         type: "link",
         children: [
           { type: SentinelNodeType },
-          { type: "text", text: ["d", "e", "f"], style: {} },
+          { type: "text", text: ["d", "e", "f"] },
           { type: SentinelNodeType }
         ],
         url: ""
@@ -227,30 +212,21 @@ test("Undo/Redo IME input", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "aあい".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "aあい".split("") }, { type: "end" }]
   });
 
   editor = invokeCommand(new UndoCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "a".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "a".split("") }, { type: "end" }]
   });
 
   editor = invokeCommand(new RedoCommand(), editor);
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [
-      { type: "text", text: "aあい".split(""), style: {} },
-      { type: "end" }
-    ]
+    children: [{ type: "text", text: "aあい".split("") }, { type: "end" }]
   });
 });
 
@@ -267,7 +243,7 @@ test("Undo/Redo first IME input", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: ["a"], style: {} }, { type: "end" }]
+    children: [{ type: "text", text: ["a"] }, { type: "end" }]
   });
 
   editor = invokeCommand(new UndoCommand(), editor);
@@ -281,6 +257,6 @@ test("Undo/Redo first IME input", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: ["a"], style: {} }, { type: "end" }]
+    children: [{ type: "text", text: ["a"] }, { type: "end" }]
   });
 });

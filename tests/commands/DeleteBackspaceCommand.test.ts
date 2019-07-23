@@ -27,17 +27,17 @@ test("Backspace from lead of link node", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "b"], style: {} },
+      { type: "text", text: ["a", "b"] },
       {
         type: "link",
         children: [
           { type: SentinelNodeType },
-          { type: "text", text: ["d", "e", "f"], style: {} },
+          { type: "text", text: ["d", "e", "f"] },
           { type: SentinelNodeType }
         ],
         url: ""
       },
-      { type: "text", text: ["g", "h", "i"], style: {} },
+      { type: "text", text: ["g", "h", "i"] },
       { type: "end" }
     ]
   });
@@ -62,17 +62,17 @@ test("Delete last of link node", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "b", "c"], style: {} },
+      { type: "text", text: ["a", "b", "c"] },
       {
         type: "link",
         children: [
           { type: SentinelNodeType },
-          { type: "text", text: ["d", "e"], style: {} },
+          { type: "text", text: ["d", "e"] },
           { type: SentinelNodeType }
         ],
         url: ""
       },
-      { type: "text", text: ["g", "h", "i"], style: {} },
+      { type: "text", text: ["g", "h", "i"] },
       { type: "end" }
     ]
   });
@@ -97,10 +97,10 @@ test("Backspace more than two or more sentinels", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "b"], style: {} },
+      { type: "text", text: ["a", "b"] },
       { type: SentinelNodeType },
       { type: SentinelNodeType },
-      { type: "text", text: ["d", "e", "f"], style: {} },
+      { type: "text", text: ["d", "e", "f"] },
       { type: "end" }
     ]
   });
@@ -125,12 +125,12 @@ test("Backspace from lead of empty link node", () => {
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
     children: [
-      { type: "text", text: ["a", "b"], style: {} },
+      { type: "text", text: ["a", "b"] },
       {
         type: "link",
         children: [
           { type: SentinelNodeType },
-          { type: "text", text: [], style: {} },
+          { type: "text", text: [] },
           { type: SentinelNodeType }
         ],
         url: ""
@@ -183,7 +183,7 @@ test("Backspace in link node that positions at lead of row", () => {
         type: "link",
         children: [
           { type: SentinelNodeType },
-          { type: "text", text: [], style: {} },
+          { type: "text", text: [] },
           { type: SentinelNodeType }
         ],
         url: ""

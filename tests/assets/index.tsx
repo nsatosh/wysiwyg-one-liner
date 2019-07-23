@@ -9,7 +9,7 @@ const Editor: FC = () => {
 
   const nodeMap = new NodeMap(nodeSchema, {});
   nodeMap.createRootNode("root");
-  nodeMap.appendChild("root", U.text("t1", "hello", { style: { bold: true } }));
+  nodeMap.appendChild("root", U.text("t1", "hello"));
   nodeMap.appendChild("root", U.text("t2", "world"));
   nodeMap.appendChild("root", U.end("t3"));
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
