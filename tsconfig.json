@@ -20,7 +20,7 @@
     ],
     "sourceMap": true,
   },
-  "include": [
-    "src"
+  "files": [
+    "src/index.ts"
   ]
 }
