@@ -19,6 +19,12 @@
       "es2017"
     ],
     "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "split-graphemes": [
+        "src/vendorTypes/split-graphemes"
+      ]
+    }
   },
   "files": [
     "src/index.ts"
