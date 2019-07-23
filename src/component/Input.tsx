@@ -1,17 +1,15 @@
 import React, { FC, useCallback, useContext, useEffect, useRef } from "react";
-import {
-  combineCommands,
-  EndCompositionCommand,
-  PasteCommand,
-  ReplaceTextCommand,
-  StartCompositionCommand,
-  TEEditor,
-  UpdateCursorInComposition
-} from "../core";
+import styled from "styled-components";
+import { EndCompositionCommand } from "../core/commands/EndCompositionCommand";
+import { PasteCommand } from "../core/commands/PasteCommand";
+import { ReplaceTextCommand } from "../core/commands/ReplaceTextCommand";
+import { StartCompositionCommand } from "../core/commands/StartCompositionCommand";
+import { UpdateCursorInComposition } from "../core/commands/UpdateCursorInComposition";
+import { combineCommands } from "../core/EditorCommand";
+import { TEEditor } from "../core/types";
 import { DispatchEditorCommandContext } from "../service/EditorCommandDispatcher";
 import { findCommand } from "../service/findCommand";
 import { TextPositionContext } from "../service/TextPosition";
-import styled from "styled-components";
 
 const Textarea = styled.textarea`
   white-space: nowrap;

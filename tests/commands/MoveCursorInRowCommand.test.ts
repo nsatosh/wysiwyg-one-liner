@@ -1,13 +1,13 @@
-import { EditorMutator } from "../../src/core";
 import {
   MoveCursorToEndCommand,
   MoveCursorToStartCommand
 } from "../../src/core/commands/MoveCursorInRowCommand";
 import { invokeCommand } from "../../src/core/EditorCommand";
+import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor, TETextPosition } from "../../src/core/types";
-import { U } from "../U";
 import { TestingNodeSchema } from "../TestingNodeSchema";
+import { U } from "../U";
 
 let editor: TEEditor;
 

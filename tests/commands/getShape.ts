@@ -1,5 +1,5 @@
 import { inspect } from "util";
-import { NodeMap } from "../../src/core";
+import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TENodeID, TENodeMap } from "../../src/core/types";
 import { TestingNodeSchema } from "../TestingNodeSchema";
 

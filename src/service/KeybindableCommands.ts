@@ -1,18 +1,18 @@
+import { CopyCommand } from "../core/commands/CopyCommand";
+import { CutCommand } from "../core/commands/CutCommand";
+import { DeleteBackspaceCommand } from "../core/commands/DeleteRangeCommand";
+import { ModifyNodeSelectionCommand } from "../core/commands/ModifyNodeSelectionCommand";
+import { MoveCursorByCharCommand } from "../core/commands/MoveCursorByCharCommand";
 import {
-  CopyCommand,
-  CutCommand,
-  DeleteBackspaceCommand,
-  EditorCommand,
-  ModifyNodeSelectionCommand,
-  MoveCursorByCharCommand,
   MoveCursorToEndCommand,
-  MoveCursorToStartCommand,
-  RedoCommand,
-  SelectAllNodesCommand,
-  TEDirection,
-  ToggleDebugMode,
-  UndoCommand
-} from "../core";
+  MoveCursorToStartCommand
+} from "../core/commands/MoveCursorInRowCommand";
+import { RedoCommand } from "../core/commands/RedoCommand";
+import { SelectAllNodesCommand } from "../core/commands/SelectAllNodesCommand";
+import { ToggleDebugMode } from "../core/commands/ToggleDebugMode";
+import { UndoCommand } from "../core/commands/UndoCommand";
+import EditorCommand from "../core/EditorCommand";
+import { TEDirection } from "../core/types";
 import { CommandSelector } from "./commandSelector/CommandSelector";
 import { EscapeCommand } from "./commandSelector/EscapeCommand";
 

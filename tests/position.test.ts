@@ -1,7 +1,7 @@
-import { NodeMap } from "../src/core";
+import NodeMap from "../src/core/NodeMap/NodeMap";
 import { getCanonicalTextPosition } from "../src/core/position";
-import { U } from "./U";
 import { TestingNodeSchema } from "./TestingNodeSchema";
+import { U } from "./U";
 
 test("Get canonical position from branch node", () => {
   const nodeMap = new NodeMap(TestingNodeSchema, {});

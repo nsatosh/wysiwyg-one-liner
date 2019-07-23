@@ -1,10 +1,10 @@
-import { TEDirection, TETextPosition } from "../types";
-import { isRangeCollapsed } from "../range";
-import { getNextChar } from "../getNextChar";
 import EditorCommand from "../EditorCommand";
 import EditorMutator from "../EditorMutator";
-import { NodeMap } from "..";
+import { getNextChar } from "../getNextChar";
+import NodeMap from "../NodeMap/NodeMap";
+import { isRangeCollapsed } from "../range";
 import { modifySelection } from "../selection";
+import { TEDirection, TETextPosition } from "../types";
 
 export class ModifyNodeSelectionCommand extends EditorCommand {
   private dir: TEDirection;

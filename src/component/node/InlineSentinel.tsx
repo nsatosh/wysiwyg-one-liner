@@ -1,7 +1,7 @@
 import React, { FC, memo } from "react";
-import { TEBaseNode } from "../../core";
-import { usePositionRegistry } from "../../service/TextPosition";
 import styled from "styled-components";
+import { TEBaseNode } from "../../core/types";
+import { usePositionRegistry } from "../../service/TextPosition";
 
 const Span = styled.span`
   white-space: pre;

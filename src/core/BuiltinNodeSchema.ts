@@ -1,10 +1,10 @@
-import { NodeMap } from ".";
-import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
-import { TENodeID, TETextNode, Coord } from "./types";
-import { NodeSchemaItem } from "./NodeSchema";
 import InlineEnd from "../component/node/InlineEnd";
-import { ElementOffset } from "../service/getElementOffset";
 import InlineText from "../component/node/InlineText";
+import { ElementOffset } from "../service/getElementOffset";
+import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
+import NodeMap from "./NodeMap/NodeMap";
+import { NodeSchemaItem } from "./NodeSchema";
+import { Coord, TENodeID, TETextNode } from "./types";
 
 export const SentinelNodeType = Symbol("sentinel");
 

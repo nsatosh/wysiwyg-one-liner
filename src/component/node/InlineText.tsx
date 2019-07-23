@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { TETextNode } from "../../core";
+import { TETextNode } from "../../core/types";
 import { usePositionRegistry } from "../../service/TextPosition";
 import { CustomNodeProps } from "../CustomNodeProps";
 

@@ -1,4 +1,4 @@
-import { TETextNode, TELeafNode } from "../../src/core";
+import { TETextNode, TELeafNode } from "../../src";
 
 type TextLeafNode = TETextNode & TELeafNode;
 

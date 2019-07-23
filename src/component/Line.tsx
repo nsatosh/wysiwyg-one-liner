@@ -1,12 +1,7 @@
 import React, { FC, useContext, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
-import {
-  ensureExists,
-  TEBaseNode,
-  TEEditor,
-  TEChildNode,
-  TEParentNode
-} from "../core";
+import { ensureExists } from "../core/ensureExists";
+import { TEBaseNode, TEChildNode, TEEditor, TEParentNode } from "../core/types";
 import { TextPositionContext } from "../service/TextPosition";
 import { CustomNodeProps } from "./CustomNodeProps";
 

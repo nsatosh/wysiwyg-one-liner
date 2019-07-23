@@ -1,22 +1,20 @@
-import {
-  EndCompositionCommand,
-  RedoCommand,
-  StartCompositionCommand,
-  UpdateCursorInComposition
-} from "../../src/core";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
+import { EndCompositionCommand } from "../../src/core/commands/EndCompositionCommand";
 import { MoveCursorByCharCommand } from "../../src/core/commands/MoveCursorByCharCommand";
+import { RedoCommand } from "../../src/core/commands/RedoCommand";
 import { ReplaceTextCommand } from "../../src/core/commands/ReplaceTextCommand";
+import { StartCompositionCommand } from "../../src/core/commands/StartCompositionCommand";
 import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
 import { UndoCommand } from "../../src/core/commands/UndoCommand";
+import { UpdateCursorInComposition } from "../../src/core/commands/UpdateCursorInComposition";
 import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { getRangeCoversAll } from "../../src/core/range";
 import { TEEditor } from "../../src/core/types";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 import { U } from "../U";
 import { getShape } from "./getShape";
-import { TestingNodeSchema } from "../TestingNodeSchema";
-import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 let editor: TEEditor;
 

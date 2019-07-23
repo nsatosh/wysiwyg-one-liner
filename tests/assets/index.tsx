@@ -1,10 +1,8 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
 import { Content } from "../../src/component/Content";
-import { EditorMutator, NodeMap } from "../../src/core";
+import { EditorMutator, NodeMap, NodeSchema, BUILTIN_ITEMS } from "../../src";
 import { U } from "../U";
-import { NodeSchema } from "../../src/core/NodeSchema";
-import { BUILTIN_ITEMS } from "../../src/core/BuiltinNodeSchema";
 
 const Editor: FC = () => {
   const nodeSchema = new NodeSchema(BUILTIN_ITEMS);

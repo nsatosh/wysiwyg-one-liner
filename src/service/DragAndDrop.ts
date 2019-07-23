@@ -1,5 +1,5 @@
-import { TENonCanonicalTextPosition } from "../core";
-import { useCallback, useEffect, useRef, RefObject } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
+import { TENonCanonicalTextPosition } from "../core/types";
 import { TextPositionRegistry } from "../service/TextPositionRegistry";
 
 export type DragAndDropCallback = (

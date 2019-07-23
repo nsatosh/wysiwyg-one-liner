@@ -1,15 +1,11 @@
 import React, { FC, useCallback, useEffect, useReducer, useRef } from "react";
 import styled from "styled-components";
-import {
-  EditorCommand,
-  getLastLeaf,
-  invokeCommand,
-  ModifySelectionCommand,
-  NodeMap,
-  StartEditCommand,
-  TEEditor,
-  TEParentNode
-} from "../core";
+import { ModifySelectionCommand } from "../core/commands/ModifySelectionCommand";
+import { StartEditCommand } from "../core/commands/StartEditCommand";
+import EditorCommand, { invokeCommand } from "../core/EditorCommand";
+import { getLastLeaf } from "../core/nodeFinders";
+import NodeMap from "../core/NodeMap/NodeMap";
+import { TEEditor, TEParentNode } from "../core/types";
 import { DragAndDropCallback, useDragAndDrop } from "../service/DragAndDrop";
 import { DispatchEditorCommandContext } from "../service/EditorCommandDispatcher";
 import { TextPositionContext } from "../service/TextPosition";

@@ -1,5 +1,5 @@
-import { EditorCommand } from "../core";
 import { createContext } from "react";
+import EditorCommand from "../core/EditorCommand";
 
 export type DispatchCommand = (command: EditorCommand) => void;
 

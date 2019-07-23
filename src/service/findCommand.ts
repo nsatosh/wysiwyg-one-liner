@@ -1,4 +1,5 @@
-import { EditorCommand, TEEditor } from "../core";
+import EditorCommand from "../core/EditorCommand";
+import { TEEditor } from "../core/types";
 import { CommandSelector } from "./commandSelector/CommandSelector";
 import { keybindableCommands } from "./KeybindableCommands";
 import { TextPositionRegistry } from "./TextPositionRegistry";

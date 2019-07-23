@@ -8,10 +8,10 @@ import React, {
   useRef,
   useState
 } from "react";
-import { TEEditor } from "../core";
+import styled, { css, keyframes } from "styled-components";
+import { TEEditor } from "../core/types";
 import { TextPositionContext } from "../service/TextPosition";
 import Input from "./Input";
-import styled, { keyframes, css } from "styled-components";
 
 const cursorFlicker = keyframes`
 0% {

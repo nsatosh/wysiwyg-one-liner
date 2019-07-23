@@ -1,5 +1,5 @@
-import { TEBaseNode } from "../core";
 import React, { useContext, useLayoutEffect, useRef } from "react";
+import { TEBaseNode } from "../core/types";
 import { TextPositionRegistry } from "../service/TextPositionRegistry";
 
 export const TextPositionContext = React.createContext<TextPositionRegistry | null>(

@@ -1,14 +1,14 @@
+import { RefObject } from "react";
+import { NodeSchema } from "../core/NodeSchema";
 import {
-  TENodeID,
-  TENonCanonicalTextPosition,
-  TETextPosition,
   Coord,
   CoordRect,
-  TEBaseNode
-} from "../core";
+  TEBaseNode,
+  TENodeID,
+  TENonCanonicalTextPosition,
+  TETextPosition
+} from "../core/types";
 import { getElementOffset } from "./getElementOffset";
-import { NodeSchema } from "../core/NodeSchema";
-import { RefObject } from "react";
 
 interface RegistryItems {
   [id: string]: HTMLElement;

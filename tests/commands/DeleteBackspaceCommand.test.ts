@@ -1,13 +1,11 @@
-import {
-  DeleteBackspaceCommand,
-  EditorMutator,
-  invokeCommand,
-  NodeMap
-} from "../../src/core";
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
+import { DeleteBackspaceCommand } from "../../src/core/commands/DeleteRangeCommand";
+import { invokeCommand } from "../../src/core/EditorCommand";
+import EditorMutator from "../../src/core/EditorMutator";
+import NodeMap from "../../src/core/NodeMap/NodeMap";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 import { U } from "../U";
 import { getShape } from "./getShape";
-import { TestingNodeSchema } from "../TestingNodeSchema";
-import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 test("Backspace from lead of link node", () => {
   const nodeMap = new NodeMap(TestingNodeSchema, {});

@@ -1,12 +1,12 @@
+import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 import { ToggleTextStyleCommand } from "../../src/core/commands/ToggleTextStyleCommand";
 import { invokeCommand } from "../../src/core/EditorCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor } from "../../src/core/types";
+import { TestingNodeSchema } from "../TestingNodeSchema";
 import { U } from "../U";
 import { getShape } from "./getShape";
-import { TestingNodeSchema } from "../TestingNodeSchema";
-import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 
 describe("Change style on single text node", () => {
   let editor: TEEditor;

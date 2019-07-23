@@ -1,14 +1,9 @@
 import React, { FC, memo, useContext, useEffect, useRef } from "react";
-import {
-  getIdsInRange,
-  NodeMap,
-  TEBaseNode,
-  TENodeID,
-  TENodeMap,
-  TETextRange
-} from "../core";
-import { TextPositionContext } from "../service/TextPosition";
+import NodeMap from "../core/NodeMap/NodeMap";
 import { NodeSchema } from "../core/NodeSchema";
+import { getIdsInRange } from "../core/range";
+import { TEBaseNode, TENodeID, TENodeMap, TETextRange } from "../core/types";
+import { TextPositionContext } from "../service/TextPosition";
 
 type RangeStyle =
   | "selection"
