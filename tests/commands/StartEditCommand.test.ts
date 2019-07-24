@@ -1,7 +1,7 @@
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
 import EditorMutator from "../../src/core/EditorMutator";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import { U } from "../U";
 import { TestingNodeSchema } from "../TestingNodeSchema";
 

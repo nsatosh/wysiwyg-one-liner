@@ -5,7 +5,7 @@ import { PasteCommand } from "../core/commands/PasteCommand";
 import { ReplaceTextCommand } from "../core/commands/ReplaceTextCommand";
 import { StartCompositionCommand } from "../core/commands/StartCompositionCommand";
 import { UpdateCursorInComposition } from "../core/commands/UpdateCursorInComposition";
-import { combineCommands } from "../core/EditorCommand";
+import { combineCommands } from "../core/invokeCommand";
 import { TEEditor } from "../core/types";
 import { DispatchEditorCommandContext } from "../service/EditorCommandDispatcher";
 import { findCommand } from "../service/findCommand";

@@ -1,5 +1,5 @@
 import { ModifySelectionCommand } from "../../src/core/commands/ModifySelectionCommand";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { U } from "../U";

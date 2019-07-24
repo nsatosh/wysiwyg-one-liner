@@ -1,4 +1,4 @@
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import { TEEditor } from "../../src/core/types";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { MoveCursorCommand } from "../../src/core/commands/MoveCursorCommand";

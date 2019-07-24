@@ -57,11 +57,9 @@ export {
 export { EndCompositionCommand } from "./core/commands/EndCompositionCommand";
 export { PasteCommand } from "./core/commands/PasteCommand";
 
-export {
-  default as EditorCommand,
-  invokeCommand,
-  combineCommands
-} from "./core/EditorCommand";
+export { default as EditorCommand } from "./core/EditorCommand";
+
+export { invokeCommand, combineCommands } from "./core/invokeCommand";
 
 export { Input } from "./component/Input";
 export { CustomNodeProps } from "./component/CustomNodeProps";

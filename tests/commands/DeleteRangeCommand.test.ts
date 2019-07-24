@@ -2,7 +2,7 @@ import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 import { DeleteRangeCommand } from "../../src/core/commands/DeleteRangeCommand";
 import { RedoCommand } from "../../src/core/commands/RedoCommand";
 import { UndoCommand } from "../../src/core/commands/UndoCommand";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TestingNodeSchema } from "../TestingNodeSchema";

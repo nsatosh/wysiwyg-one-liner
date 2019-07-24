@@ -7,7 +7,7 @@ import { StartCompositionCommand } from "../../src/core/commands/StartCompositio
 import { StartEditCommand } from "../../src/core/commands/StartEditCommand";
 import { UndoCommand } from "../../src/core/commands/UndoCommand";
 import { UpdateCursorInComposition } from "../../src/core/commands/UpdateCursorInComposition";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { getRangeCoversAll } from "../../src/core/range";

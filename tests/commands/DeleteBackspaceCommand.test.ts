@@ -1,6 +1,6 @@
 import { SentinelNodeType } from "../../src/core/BuiltinNodeSchema";
 import { DeleteBackspaceCommand } from "../../src/core/commands/DeleteRangeCommand";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TestingNodeSchema } from "../TestingNodeSchema";

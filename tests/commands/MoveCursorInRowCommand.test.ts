@@ -2,7 +2,7 @@ import {
   MoveCursorToEndCommand,
   MoveCursorToStartCommand
 } from "../../src/core/commands/MoveCursorInRowCommand";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TEEditor, TETextPosition } from "../../src/core/types";

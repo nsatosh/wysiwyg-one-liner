@@ -1,5 +1,5 @@
 import { SelectAllNodesCommand } from "../../src/core/commands/SelectAllNodesCommand";
-import { invokeCommand } from "../../src/core/EditorCommand";
+import { invokeCommand } from "../../src/core/invokeCommand";
 import EditorMutator from "../../src/core/EditorMutator";
 import NodeMap from "../../src/core/NodeMap/NodeMap";
 import { TETextPosition, TETextSelection } from "../../src/core/types";
