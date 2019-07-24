@@ -13,11 +13,10 @@ import { ToggleDebugMode } from "../core/commands/ToggleDebugMode";
 import { UndoCommand } from "../core/commands/UndoCommand";
 import EditorCommand from "../core/EditorCommand";
 import { TEDirection } from "../core/types";
-import { CommandSelector } from "./commandSelector/CommandSelector";
-import { EscapeCommand } from "./commandSelector/EscapeCommand";
+import { DisableCursorCommand } from "src/core/commands/DisableCursorCommand";
 
 export interface KeybindableCommands {
-  [name: string]: CommandSelector | EditorCommand;
+  [name: string]: EditorCommand;
 }
 
 export const keybindableCommands: KeybindableCommands = {
@@ -25,7 +24,7 @@ export const keybindableCommands: KeybindableCommands = {
   MoveCursorRight: new MoveCursorByCharCommand(1),
   ModifyNodeSelectionLeft: new ModifyNodeSelectionCommand(TEDirection.left),
   ModifyNodeSelectionRight: new ModifyNodeSelectionCommand(TEDirection.right),
-  Escape: new EscapeCommand(),
+  Escape: new DisableCursorCommand(),
   DeleteBackspace: new DeleteBackspaceCommand(),
   MoveCursorToStart: new MoveCursorToStartCommand(),
   MoveCursorToEnd: new MoveCursorToEndCommand(),

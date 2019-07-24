@@ -1,6 +1,5 @@
 import EditorCommand from "../core/EditorCommand";
 import { TEEditor } from "../core/types";
-import { CommandSelector } from "./commandSelector/CommandSelector";
 import { keybindableCommands } from "./KeybindableCommands";
 import { TextPositionRegistry } from "./TextPositionRegistry";
 
@@ -21,13 +20,7 @@ export function findCommand(
     return;
   }
 
-  let command = keybindableCommands[keybind];
-
-  if (command && command instanceof CommandSelector) {
-    return command.select(editor, TPR);
-  }
-
-  return command;
+  return keybindableCommands[keybind];
 }
 
 function getKeyFromEvent(event: KeyboardEvent) {
