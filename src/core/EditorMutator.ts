@@ -1,14 +1,15 @@
+import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
+import { BUILTIN_COMMANDS } from "./commands";
 import NodeMap from "./NodeMap/NodeMap";
+import { NodeSchema } from "./NodeSchema";
 import {
   TEEditor,
   TEMutatorLog,
   TENodeID,
+  TETextNode,
   TETextPosition,
-  TETextSelection,
-  TETextNode
+  TETextSelection
 } from "./types";
-import { NodeSchema } from "./NodeSchema";
-import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
 
 export default class EditorMutator {
   private source: TEEditor;
@@ -132,6 +133,7 @@ function generateInitialEditorState(
       future: []
     },
     inDebug: false && process.env.NODE_ENV === "development",
+    commands: BUILTIN_COMMANDS,
     keybindSettings: {
       ArrowLeft: "MoveCursorLeft",
       ArrowRight: "MoveCursorRight",

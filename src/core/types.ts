@@ -1,4 +1,5 @@
 import { NodeSchema } from "./NodeSchema";
+import EditorCommand from "./EditorCommand";
 
 export interface TEEditor {
   nodeSchema: NodeSchema;
@@ -27,11 +28,17 @@ export interface TEEditor {
 
   inComposition?: boolean;
 
+  commands: TECommands;
+
   keybindSettings?: TEKeybindSettings;
 
   showConfig?: boolean;
 
   inDebug?: boolean;
+}
+
+export interface TECommands {
+  [name: string]: EditorCommand;
 }
 
 export interface TEKeybindSettings {
