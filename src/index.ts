@@ -63,7 +63,7 @@ export {
   combineCommands
 } from "./core/EditorCommand";
 
-export { Content } from "./component/Content";
+export { Input } from "./component/Input";
 export { CustomNodeProps } from "./component/CustomNodeProps";
 export { usePositionRegistry } from "./service/TextPosition";
 export { default as InlineText } from "./component/node/InlineText";

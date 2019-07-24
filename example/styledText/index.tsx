@@ -5,7 +5,7 @@ import {
   NodeMap,
   NodeSchema,
   BUILTIN_ITEMS,
-  Content
+  Input
 } from "../../src";
 import { StyledTextNode } from "./StyledTextNode";
 
@@ -31,7 +31,7 @@ const Editor: FC = () => {
 
   return (
     <div style={{ width: 800, height: 600 }}>
-      <Content defaultValue={editor} />
+      <Input defaultValue={editor} />
     </div>
   );
 };

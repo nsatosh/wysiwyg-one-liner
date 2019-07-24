@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
-import { Content } from "../../src/component/Content";
-import { EditorMutator, NodeMap, NodeSchema, BUILTIN_ITEMS } from "../../src";
+import {
+  EditorMutator,
+  NodeMap,
+  NodeSchema,
+  BUILTIN_ITEMS,
+  Input
+} from "../../src";
 import { U } from "../U";
 
 const Editor: FC = () => {
@@ -16,7 +21,7 @@ const Editor: FC = () => {
 
   return (
     <div style={{ width: 800, height: 600 }}>
-      <Content defaultValue={editor} />
+      <Input defaultValue={editor} />
     </div>
   );
 };

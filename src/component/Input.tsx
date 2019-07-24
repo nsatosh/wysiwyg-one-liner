@@ -1,119 +1,141 @@
-import React, { FC, useCallback, useContext, useEffect, useRef } from "react";
+import React, { FC, useCallback, useEffect, useReducer, useRef } from "react";
 import styled from "styled-components";
-import { EndCompositionCommand } from "../core/commands/EndCompositionCommand";
-import { PasteCommand } from "../core/commands/PasteCommand";
-import { ReplaceTextCommand } from "../core/commands/ReplaceTextCommand";
-import { StartCompositionCommand } from "../core/commands/StartCompositionCommand";
-import { UpdateCursorInComposition } from "../core/commands/UpdateCursorInComposition";
-import { combineCommands } from "../core/EditorCommand";
-import { TEEditor } from "../core/types";
+import { ModifySelectionCommand } from "../core/commands/ModifySelectionCommand";
+import { StartEditCommand } from "../core/commands/StartEditCommand";
+import EditorCommand, { invokeCommand } from "../core/EditorCommand";
+import { getLastLeaf } from "../core/nodeFinders";
+import NodeMap from "../core/NodeMap/NodeMap";
+import { TEEditor, TEParentNode } from "../core/types";
+import { DragAndDropCallback, useDragAndDrop } from "../service/DragAndDrop";
 import { DispatchEditorCommandContext } from "../service/EditorCommandDispatcher";
-import { findCommand } from "../service/findCommand";
 import { TextPositionContext } from "../service/TextPosition";
+import { TextPositionRegistry } from "../service/TextPositionRegistry";
+import Cursor from "./Cursor";
+import { GlobalCSS } from "./GlobalCSS";
+import { Line } from "./Line";
+import Range from "./Range";
 
-const Textarea = styled.textarea`
-  white-space: nowrap;
-  line-height: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  padding: var(--NodePadding) 0;
-  margin: 0;
-  border: none;
-  background-color: var(--Black);
-  color: var(--Black);
-  cursor: none;
+const ContainerDiv = styled.div`
+  height: 100%;
 `;
 
-interface Props {
-  editor: TEEditor;
-}
+const DummyTextDiv = styled.div`
+  width: 0;
+  height: 0;
+  overflow: hidden;
+`;
 
-const noop = () => {};
+const DummyTextSpan = styled.span`
+  white-space: pre;
+`;
 
-const Input: FC<Props> = props => {
-  const { editor } = props;
-  const { cursorAt, isActive } = editor;
-
-  const dispatchCommand = useContext(DispatchEditorCommandContext);
-  const TPR = useContext(TextPositionContext);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (cursorAt && isActive) {
-      textareaRef.current!.focus();
-    }
-  }, [cursorAt, isActive]);
-
-  const onKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (
-        !TPR ||
-        event.keyCode === 229 ||
-        editor.inComposition ||
-        !editor.isActive
-      ) {
-        return;
-      }
-
-      const command = findCommand(editor, event.nativeEvent, TPR);
-
-      if (command) {
-        event.preventDefault();
-
-        dispatchCommand(command);
-      }
-    },
-    [editor, dispatchCommand]
-  );
-
-  const onInput = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (!editor.inComposition) {
-        if (event.target.value.length > 1) {
-          dispatchCommand(new PasteCommand(event.target.value));
-        } else {
-          dispatchCommand(new ReplaceTextCommand(event.target.value));
-        }
-        return;
-      }
-
-      const { value, selectionStart, selectionEnd } = event.target;
-
-      compositionDataRef.current = value;
-
-      dispatchCommand(
-        combineCommands(
-          new ReplaceTextCommand(value),
-          new UpdateCursorInComposition(value, selectionStart, selectionEnd)
-        )
-      );
-    },
-    [editor.inComposition, dispatchCommand]
-  );
-
-  const compositionDataRef = useRef("");
-
-  const onCompositionStart = useCallback(() => {
-    dispatchCommand(new StartCompositionCommand());
-  }, [dispatchCommand]);
-
-  const onCompositionEnd = useCallback(() => {
-    compositionDataRef.current = "";
-    dispatchCommand(new EndCompositionCommand());
-  }, [dispatchCommand, compositionDataRef]);
-
-  return (
-    <Textarea
-      ref={textareaRef}
-      rows={1}
-      value={compositionDataRef.current}
-      onKeyDown={onKeyDown}
-      onChange={noop}
-      onInput={onInput}
-      onCompositionStart={onCompositionStart}
-      onCompositionEnd={onCompositionEnd}
-    />
-  );
+const reducer = (state: TEEditor, command: EditorCommand) => {
+  return invokeCommand(command, state);
 };
 
-export default Input;
+interface Props {
+  defaultValue: TEEditor;
+  onChange?: (value: TEEditor) => void;
+}
+
+export const Input: FC<Props> = props => {
+  const { onChange, defaultValue } = props;
+  const [editor, dispatchCommand] = useReducer(reducer, defaultValue);
+
+  useEffect(() => {
+    onChange && onChange(editor);
+  }, [editor, onChange]);
+
+  const {
+    nodeSchema,
+    nodeMap,
+    rootNodeId,
+    selection,
+    cursorAt,
+    compositionRange,
+    compositionFocusedRange
+  } = editor;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dummyTextRef = useRef<HTMLSpanElement>(null);
+  const TPR = useRef<TextPositionRegistry>(
+    new TextPositionRegistry(nodeSchema, containerRef)
+  );
+
+  const onDragAndDrop = useCallback<DragAndDropCallback>(
+    (type, pos, ev) => {
+      if (type === "down") {
+        if (pos) {
+          dispatchCommand(new StartEditCommand(pos.id, pos.ch));
+          return false;
+        }
+
+        if (ev.target === containerRef.current) {
+          const textNode = getLastLeaf(
+            new NodeMap(nodeSchema, nodeMap),
+            nodeMap[rootNodeId]!
+          );
+          dispatchCommand(new StartEditCommand(textNode.id, 0));
+          return false;
+        }
+      }
+
+      if (type === "move" && pos) {
+        dispatchCommand(new ModifySelectionCommand(pos));
+        return false;
+      }
+    },
+    [dispatchCommand, containerRef, nodeMap, rootNodeId]
+  );
+
+  useDragAndDrop(TPR, onDragAndDrop);
+
+  return (
+    <DispatchEditorCommandContext.Provider value={dispatchCommand}>
+      <TextPositionContext.Provider value={TPR.current}>
+        <GlobalCSS />
+        <div>
+          <ContainerDiv ref={containerRef}>
+            {compositionRange && (
+              <Range
+                rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
+                nodeMap={nodeMap}
+                range={compositionRange}
+                style={"composition"}
+              />
+            )}
+
+            {compositionFocusedRange && (
+              <Range
+                rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
+                nodeMap={nodeMap}
+                range={compositionFocusedRange}
+                style={"compositionFocused"}
+              />
+            )}
+
+            {selection && (
+              <Range
+                rootNodeId={rootNodeId}
+                nodeSchema={nodeSchema}
+                nodeMap={nodeMap}
+                range={selection}
+                style={cursorAt ? "selection" : "disabledSelection"}
+              />
+            )}
+
+            <Line node={nodeMap[rootNodeId] as TEParentNode} editor={editor} />
+
+            {cursorAt && <Cursor editor={editor} />}
+          </ContainerDiv>
+
+          <DummyTextDiv>
+            <DummyTextSpan ref={dummyTextRef} />
+          </DummyTextDiv>
+        </div>
+      </TextPositionContext.Provider>
+    </DispatchEditorCommandContext.Provider>
+  );
+};

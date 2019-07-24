@@ -11,7 +11,7 @@ import React, {
 import styled, { css, keyframes } from "styled-components";
 import { TEEditor } from "../core/types";
 import { TextPositionContext } from "../service/TextPosition";
-import Input from "./Input";
+import InternalTextarea from "./InternalTextarea";
 
 const cursorFlicker = keyframes`
 0% {
@@ -68,7 +68,7 @@ const Cursor: FC<Props> = props => {
 
   return (
     <Div ref={cursorRef} isFlicking={isFlicking}>
-      <Input editor={props.editor} />
+      <InternalTextarea editor={props.editor} />
     </Div>
   );
 };
