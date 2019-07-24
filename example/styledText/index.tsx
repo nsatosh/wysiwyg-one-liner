@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
-import { Content } from "../../src/component/Content";
-import { EditorMutator, NodeMap } from "../../src";
-import { NodeSchema } from "../../src/core/NodeSchema";
-import { BUILTIN_ITEMS } from "../../src/core/BuiltinNodeSchema";
+import {
+  EditorMutator,
+  NodeMap,
+  NodeSchema,
+  BUILTIN_ITEMS,
+  Content
+} from "../../src";
 import { StyledTextNode } from "./StyledTextNode";
 
 const Editor: FC = () => {

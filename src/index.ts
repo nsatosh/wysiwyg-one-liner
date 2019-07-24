@@ -10,8 +10,12 @@ export {
   getChildNode,
   getFirstLeaf,
   getLastLeaf,
-  getCurrentNode
+  getCurrentNode,
+  findBackwardNode,
+  findForwardNode
 } from "./core/nodeFinders";
+
+export { splitNode } from "./core/NodeMap/splitNode";
 
 export { ensureExists } from "./core/ensureExists";
 export { default as NodeMap, asTree } from "./core/NodeMap/NodeMap";
@@ -58,3 +62,11 @@ export {
   invokeCommand,
   combineCommands
 } from "./core/EditorCommand";
+
+export { Content } from "./component/Content";
+export { CustomNodeProps } from "./component/CustomNodeProps";
+export { usePositionRegistry } from "./service/TextPosition";
+export { default as InlineText } from "./component/node/InlineText";
+export { default as InlineSentinel } from "./component/node/InlineSentinel";
+export { default as InlineEnd } from "./component/node/InlineEnd";
+export { SentinelNodeType } from "./core/BuiltinNodeSchema";

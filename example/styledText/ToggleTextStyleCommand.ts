@@ -1,10 +1,15 @@
-import EditorCommand from "../../src/core/EditorCommand";
-import EditorMutator from "../../src/core/EditorMutator";
-import { findBackwardNode, findForwardNode } from "../../src/core/nodeFinders";
-import NodeMap from "../../src/core/NodeMap/NodeMap";
-import { splitNode } from "../../src/core/NodeMap/splitNode";
-import { getIdsInRange } from "../../src/core/range";
-import { TENodeID, TETextRange, TETextSelection } from "../../src/core/types";
+import {
+  findBackwardNode,
+  findForwardNode,
+  EditorCommand,
+  EditorMutator,
+  NodeMap,
+  splitNode,
+  getIdsInRange,
+  TENodeID,
+  TETextRange,
+  TETextSelection
+} from "../../src";
 import { isSameStyle } from "./isSameStyle";
 import { TENodeStyleName, StyledTextNode } from "./StyledTextNode";
 

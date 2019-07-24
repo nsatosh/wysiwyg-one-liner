@@ -1,22 +1,20 @@
 import React, { FC } from "react";
 import { render } from "react-dom";
-import { Content } from "../../src/component/Content";
 import {
   EditorMutator,
   NodeMap,
+  NodeSchema,
+  BUILTIN_ITEMS,
+  SentinelNodeType,
   TETextNode,
   TEBaseNode,
   TENodeID,
-  TELeafNode
+  TELeafNode,
+  CustomNodeProps,
+  InlineText,
+  InlineSentinel,
+  Content
 } from "../../src";
-import { NodeSchema } from "../../src/core/NodeSchema";
-import InlineText from "../../src/component/node/InlineText";
-import InlineSentinel from "../../src/component/node/InlineSentinel";
-import {
-  BUILTIN_ITEMS,
-  SentinelNodeType
-} from "../../src/core/BuiltinNodeSchema";
-import { CustomNodeProps } from "../../src/component/CustomNodeProps";
 
 interface TELinkNode extends TEBaseNode {
   type: "link";

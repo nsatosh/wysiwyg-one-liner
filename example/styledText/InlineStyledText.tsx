@@ -1,6 +1,5 @@
 import React, { FC, memo } from "react";
-import { CustomNodeProps } from "../../src/component/CustomNodeProps";
-import { usePositionRegistry } from "../../src/service/TextPosition";
+import { CustomNodeProps, usePositionRegistry } from "../../src";
 import { StyledTextNode } from "./StyledTextNode";
 
 const InlineStyledText: FC<CustomNodeProps<StyledTextNode>> = memo(props => {
