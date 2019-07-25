@@ -8,8 +8,14 @@ import {
   Input
 } from "../../src";
 import { StyledTextNode } from "./StyledTextNode";
+import { ToggleTextStyleCommand } from "./ToggleTextStyleCommand";
+import InlineStyledText from "./InlineStyledText";
 
 const Editor: FC = () => {
+  BUILTIN_ITEMS.find(
+    item => item.type === "text"
+  )!.component = InlineStyledText;
+
   const nodeSchema = new NodeSchema(BUILTIN_ITEMS);
 
   const nodeMap = new NodeMap(nodeSchema, {});
@@ -28,6 +34,22 @@ const Editor: FC = () => {
     type: "end"
   });
   const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
+
+  editor.commands = {
+    ...editor.commands,
+    bold: new ToggleTextStyleCommand("bold"),
+    italic: new ToggleTextStyleCommand("italic"),
+    underline: new ToggleTextStyleCommand("underline"),
+    strikethrough: new ToggleTextStyleCommand("strikethrough")
+  };
+
+  editor.keybindSettings = {
+    ...editor.keybindSettings!,
+    "Ctrl+b": "bold",
+    "Ctrl+i": "italic",
+    "Ctrl+u": "underline",
+    "Ctrl+t": "strikethrough"
+  };
 
   return (
     <div style={{ width: 800, height: 600 }}>
