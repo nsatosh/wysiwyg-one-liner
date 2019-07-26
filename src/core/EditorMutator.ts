@@ -1,8 +1,22 @@
 import { BUILTIN_ITEMS } from "./BuiltinNodeSchema";
-import { BUILTIN_COMMANDS } from "./commands";
+import { CopyCommand } from "./commands/CopyCommand";
+import { CutCommand } from "./commands/CutCommand";
+import { DeleteBackspaceCommand } from "./commands/DeleteRangeCommand";
+import { DisableCursorCommand } from "./commands/DisableCursorCommand";
+import { ModifyNodeSelectionCommand } from "./commands/ModifyNodeSelectionCommand";
+import { MoveCursorByCharCommand } from "./commands/MoveCursorByCharCommand";
+import {
+  MoveCursorToEndCommand,
+  MoveCursorToStartCommand
+} from "./commands/MoveCursorInRowCommand";
+import { RedoCommand } from "./commands/RedoCommand";
+import { SelectAllNodesCommand } from "./commands/SelectAllNodesCommand";
+import { ToggleDebugMode } from "./commands/ToggleDebugMode";
+import { UndoCommand } from "./commands/UndoCommand";
 import NodeMap from "./NodeMap/NodeMap";
 import { NodeSchema } from "./NodeSchema";
 import {
+  TEDirection,
   TEEditor,
   TEMutatorLog,
   TENodeID,
@@ -133,7 +147,24 @@ function generateInitialEditorState(
       future: []
     },
     inDebug: false && process.env.NODE_ENV === "development",
-    commands: BUILTIN_COMMANDS,
+    commands: {
+      MoveCursorLeft: new MoveCursorByCharCommand(-1),
+      MoveCursorRight: new MoveCursorByCharCommand(1),
+      ModifyNodeSelectionLeft: new ModifyNodeSelectionCommand(TEDirection.left),
+      ModifyNodeSelectionRight: new ModifyNodeSelectionCommand(
+        TEDirection.right
+      ),
+      Escape: new DisableCursorCommand(),
+      DeleteBackspace: new DeleteBackspaceCommand(),
+      MoveCursorToStart: new MoveCursorToStartCommand(),
+      MoveCursorToEnd: new MoveCursorToEndCommand(),
+      SelectAllNodes: new SelectAllNodesCommand(),
+      Copy: new CopyCommand(),
+      Cut: new CutCommand(),
+      Undo: new UndoCommand(),
+      Redo: new RedoCommand(),
+      ToggleDebugMode: new ToggleDebugMode()
+    },
     keybindSettings: {
       ArrowLeft: "MoveCursorLeft",
       ArrowRight: "MoveCursorRight",
