@@ -126,7 +126,7 @@ test("Delete link node and combine between sibling nodes", () => {
   nodeMap.appendChild("l0", U.sentinel("l0s0"));
   nodeMap.appendChild("l0", U.text("l0t0", "b"));
   nodeMap.appendChild("l0", U.sentinel("l0s1"));
-  nodeMap.appendChild("root", U.text("t1", "b"));
+  nodeMap.appendChild("root", U.text("t1", "c"));
   nodeMap.appendChild("root", U.end("te"));
 
   let editor = EditorMutator.createFromNodeMap(nodeMap, "root");
@@ -141,7 +141,7 @@ test("Delete link node and combine between sibling nodes", () => {
 
   expect(getShape(editor.nodeMap, "root")).toEqual({
     type: "row",
-    children: [{ type: "text", text: ["a", "b"] }, { type: "end" }]
+    children: [{ type: "text", text: ["a", "c"] }, { type: "end" }]
   });
 });
 
