@@ -87,12 +87,13 @@ function stitchRow(nodeMap: NodeMap, context: StichingContext): void {
 
     if (nodeMap.schema.isTextNode(closing)) {
       const backward = getSiblingNode(nodeMap, opening.id, -1);
+
       if (
         backward &&
         nodeMap.schema.isTextNode(backward) &&
         nodeMap.schema.isTextNode(closing) &&
         closing.text.length > 0 &&
-        nodeMap.schema.isJoinable(opening, closing)
+        nodeMap.schema.isJoinable(backward, closing)
       ) {
         nodeMap.updateText(closing.id, backward.text.concat(closing.text));
         nodeMap.deleteNode(backward.id);
