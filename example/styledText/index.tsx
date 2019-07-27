@@ -1,17 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { render } from "react-dom";
 import {
   EditorMutator,
   NodeMap,
   NodeSchema,
   BUILTIN_ITEMS,
-  Input
+  Input,
+  walkForwardNodes,
+  TEEditor
 } from "../../src";
 import { StyledTextNode } from "./StyledTextNode";
 import { ToggleTextStyleCommand } from "./ToggleTextStyleCommand";
 import InlineStyledText from "./InlineStyledText";
 
-const Editor: FC = () => {
+function initializeEditorState() {
   BUILTIN_ITEMS.find(
     item => item.type === "text"
   )!.component = InlineStyledText;
@@ -51,9 +53,32 @@ const Editor: FC = () => {
     "Ctrl+t": "strikethrough"
   };
 
+  return editor;
+}
+
+const INITIAL_EDITOR = initializeEditorState();
+
+const Editor: FC = () => {
+  const [output, changeOutput] = useState("");
+
+  const onChange = useCallback((nextEditor: TEEditor) => {
+    const { nodeSchema, nodeMap, rootNodeId } = nextEditor;
+    let texts = [] as string[];
+
+    walkForwardNodes(new NodeMap(nodeSchema, nodeMap), rootNodeId, node => {
+      if (nodeSchema.isTextNode(node)) {
+        texts = texts.concat(node.text);
+      }
+    });
+
+    changeOutput(texts.join(""));
+  }, []);
+
   return (
     <div style={{ width: 800, height: 600 }}>
-      <Input defaultValue={editor} />
+      <Input defaultValue={INITIAL_EDITOR} onChange={onChange} />
+
+      <p>Output: {output}</p>
     </div>
   );
 };
