@@ -5,15 +5,7 @@ export { getIdsInRange } from "./core/range";
 
 export { validateNodeMap } from "./core/validateNodeMap";
 
-export {
-  getChildren,
-  getChildNode,
-  getFirstLeaf,
-  getLastLeaf,
-  getCurrentNode,
-  findBackwardNode,
-  findForwardNode
-} from "./core/nodeFinders";
+export * from "./core/nodeFinders";
 
 export { splitNode } from "./core/NodeMap/splitNode";
 
