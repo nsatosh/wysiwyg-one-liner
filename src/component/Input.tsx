@@ -60,7 +60,7 @@ export const Input: FC<Props> = props => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dummyTextRef = useRef<HTMLSpanElement>(null);
   const TPR = useRef<TextPositionRegistry>(
-    new TextPositionRegistry(nodeSchema, containerRef)
+    new TextPositionRegistry(nodeSchema, containerRef, dummyTextRef)
   );
 
   const onDragAndDrop = useCallback<DragAndDropCallback>(

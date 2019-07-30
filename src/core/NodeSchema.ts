@@ -25,12 +25,14 @@ export type NodeSchemaItem = {
     element: HTMLElement,
     node: TEBaseNode,
     eOffset: ElementOffset,
-    ch: number
+    ch: number,
+    dummyTextEl: HTMLElement
   ) => Coord;
   coordToTextPosition?: (
     element: HTMLElement,
     node: TEBaseNode,
-    coord: Coord
+    coord: Coord,
+    dummyTextEl: HTMLElement
   ) => TETextPosition;
   delete?: DeleteFuntion;
   component?: unknown;
@@ -134,24 +136,26 @@ export class NodeSchema {
     element: HTMLElement,
     node: TEBaseNode,
     offset: ElementOffset,
-    ch: number
+    ch: number,
+    dummyTextEl: HTMLElement
   ): Coord | undefined {
     const schema = this.getNodeSchema(node.type);
 
     if (schema && schema.textPositionToCoord) {
-      return schema.textPositionToCoord(element, node, offset, ch);
+      return schema.textPositionToCoord(element, node, offset, ch, dummyTextEl);
     }
   }
 
   coordToTextPosition(
     element: HTMLElement,
     node: TEBaseNode,
-    coord: Coord
+    coord: Coord,
+    dummyTextEl: HTMLElement
   ): TETextPosition | undefined {
     const schema = this.getNodeSchema(node.type);
 
     if (schema && schema.coordToTextPosition) {
-      return schema.coordToTextPosition(element, node, coord);
+      return schema.coordToTextPosition(element, node, coord, dummyTextEl);
     }
   }
 

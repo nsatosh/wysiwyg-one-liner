@@ -91,14 +91,15 @@ export const TextNodeSchema: NodeSchemaItem = {
     el,
     node: TETextNode,
     eOffset: ElementOffset,
-    ch: number
+    ch: number,
+    dummyTextEl
   ): Coord => {
     return {
       top: eOffset.top,
-      left: eOffset.left + calcTextWidth(el, node, ch)
+      left: eOffset.left + calcTextWidth(dummyTextEl, el, node, ch)
     };
   },
-  coordToTextPosition: (el, node: TETextNode, coord) => {
+  coordToTextPosition: (el, node: TETextNode, coord, dummyTextEl) => {
     const mouseX = coord.left - el.getBoundingClientRect()!.left;
     let left = 0;
     let right = el.innerText.length;
@@ -106,7 +107,7 @@ export const TextNodeSchema: NodeSchemaItem = {
     while (right - left > 1) {
       const center = Math.floor((left + right) / 2);
 
-      if (calcTextWidth(el, node, center) < mouseX) {
+      if (calcTextWidth(dummyTextEl, el, node, center) < mouseX) {
         left = center;
       } else {
         right = center;
@@ -114,7 +115,9 @@ export const TextNodeSchema: NodeSchemaItem = {
     }
 
     const centerX =
-      (calcTextWidth(el, node, left) + calcTextWidth(el, node, right)) / 2;
+      (calcTextWidth(dummyTextEl, el, node, left) +
+        calcTextWidth(dummyTextEl, el, node, right)) /
+      2;
 
     return {
       id: node.id,
@@ -172,30 +175,14 @@ export const BUILTIN_ITEMS: NodeSchemaItem[] = [
 ];
 
 function calcTextWidth(
+  dummyTextEl: HTMLElement,
   element: HTMLElement,
   node: TETextNode,
   end?: number
 ): number {
-  const dummyTextEl = getDummyTextElement();
-
   dummyTextEl.style.fontSize = element.style.fontSize;
   dummyTextEl.style.fontWeight = element.style.fontWeight;
   dummyTextEl.innerText = node.text.slice(0, end).join("");
 
   return dummyTextEl.offsetWidth;
-}
-
-let _dummyTextElement: HTMLElement | undefined;
-
-function getDummyTextElement() {
-  if (_dummyTextElement) {
-    return _dummyTextElement;
-  }
-
-  const el = window.document.createElement("span");
-  window.document.body.appendChild(el);
-
-  _dummyTextElement = el;
-
-  return _dummyTextElement;
 }

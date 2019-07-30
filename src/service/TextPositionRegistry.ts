@@ -32,11 +32,17 @@ export class TextPositionRegistry {
   private mapping = {} as RegistryItems;
   private lookUpMap = new WeakMap<HTMLElement, LookupItem>();
   private containerElRef: RefObject<HTMLElement>;
+  private dummyTextElRef: RefObject<HTMLElement>;
   private nodeSchema: NodeSchema;
 
-  constructor(nodeSchema: NodeSchema, containerElRef: RefObject<HTMLElement>) {
+  constructor(
+    nodeSchema: NodeSchema,
+    containerElRef: RefObject<HTMLElement>,
+    dummyTextElRef: RefObject<HTMLElement>
+  ) {
     this.nodeSchema = nodeSchema;
     this.containerElRef = containerElRef;
+    this.dummyTextElRef = dummyTextElRef;
   }
 
   getCoordPoint(p: TETextPosition): Coord | undefined {
@@ -48,14 +54,25 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line" || !this.containerElRef.current) {
+    if (
+      !item ||
+      item.type === "line" ||
+      !this.containerElRef.current ||
+      !this.dummyTextElRef.current
+    ) {
       return;
     }
 
     const eOffset = getElementOffset(this.containerElRef.current, el);
 
     return (
-      this.nodeSchema.textPositionToCoord(el, item.node, eOffset, p.ch) || {
+      this.nodeSchema.textPositionToCoord(
+        el,
+        item.node,
+        eOffset,
+        p.ch,
+        this.dummyTextElRef.current
+      ) || {
         top: eOffset.top,
         left: eOffset.left
       }
@@ -75,7 +92,12 @@ export class TextPositionRegistry {
 
     const item = this.lookUpMap.get(el);
 
-    if (!item || item.type === "line" || !this.containerElRef.current) {
+    if (
+      !item ||
+      item.type === "line" ||
+      !this.containerElRef.current ||
+      !this.dummyTextElRef.current
+    ) {
       return;
     }
 
@@ -88,7 +110,13 @@ export class TextPositionRegistry {
     };
 
     if (start !== undefined) {
-      const p = this.nodeSchema.textPositionToCoord(el, node, eOffset, start);
+      const p = this.nodeSchema.textPositionToCoord(
+        el,
+        node,
+        eOffset,
+        start,
+        this.dummyTextElRef.current
+      );
 
       if (p) {
         p0 = p;
@@ -101,7 +129,13 @@ export class TextPositionRegistry {
     };
 
     if (end !== undefined) {
-      const p = this.nodeSchema.textPositionToCoord(el, node, eOffset, end);
+      const p = this.nodeSchema.textPositionToCoord(
+        el,
+        node,
+        eOffset,
+        end,
+        this.dummyTextElRef.current
+      );
 
       if (p) {
         p1 = p;
@@ -123,7 +157,7 @@ export class TextPositionRegistry {
   ): TENonCanonicalTextPosition | undefined {
     const item = this.lookUpMap.get(element);
 
-    if (!item) {
+    if (!item || !this.dummyTextElRef.current) {
       return;
     }
 
@@ -139,10 +173,15 @@ export class TextPositionRegistry {
       };
     }
 
-    const pos = this.nodeSchema.coordToTextPosition(element, item.node, {
-      top: mouseClientY,
-      left: mouseClientX
-    });
+    const pos = this.nodeSchema.coordToTextPosition(
+      element,
+      item.node,
+      {
+        top: mouseClientY,
+        left: mouseClientX
+      },
+      this.dummyTextElRef.current
+    );
 
     if (pos) {
       return { ...pos, nonCanonical: true };
