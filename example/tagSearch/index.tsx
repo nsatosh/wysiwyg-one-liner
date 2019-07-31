@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { render } from "react-dom";
 import {
   EditorMutator,
@@ -16,6 +16,7 @@ import {
   TEEditor
 } from "../../src";
 import { NodeSchemaItem } from "../../src/core/NodeSchema";
+import console = require("console");
 
 interface TagNode extends TEInternalNode {
   type: "tag";
@@ -89,9 +90,38 @@ function initializeEditorState() {
 const INITIAL_EDITOR = initializeEditorState();
 
 const Editor: FC = () => {
+  const [tags, changeTags] = useState([] as string[]);
+
+  const onChange = useCallback(
+    (next: TEEditor) => {
+      const { nodeSchema, nodeMap } = next;
+      const tags = [] as string[];
+
+      new NodeMap(nodeSchema, nodeMap).forEach(node => {
+        if (node.type === "tag") {
+          const { children } = node as TagNode;
+
+          tags.push((nodeMap[children[1]] as TETextNode).text.join(""));
+        }
+      });
+
+      changeTags(tags);
+    },
+    [changeTags]
+  );
+
   return (
-    <div style={{ width: 800, height: 600 }}>
-      <Input defaultValue={INITIAL_EDITOR} />
+    <div>
+      <Input defaultValue={INITIAL_EDITOR} onChange={onChange} />
+
+      <section>
+        <h3>Tags</h3>
+        <ul>
+          {tags.map(tag => {
+            return <li key={tag}>{tag}</li>;
+          })}
+        </ul>
+      </section>
     </div>
   );
 };
