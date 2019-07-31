@@ -16,10 +16,6 @@ import { GlobalCSS } from "./GlobalCSS";
 import { Line } from "./Line";
 import Range from "./Range";
 
-const ContainerDiv = styled.div`
-  height: 100%;
-`;
-
 const DummyTextDiv = styled.div`
   width: 0;
   height: 0;
@@ -96,7 +92,7 @@ export const Input: FC<Props> = props => {
       <TextPositionContext.Provider value={TPR.current}>
         <GlobalCSS />
         <div>
-          <ContainerDiv ref={containerRef}>
+          <div ref={containerRef}>
             {compositionRange && (
               <Range
                 rootNodeId={rootNodeId}
@@ -130,7 +126,7 @@ export const Input: FC<Props> = props => {
             <Line node={nodeMap[rootNodeId] as TEParentNode} editor={editor} />
 
             {cursorAt && <Cursor editor={editor} />}
-          </ContainerDiv>
+          </div>
 
           <DummyTextDiv>
             <DummyTextSpan ref={dummyTextRef} />
