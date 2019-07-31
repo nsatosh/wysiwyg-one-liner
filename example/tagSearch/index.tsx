@@ -71,15 +71,40 @@ function initializeEditorState() {
   const nodeMap = new NodeMap(nodeSchema, {});
   nodeMap.createRootNode("root");
 
-  const { id } = nodeMap.appendChild<TagNode>("root", {
-    type: "tag"
-  });
-  nodeMap.appendChild(id, { type: SentinelNodeType });
-  nodeMap.appendChild<TETextNode>(id, {
+  nodeMap.appendChild<TETextNode>("root", {
     type: "text",
-    text: "tag1".split("")
+    text: "some keyword".split("")
   });
-  nodeMap.appendChild(id, { type: SentinelNodeType });
+
+  {
+    const { id } = nodeMap.appendChild<TagNode>("root", {
+      type: "tag"
+    });
+    nodeMap.appendChild(id, { type: SentinelNodeType });
+    nodeMap.appendChild<TETextNode>(id, {
+      type: "text",
+      text: "tag1".split("")
+    });
+    nodeMap.appendChild(id, { type: SentinelNodeType });
+  }
+
+  {
+    const { id } = nodeMap.appendChild<TagNode>("root", {
+      type: "tag"
+    });
+    nodeMap.appendChild(id, { type: SentinelNodeType });
+    nodeMap.appendChild<TETextNode>(id, {
+      type: "text",
+      text: "tag2".split("")
+    });
+    nodeMap.appendChild(id, { type: SentinelNodeType });
+  }
+
+  nodeMap.appendChild<TETextNode>("root", {
+    type: "text",
+    text: "some keyword".split("")
+  });
+
   nodeMap.appendChild("root", {
     type: "end"
   });
@@ -112,7 +137,15 @@ const Editor: FC = () => {
 
   return (
     <div>
-      <Input defaultValue={INITIAL_EDITOR} onChange={onChange} />
+      <div
+        style={{
+          background: "white",
+          borderRadius: 3,
+          boxShadow: "2px 2px 2px gray"
+        }}
+      >
+        <Input defaultValue={INITIAL_EDITOR} onChange={onChange} />
+      </div>
 
       <section>
         <h3>Tags</h3>
