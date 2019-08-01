@@ -37,15 +37,25 @@ const reducer = (state: TEEditor, command: EditorCommand) => {
 interface Props {
   defaultValue: TEEditor;
   onChange?: (value: TEEditor) => void;
+  onInput?: (value: TEEditor) => void;
 }
 
 export const Input: FC<Props> = props => {
-  const { onChange, defaultValue } = props;
+  const { onChange, onInput, defaultValue } = props;
+  const prevEditor = useRef(defaultValue);
   const [editor, dispatchCommand] = useReducer(reducer, defaultValue);
 
   useEffect(() => {
-    onChange && onChange(editor);
-  }, [editor, onChange]);
+    if (onInput && prevEditor.current.nodeMap !== editor.nodeMap) {
+      onInput(editor);
+    }
+
+    if (onChange) {
+      onChange(editor);
+    }
+
+    prevEditor.current = editor;
+  }, [editor, onChange, prevEditor]);
 
   const {
     nodeSchema,
