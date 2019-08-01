@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 
 const FIRST_LINE = { x: 200, y: 10 };
-const CENTER = { x: 200, y: 200 };
 
 const SCREENSHOT_DIR = "tmp";
 
@@ -21,7 +20,7 @@ beforeEach(async () => {
 });
 
 test("Start editing from scratch", async () => {
-  await page.mouse.move(CENTER.x, CENTER.y);
+  await page.mouse.move(FIRST_LINE.x, FIRST_LINE.y);
   await page.waitFor(10);
   await page.mouse.down();
   await page.mouse.up();
