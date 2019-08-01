@@ -24,7 +24,13 @@
     ],
     "declaration": true,
     "declarationMap": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "split-graphemes": [
+        "../src/vendorTypes/split-graphemes"
+      ]
+    }
   },
   "include": [
     "../src/index.ts",
