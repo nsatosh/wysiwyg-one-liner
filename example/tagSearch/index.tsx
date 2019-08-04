@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useState, useRef, useMemo } from "react";
 import { render } from "react-dom";
 import {
   EditorMutator,
@@ -13,7 +13,8 @@ import {
   InlineSentinel,
   Input,
   TEInternalNode,
-  TEEditor
+  EditorCommand,
+  TEChildNode
 } from "../../src";
 import { NodeSchemaItem } from "../../src/core/NodeSchema";
 import console = require("console");
@@ -65,7 +66,23 @@ const TAG_SCHEMA: NodeSchemaItem = {
   component: InlineTag
 };
 
-function initializeEditorState() {
+type SubmitCallback = (editor: EditorMutator) => void;
+
+class SubmitCommand extends EditorCommand {
+  private callback: SubmitCallback;
+
+  constructor(callback: SubmitCallback) {
+    super("SubmitCommand");
+
+    this.callback = callback;
+  }
+
+  execute(editor: EditorMutator) {
+    this.callback(editor);
+  }
+}
+
+function initializeEditorState(onSubmit: SubmitCallback) {
   const nodeSchema = new NodeSchema([...BUILTIN_ITEMS, TAG_SCHEMA]);
 
   const nodeMap = new NodeMap(nodeSchema, {});
@@ -109,31 +126,59 @@ function initializeEditorState() {
     type: "end"
   });
 
-  return EditorMutator.createFromNodeMap(nodeMap, "root");
+  const editor = EditorMutator.createFromNodeMap(nodeMap, "root");
+
+  editor.commands["submit"] = new SubmitCommand(onSubmit);
+  editor.keybindSettings["Enter"] = "submit";
+
+  return editor;
 }
 
-const INITIAL_EDITOR = initializeEditorState();
+type ResultType = {
+  tags: Set<string>;
+  keywords: Set<string>;
+};
 
 const Editor: FC = () => {
-  const [tags, changeTags] = useState([] as string[]);
+  const [result, changeResult] = useState<ResultType | undefined>();
 
-  const onChange = useCallback(
-    (next: TEEditor) => {
-      const { nodeSchema, nodeMap } = next;
-      const tags = [] as string[];
+  const onSubmit = useCallback(
+    (editor: EditorMutator) => {
+      const nodeMap = editor.getNodeMap();
+      const tags = new Set<string>();
+      const keywords = new Set<string>();
 
-      new NodeMap(nodeSchema, nodeMap).forEach(node => {
+      nodeMap.forEach(node => {
         if (node.type === "tag") {
           const { children } = node as TagNode;
+          const child = nodeMap.getNode(children[1]);
 
-          tags.push((nodeMap[children[1]] as TETextNode).text.join(""));
+          if (child && nodeMap.schema.isTextNode(child)) {
+            tags.add(child.text.join(""));
+          }
+        }
+
+        if (node.type === "text") {
+          const { parent, text } = node as (TETextNode & TEChildNode);
+
+          if (parent === "root") {
+            text
+              .join("")
+              .split(/\s+/)
+              .forEach(word => keywords.add(word));
+          }
         }
       });
 
-      changeTags(tags);
+      changeResult({
+        tags,
+        keywords
+      });
     },
-    [changeTags]
+    [changeResult]
   );
+
+  const INITIAL_EDITOR = useMemo(() => initializeEditorState(onSubmit), []);
 
   return (
     <div>
@@ -144,17 +189,29 @@ const Editor: FC = () => {
           boxShadow: "2px 2px 2px gray"
         }}
       >
-        <Input defaultValue={INITIAL_EDITOR} onChange={onChange} />
+        <Input defaultValue={INITIAL_EDITOR} />
       </div>
 
-      <section>
-        <h3>Tags</h3>
-        <ul>
-          {tags.map(tag => {
-            return <li key={tag}>{tag}</li>;
-          })}
-        </ul>
-      </section>
+      {result ? (
+        <section>
+          <h2>Result</h2>
+          <h3>Tags:</h3>
+          <ul>
+            {Array.from(result.tags).map((tag, i) => {
+              return <li key={i}>{tag}</li>;
+            })}
+          </ul>
+
+          <h3>Keywords:</h3>
+          <ul>
+            {Array.from(result.keywords).map((keyword, i) => {
+              return <li key={i}>{keyword}</li>;
+            })}
+          </ul>
+        </section>
+      ) : (
+        <p>Press Enter to show result</p>
+      )}
     </div>
   );
 };
