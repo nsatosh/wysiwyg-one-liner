@@ -25,7 +25,7 @@ interface TagNode extends TEInternalNode {
 
 const InlineTag: FC<CustomNodeProps<TagNode>> = props => {
   const { node, editor } = props;
-  const { nodeMap, inDebug, nodeSchema } = editor;
+  const { nodeMap, nodeSchema } = editor;
 
   const nodes = node.children.reduce<TELeafNode[]>((nodes, id) => {
     const node = nodeMap[id];
@@ -48,7 +48,7 @@ const InlineTag: FC<CustomNodeProps<TagNode>> = props => {
         }
 
         if (node.type === SentinelNodeType) {
-          return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
+          return <InlineSentinel key={node.id} node={node} editor={editor} />;
         }
       })}
     </span>

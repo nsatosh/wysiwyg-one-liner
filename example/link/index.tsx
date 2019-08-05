@@ -51,7 +51,7 @@ const InlineLink: FC<CustomNodeProps<TELinkNode>> = props => {
         }
 
         if (node.type === SentinelNodeType) {
-          return <InlineSentinel key={node.id} node={node} inDebug={inDebug} />;
+          return <InlineSentinel key={node.id} node={node} editor={editor} />;
         }
       })}
     </a>

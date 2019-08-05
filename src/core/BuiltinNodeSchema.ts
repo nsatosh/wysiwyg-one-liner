@@ -5,6 +5,7 @@ import { OpenableRange, Stat } from "./NodeMap/deleteRange/deleteSubtree";
 import NodeMap from "./NodeMap/NodeMap";
 import { NodeSchemaItem } from "./NodeSchema";
 import { Coord, TENodeID, TETextNode } from "./types";
+import InlineSentinel from "../component/node/InlineSentinel";
 
 export const SentinelNodeType = Symbol("sentinel");
 
@@ -36,7 +37,8 @@ export const SentinelNodeSchema: NodeSchemaItem = {
         throw new Error("Unexpected condition");
     }
   },
-  canHaveCursor: true
+  canHaveCursor: true,
+  component: InlineSentinel
 };
 
 export const RowNodeSchema: NodeSchemaItem = {
