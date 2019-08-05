@@ -40,17 +40,30 @@ const InlineTag: FC<CustomNodeProps<TagNode>> = props => {
     return nodes;
   }, []);
 
-  return (
-    <span style={{ padding: 5, border: "1px solid black" }}>
-      {nodes.map(node => {
-        if (nodeSchema.isTextNode(node)) {
-          return <InlineText key={node.id} node={node} editor={editor} />;
-        }
+  const [first, ...rest] = nodes;
 
-        if (node.type === SentinelNodeType) {
-          return <InlineSentinel key={node.id} node={node} editor={editor} />;
-        }
-      })}
+  if (!first) {
+    throw new Error("Unexpected condition");
+  }
+
+  return (
+    <span>
+      <InlineSentinel key={first.id} node={first} editor={editor} />
+      <span
+        style={{
+          border: "1px solid black"
+        }}
+      >
+        {rest.map(node => {
+          if (nodeSchema.isTextNode(node)) {
+            return <InlineText key={node.id} node={node} editor={editor} />;
+          }
+
+          if (node.type === SentinelNodeType) {
+            return <InlineSentinel key={node.id} node={node} editor={editor} />;
+          }
+        })}
+      </span>
     </span>
   );
 };
