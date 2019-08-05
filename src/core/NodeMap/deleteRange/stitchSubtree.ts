@@ -14,7 +14,7 @@ export interface StichingContext {
   root: TENodeID;
   left: TENodeID[];
   right: TENodeID[];
-  nextCursorAt: TETextPosition | null;
+  nextCursorAt?: TETextPosition;
 }
 
 export function stitchSubtree(

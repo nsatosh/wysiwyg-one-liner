@@ -7,7 +7,7 @@ import { getInclusiveSubtree } from "./getInclusiveSubtree";
 export function deleteRange(
   nodeMap: NodeMap,
   range: TETextRange
-): TETextPosition | null {
+): TETextPosition | undefined {
   const { root, left, right } = getInclusiveSubtree(nodeMap, range);
 
   deleteSubtree(nodeMap, root, range);
@@ -16,8 +16,7 @@ export function deleteRange(
     range,
     root,
     left,
-    right,
-    nextCursorAt: null
+    right
   };
 
   stitchSubtree(nodeMap, context);

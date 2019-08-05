@@ -21,7 +21,11 @@ export class DeleteRangeCommand extends EditorCommand {
 
     const nextCursorAt = deleteRange(nodeMap, range);
     editor.updateNodeMap(nodeMap);
-    editor.updateCursorAt(nextCursorAt);
+
+    if (nextCursorAt) {
+      editor.updateCursorAt(nextCursorAt);
+    }
+
     editor.updateSelection(null);
   }
 }
@@ -55,7 +59,11 @@ export class DeleteBackspaceCommand extends EditorCommand {
 
     const nextCursorAt = deleteRange(nodeMap, selection);
     editor.updateNodeMap(nodeMap);
-    editor.updateCursorAt(nextCursorAt);
+
+    if (nextCursorAt) {
+      editor.updateCursorAt(nextCursorAt);
+    }
+
     editor.updateSelection(null);
   }
 }

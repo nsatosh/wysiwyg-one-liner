@@ -17,7 +17,6 @@ import {
   TEChildNode
 } from "../../src";
 import { NodeSchemaItem } from "../../src/core/NodeSchema";
-import console = require("console");
 
 interface TagNode extends TEInternalNode {
   type: "tag";

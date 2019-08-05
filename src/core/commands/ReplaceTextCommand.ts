@@ -40,7 +40,11 @@ function _delete(editor: EditorMutator, range: TETextRange): void {
   const nextCursorAt = deleteRange(nodeMap, range);
 
   editor.updateNodeMap(nodeMap);
-  editor.updateCursorAt(nextCursorAt);
+
+  if (nextCursorAt) {
+    editor.updateCursorAt(nextCursorAt);
+  }
+
   editor.updateSelection(null);
 }
 
